@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ryan Cooper | Software Developer</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        html{
+            scroll-behavior:smooth;
+        }
+
+        body{
+            background:#0b1120;
+            color:white;
+            overflow-x:hidden;
+        }
+
+        /* NAVBAR */
+
+        nav{
+            width:100%;
+            padding:20px 10%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            position:fixed;
+            top:0;
+            z-index:1000;
+            background:rgba(11,17,32,0.9);
+            backdrop-filter:blur(10px);
+        }
+
+        .logo{
+            font-size:32px;
+            font-weight:bold;
+            color:#8b5cf6;
+        }
+
+        nav ul{
+            display:flex;
+            gap:30px;
+            list-style:none;
+        }
+
+        nav ul li a{
+            text-decoration:none;
+            color:white;
+            transition:0.3s;
+            font-weight:500;
+        }
+
+        nav ul li a:hover{
+            color:#8b5cf6;
+        }
+
+        /* HERO */
+
+        .hero{
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:130px 10%;
+            gap:60px;
+            background:linear-gradient(to right,#0b1120,#111827);
+        }
+
+        .hero-text{
+            flex:1;
+        }
+
+        .hero-text h1{
+            font-size:68px;
+            line-height:1.2;
+            margin-bottom:20px;
+        }
+
+        .hero-text h1 span{
+            color:#8b5cf6;
+        }
+
+        .hero-text p{
+            color:#cbd5e1;
+            line-height:1.9;
+            font-size:18px;
+            margin-bottom:35px;
+        }
+
+        .hero-buttons{
+            display:flex;
+            gap:20px;
+        }
+
+        .btn{
+            padding:14px 30px;
+            border-radius:12px;
+            text-decoration:none;
+            font-weight:600;
+            transition:0.3s;
+            display:inline-block;
+        }
+
+        .primary-btn{
+            background:#8b5cf6;
+            color:white;
+        }
+
+        .primary-btn:hover{
+            transform:translateY(-5px);
+            background:#7c3aed;
+        }
+
+        .secondary-btn{
+            border:2px solid #8b5cf6;
+            color:white;
+        }
+
+        .secondary-btn:hover{
+            background:#8b5cf6;
+        }
+
+        .hero-image{
+            flex:1;
+            display:flex;
+            justify-content:center;
+        }
+
+        .hero-image img{
+            width:100%;
+            max-width:500px;
+            border-radius:30px;
+            box-shadow:0 15px 50px rgba(139,92,246,0.3);
+            animation:float 4s ease-in-out infinite;
+        }
+
+        @keyframes float{
+
+            0%,100%{
+                transform:translateY(0px);
+            }
+
+            50%{
+                transform:translateY(-15px);
+            }
+
+        }
+
+        /* SECTION */
+
+        section{
+            padding:100px 10%;
+        }
+
+        .section-title{
+            text-align:center;
+            margin-bottom:70px;
+        }
+
+        .section-title h2{
+            font-size:42px;
+            margin-bottom:15px;
+        }
+
+        .section-title p{
+            color:#94a3b8;
+        }
+
+        /* ABOUT */
+
+        .about-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            gap:30px;
+        }
+
+        .about-card{
+            background:#111827;
+            padding:35px;
+            border-radius:25px;
+            border:1px solid rgba(139,92,246,0.2);
+            transition:0.3s;
+        }
+
+        .about-card:hover{
+            transform:translateY(-8px);
+            border-color:#8b5cf6;
+        }
+
+        .about-card h3{
+            margin-bottom:15px;
+            color:#8b5cf6;
+        }
+
+        .about-card p{
+            line-height:1.9;
+            color:#cbd5e1;
+        }
+
+        /* SKILLS */
+
+        .skills-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:25px;
+        }
+
+        .skill-box{
+            background:#111827;
+            padding:30px;
+            border-radius:20px;
+            text-align:center;
+            transition:0.3s;
+            border:1px solid transparent;
+        }
+
+        .skill-box:hover{
+            transform:translateY(-10px);
+            border-color:#8b5cf6;
+        }
+
+        .skill-box i{
+            font-size:42px;
+            margin-bottom:15px;
+            color:#8b5cf6;
+        }
+
+        .skill-box h3{
+            margin-bottom:10px;
+        }
+
+        .skill-box p{
+            color:#94a3b8;
+        }
+
+        /* PROJECTS */
+
+        .projects-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+            gap:30px;
+        }
+
+        .project-card{
+            background:#111827;
+            border-radius:25px;
+            overflow:hidden;
+            transition:0.3s;
+        }
+
+        .project-card:hover{
+            transform:translateY(-10px);
+        }
+
+        .project-card img{
+            width:100%;
+            height:220px;
+            object-fit:cover;
+        }
+
+        .project-content{
+            padding:25px;
+        }
+
+        .project-content h3{
+            margin-bottom:12px;
+        }
+
+        .project-content p{
+            color:#cbd5e1;
+            line-height:1.8;
+        }
+
+        /* EXPERIENCE */
+
+        .timeline{
+            display:flex;
+            flex-direction:column;
+            gap:30px;
+        }
+
+        .timeline-box{
+            background:#111827;
+            padding:30px;
+            border-left:5px solid #8b5cf6;
+            border-radius:20px;
+        }
+
+        .timeline-box h3{
+            margin-bottom:10px;
+        }
+
+        .timeline-box p{
+            color:#cbd5e1;
+            line-height:1.8;
+        }
+
+        /* CONTACT */
+
+        .contact{
+            background:linear-gradient(135deg,#8b5cf6,#6d28d9);
+            padding:80px 10%;
+            border-radius:30px;
+            text-align:center;
+        }
+
+        .contact h2{
+            font-size:42px;
+            margin-bottom:20px;
+        }
+
+        .contact p{
+            max-width:700px;
+            margin:auto;
+            line-height:1.8;
+            margin-bottom:35px;
+        }
+
+        /* SOCIAL */
+
+        .social-icons{
+            margin-top:35px;
+            display:flex;
+            justify-content:center;
+            gap:25px;
+        }
+
+        .social-icons a{
+            width:60px;
+            height:60px;
+            background:white;
+            color:#6d28d9;
+            border-radius:50%;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:24px;
+            text-decoration:none;
+            transition:0.3s;
+        }
+
+        .social-icons a:hover{
+            transform:translateY(-6px);
+        }
+
+        /* FOOTER */
+
+        footer{
+            text-align:center;
+            padding:35px;
+            background:#020617;
+            color:#94a3b8;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:900px){
+
+            .hero{
+                flex-direction:column;
+                text-align:center;
+            }
+
+            .hero-text h1{
+                font-size:45px;
+            }
+
+            nav ul{
+                display:none;
+            }
+
+            .hero-buttons{
+                justify-content:center;
+            }
+
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="/premium-style.css" />
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="logo">
+            DevFolio
+        </div>
+
+        <ul>
+
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#contact">Contact</a></li>
+
+        </ul>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Full Stack <span>Software Developer</span>
+            </h1>
+
+            <p>
+                Passionate software developer focused on building
+                modern web applications, responsive user interfaces,
+                scalable backend systems, and innovative digital products.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="btn primary-btn">
+                    Download Resume
+                </a>
+
+                <a href="#projects" class="btn secondary-btn">
+                    View Projects
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+
+            <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop">
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section id="about">
+
+        <div class="section-title">
+
+            <h2>About Me</h2>
+
+            <p>
+                Creating impactful digital experiences through code.
+            </p>
+
+        </div>
+
+        <div class="about-grid">
+
+            <div class="about-card">
+
+                <h3>Professional Summary</h3>
+
+                <p>
+                    Full Stack Developer skilled in modern frontend
+                    and backend technologies including React,
+                    Node.js, JavaScript, MongoDB, and API integration.
+                    Experienced in creating responsive and scalable web applications.
+                </p>
+
+            </div>
+
+            <div class="about-card">
+
+                <h3>Development Approach</h3>
+
+                <p>
+                    Focused on writing clean, maintainable,
+                    and efficient code while ensuring strong UI/UX,
+                    responsiveness, performance optimization,
+                    and seamless user experience.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SKILLS -->
+
+    <section id="skills">
+
+        <div class="section-title">
+
+            <h2>Technical Skills</h2>
+
+            <p>
+                Core technologies used for modern software development.
+            </p>
+
+        </div>
+
+        <div class="skills-grid">
+
+            <div class="skill-box">
+
+                <i class="fab fa-html5"></i>
+
+                <h3>Frontend</h3>
+
+                <p>
+                    HTML, CSS, JavaScript, React.js
+                </p>
+
+            </div>
+
+            <div class="skill-box">
+
+                <i class="fas fa-server"></i>
+
+                <h3>Backend</h3>
+
+                <p>
+                    Node.js, Express.js, REST APIs
+                </p>
+
+            </div>
+
+            <div class="skill-box">
+
+                <i class="fas fa-database"></i>
+
+                <h3>Database</h3>
+
+                <p>
+                    MongoDB, MySQL, Firebase
+                </p>
+
+            </div>
+
+            <div class="skill-box">
+
+                <i class="fab fa-github"></i>
+
+                <h3>Tools</h3>
+
+                <p>
+                    GitHub, VS Code, Netlify, Vercel
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PROJECTS -->
+
+    <section id="projects">
+
+        <div class="section-title">
+
+            <h2>Featured Projects</h2>
+
+            <p>
+                Real-world development and web application projects.
+            </p>
+
+        </div>
+
+        <div class="projects-grid">
+
+            <div class="project-card">
+
+                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop">
+
+                <div class="project-content">
+
+                    <h3>E-Commerce Web Application</h3>
+
+                    <p>
+                        Developed a responsive full-stack e-commerce platform
+                        with authentication, payment integration,
+                        product filtering, and admin dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="project-card">
+
+                <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1200&auto=format&fit=crop">
+
+                <div class="project-content">
+
+                    <h3>Portfolio Management System</h3>
+
+                    <p>
+                        Created a modern portfolio platform
+                        with animations, responsive layouts,
+                        resume downloads, and project showcases.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="project-card">
+
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+
+                <div class="project-content">
+
+                    <h3>Task Management Dashboard</h3>
+
+                    <p>
+                        Built a collaborative productivity dashboard
+                        with authentication, real-time task updates,
+                        and analytics features.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="project-card">
+
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop">
+
+                <div class="project-content">
+
+                    <h3>Career & Skill Analytics System</h3>
+
+                    <p>
+                        Analyzed 58K+ job postings using Python and Power BI
+                        to identify salary trends, skill demands, and career insights.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- EXPERIENCE -->
+
+    <section id="experience">
+
+        <div class="section-title">
+
+            <h2>Experience & Certifications</h2>
+
+            <p>
+                Development experience and technical certifications.
+            </p>
+
+        </div>
+
+        <div class="timeline">
+
+            <div class="timeline-box">
+
+                <h3>Frontend Developer Internship</h3>
+
+                <p>
+                    Worked on responsive web applications,
+                    UI development, component optimization,
+                    and frontend integrations using React.js.
+                </p>
+
+            </div>
+
+            <div class="timeline-box">
+
+                <h3>Full Stack Development Certification</h3>
+
+                <p>
+                    Completed certification focused on
+                    MERN stack development,
+                    REST APIs, authentication,
+                    and deployment.
+                </p>
+
+            </div>
+
+            <div class="timeline-box">
+
+                <h3>Backend API Development</h3>
+
+                <p>
+                    Built backend services and APIs
+                    using Node.js and Express.js
+                    connected with MongoDB databases.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CONTACT -->
+
+    <section id="contact">
+
+        <div class="contact">
+
+            <h2>
+                Let's Build Something Amazing
+            </h2>
+
+            <p>
+                Open to Software Developer,
+                Frontend Developer,
+                Full Stack Developer,
+                and Web Development opportunities.
+            </p>
+
+            <a href="#" class="btn primary-btn">
+                Hire Me
+            </a>
+
+            <div class="social-icons">
+
+                <a href="https://github.com/" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+
+                <a href="https://linkedin.com/" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+
+                <a href="https://instagram.com/" target="_blank">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+            © 2026 DevFolio | Software Developer Portfolio
+        </p>
+
+    </footer>
+
+    <script src="/premium-animations.js"></script>
+</body>
+
+</html>

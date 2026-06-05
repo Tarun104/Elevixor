@@ -1,0 +1,2499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elevixor - Your Career, Upgraded</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0f172a;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --primary: #60a5fa;
+            --primary-soft: rgba(96,165,250,0.18);
+            --bg-glow: rgba(96, 165, 250, 0.12);
+            --card-bg: rgba(15, 23, 42, 0.68);
+            --card-border: rgba(96, 165, 250, 0.15);
+            --text-soft: #cbd5e1;
+            --shadow: 0 25px 80px rgba(0, 0, 0, 0.24);
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 0.7s ease;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(96, 165, 250, 0.12) 0%, transparent 24%);
+            opacity: 0.8;
+            transition: background-position 0.15s ease;
+            z-index: -1;
+        }
+
+        .page-ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        .page-ambient::before,
+        .page-ambient::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.45;
+            animation: floatBlob 12s ease-in-out infinite;
+        }
+
+        .page-ambient::before {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.35) 0%, transparent 60%);
+            top: 10%;
+            left: 12%;
+        }
+
+        .page-ambient::after {
+            width: 520px;
+            height: 520px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.28) 0%, transparent 55%);
+            bottom: 8%;
+            right: 8%;
+            animation-delay: 3s;
+        }
+
+        @keyframes floatBlob {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-24px) scale(1.08); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(96, 165, 250, 0.6); }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            will-change: opacity, transform;
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card,
+        .business-service-card,
+        .why-choose-card,
+        .testimonial-card,
+        .stat-box,
+        .feature-box,
+        .faq-item,
+        .step,
+        section {
+            will-change: transform, opacity;
+        }
+
+        .service-card .fas,
+        .service-card .fab,
+        .feature-icon,
+        .testimonial-avatar,
+        .footer-social a {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .service-card:hover .fas,
+        .service-card:hover .fab,
+        .feature-box:hover .feature-icon,
+        .testimonial-card:hover .testimonial-avatar,
+        .footer-social a:hover {
+            transform: scale(1.08);
+        }
+
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .primary-btn {
+            box-shadow: 0 14px 35px rgba(96, 165, 250, 0.24);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            animation: glow 3.6s ease-in-out infinite;
+        }
+
+        .primary-btn:hover::after,
+        .secondary-btn:hover::after {
+            opacity: 1;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 18px 48px rgba(96, 165, 250, 0.45);
+        }
+
+        .secondary-btn {
+            box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.25);
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 140px 10% 80px;
+            gap: 60px;
+            animation: fadeIn 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 580px;
+            height: 580px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, transparent 68%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translateY(0px);
+            transition: transform 0.2s ease;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 8%;
+            left: 5%;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.14) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(2px);
+            animation: floatBlob 16s ease-in-out infinite;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 0.8s ease 0.3s backwards;
+            z-index: 1;
+            transform-style: preserve-3d;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 450px;
+            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 20px 50px rgba(96, 165, 250, 0.25));
+            transition: transform 0.4s ease;
+            transform-style: preserve-3d;
+        }
+
+        .hero-image:hover img {
+            transform: translateZ(12px) scale(1.005);
+        }
+
+        .service-card,
+        .business-service-card,
+        .why-choose-card,
+        .testimonial-card,
+        .feature-box,
+        .stat-box,
+        .faq-item,
+        .step {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .animate-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .service-card,
+        .business-service-card {
+            perspective: 1000px;
+        }
+
+        .service-card .card-inner,
+        .business-service-card .card-inner {
+            transition: transform 0.24s ease, box-shadow 0.24s ease;
+            transform-style: preserve-3d;
+        }
+
+        .service-card:hover .card-inner,
+        .business-service-card:hover .card-inner {
+            transform: translateZ(8px);
+        }
+
+        .service-card:hover,
+        .business-service-card:hover {
+            box-shadow: 0 28px 70px rgba(96, 165, 250, 0.25);
+        }
+
+        .service-card i,
+        .service-card h3,
+        .service-card p,
+        .service-card a,
+        .business-service-card h3,
+        .business-service-card p,
+        .business-service-card a {
+            transform-style: preserve-3d;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(96, 165, 250, 0.6); }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ============================================
+           NAVBAR
+           ============================================ */
+        
+        nav {
+            width: 100%;
+            padding: 16px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        nav:hover {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom-color: rgba(96, 165, 250, 0.2);
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-weight: 800;
+            color: #60a5fa;
+            letter-spacing: -0.5px;
+            transition: 0.3s;
+        }
+
+        .logo-label {
+            font-size: 12px;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+        }
+
+        .logo img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .logo:hover {
+            color: #93c5fd;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        nav ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #60a5fa;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #60a5fa;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li#authLink {
+            position: relative;
+        }
+
+        nav ul li#authLink a {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        nav ul li#authLink a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(96, 165, 250, 0.5);
+        }
+
+        nav ul li#authLink .profile-avatar {
+            position: absolute;
+            right: -56px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.18);
+            box-shadow: 0 10px 24px rgba(96,165,250,0.18);
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            z-index: 10;
+        }
+
+        nav ul li#authLink .profile-avatar img,
+        nav ul li#authLink .profile-avatar span {
+            width: 100%;
+            height: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: cover;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        nav ul li#authLink .profile-avatar:hover {
+            transform: translateY(-50%) scale(1.05);
+            border-color: rgba(255,255,255,0.55);
+        }
+
+        /* Profile sidebar toggle (compact, non-disruptive) — white boundary with dark bars */
+        #profileToggle {
+            position: fixed;
+            left: 14px;
+            top: 14px;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1200;
+            cursor: pointer;
+            transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+            padding: 6px;
+        }
+
+        #profileToggle:hover { transform: translateY(-2px); background: rgba(255,255,255,0.03); box-shadow: 0 6px 18px rgba(255,255,255,0.04); }
+
+        #profileToggle .bar { width: 18px; height: 2px; background: #ffffff; display:block; margin:3px 0; border-radius:2px; }
+
+        #profileSidebar {
+            position: fixed;
+            left: 12px;
+            top: 70px;
+            width: 320px;
+            max-width: calc(100% - 28px);
+            background: rgba(15,23,42,0.96);
+            border: 1px solid rgba(96,165,250,0.08);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 30px 60px rgba(2,6,23,0.5);
+            z-index: 1150;
+            transform: translateX(-8px);
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #profileSidebar.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
+
+        /* compact section list */
+        #profileSidebar .profile-top { display:flex; gap:12px; align-items:center }
+        #profileSidebar .avatar { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#60a5fa,#3b82f6); display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700; font-size:18px; overflow:hidden }
+        #profileSidebar .avatar img { width:100%; height:100%; object-fit:cover }
+        #profileSidebar .upload-btn { margin-top:6px; font-size:13px; color:#60a5fa; cursor:pointer }
+
+        #profileSidebar .section-list { display:flex; flex-direction:column; gap:8px; margin-top:12px }
+        .section-item { display:flex; align-items:center; justify-content:space-between; padding:12px 10px; border-radius:10px; background:rgba(30,41,59,0.8); color:#e6eef8; cursor:pointer; border:1px solid rgba(96,165,250,0.04) }
+        .section-item .title { font-weight:800; color:#ffffff }
+        .section-item .chev { color:#94a3b8 }
+        .section-item:hover { background: rgba(96,165,250,0.06) }
+
+        /* ============================================
+           HERO SECTION
+           ============================================ */
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 140px 10% 80px;
+            gap: 60px;
+            animation: fadeIn 0.8s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-text {
+            flex: 1;
+            animation: slideInLeft 0.8s ease 0.2s backwards;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 72px;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            color: #cbd5e1;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            box-shadow: 0 4px 20px rgba(96, 165, 250, 0.4);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 35px rgba(96, 165, 250, 0.6);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .secondary-btn {
+            border: 2px solid #60a5fa;
+            color: #60a5fa;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(96, 165, 250, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.3);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: slideInRight 0.8s ease 0.3s backwards;
+            z-index: 1;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 450px;
+            animation: float 6s ease-in-out infinite;
+            filter: drop-shadow(0 20px 50px rgba(96, 165, 250, 0.25));
+        }
+
+        /* ============================================
+           GENERAL SECTION STYLES
+           ============================================ */
+        
+        section {
+            padding: 100px 10%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .section-title h2 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .section-title p {
+            color: #94a3b8;
+            font-size: 17px;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .switcher-section {
+            padding: 60px 10% 40px;
+        }
+
+        .selection-box {
+            width: 100%;
+            max-width: 620px;
+            margin: 0 auto;
+            background: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(96, 165, 250, 0.16);
+            border-radius: 28px;
+            padding: 18px 18px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: #60a5fa;
+        }
+
+        .section-card-row {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .section-card {
+            flex: 0 0 auto;
+            min-width: 160px;
+            max-width: 180px;
+            border-radius: 12px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(96, 165, 250, 0.12);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px 24px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .section-card.active {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: #ffffff;
+            border-color: rgba(59, 130, 246, 0.55);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.25);
+        }
+
+        .section-card:hover {
+            background: rgba(59, 130, 246, 0.18);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .section-card h3 {
+            margin: 0;
+            color: inherit;
+            font-size: 18px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .section-card p {
+            display: none;
+        }
+
+        .tab-button {
+            display: none;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: #ffffff;
+            box-shadow: 0 15px 32px rgba(96, 165, 250, 0.18);
+        }
+
+        .business-page.hidden,
+        .student-page.hidden {
+            display: none !important;
+        }
+
+        .business-page {
+            padding: 80px 10%;
+        }
+
+        /* Business Services Grid */
+        .business-services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .business-service-card {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            animation: fadeInUp 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .business-service-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(96, 165, 250, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 20px 50px rgba(96, 165, 250, 0.2);
+        }
+
+        .service-icon {
+            font-size: 42px;
+            margin-bottom: 18px;
+        }
+
+        .business-service-card h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+        .service-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: auto;
+            margin-bottom: 22px;
+        }
+
+        .service-price {
+            margin-bottom: 18px;
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .service-list li {
+            color: #cbd5e1;
+            font-size: 15px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(96, 165, 250, 0.08);
+        }
+
+        .service-list li:last-child {
+            border-bottom: none;
+        }
+
+        .learn-more-btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+        }
+
+        .learn-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        /* Why Choose Section */
+        .why-choose-section {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(96, 165, 250, 0.1);
+        }
+
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 28px;
+            margin-top: 50px;
+        }
+
+        .why-choose-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(17, 24, 39, 0.6));
+            padding: 35px;
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            text-align: center;
+        }
+
+        .why-choose-card:hover {
+            border-color: rgba(96, 165, 250, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(96, 165, 250, 0.15);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            margin: 0 auto 18px;
+            font-weight: 700;
+        }
+
+        .why-choose-card h4 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+        .why-choose-card p {
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Business CTA Section */
+        .business-cta {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+            border-radius: 24px;
+            text-align: center;
+            padding: 70px 50px;
+            margin-top: 80px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            box-shadow: 0 20px 60px rgba(96, 165, 250, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .business-cta h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .business-cta p {
+            max-width: 650px;
+            margin: 0 auto 30px;
+            line-height: 1.8;
+            color: #dbeafe;
+            font-size: 16px;
+        }
+
+        .selection-box,
+        .business-slide {
+            overflow: hidden;
+        }
+
+        .business-placeholder .business-slide {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 320px;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.55));
+            border-radius: 24px;
+            border: 1px solid rgba(96, 165, 250, 0.18);
+            overflow: hidden;
+        }
+
+        .business-placeholder .business-card {
+            width: 100%;
+            max-width: 720px;
+            text-align: center;
+            padding: 40px 34px;
+            border-radius: 24px;
+            background: rgba(15, 23, 42, 0.94);
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+        }
+
+        .business-placeholder .business-card h3 {
+            color: #60a5fa;
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        .business-placeholder .business-card p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* ============================================
+           SERVICES SECTION
+           ============================================ */
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(96, 165, 250, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 20px 50px rgba(96, 165, 250, 0.2);
+        }
+
+        .service-card i {
+            font-size: 50px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .nested-card {
+            display: none;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 28px;
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            margin-top: 28px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nested-card.visible {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .nested-card h4 {
+            font-size: 22px;
+            margin-bottom: 18px;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+        .nested-card .nested-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 24px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .nested-card .nested-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1;
+            font-size: 15px;
+        }
+
+        .nested-card .nested-features li i {
+            color: #60a5fa;
+            font-size: 16px;
+        }
+
+        /* ============================================
+           HOW IT WORKS SECTION
+           ============================================ */
+        
+        .how-it-works {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.4) 100%);
+            border-radius: 24px;
+            padding: 80px 10%;
+            margin: 60px 10%;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step {
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 800;
+            margin: 0 auto 25px;
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.3);
+        }
+
+        .step h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .step p {
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           STATS SECTION
+           ============================================ */
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 40px 30px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .stat-box:hover {
+            border-color: rgba(96, 165, 250, 0.4);
+            background: rgba(30, 41, 59, 0.7);
+            transform: translateY(-8px);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #cbd5e1;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* ============================================
+           TESTIMONIALS SECTION
+           ============================================ */
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 35px;
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(96, 165, 250, 0.4);
+            background: rgba(30, 41, 59, 0.8);
+            transform: translateY(-8px);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .testimonial-meta h4 {
+            font-size: 16px;
+            margin-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .testimonial-meta p {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .testimonial-stars {
+            color: #fbbf24;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .testimonial-text {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* ============================================
+           FAQ SECTION
+           ============================================ */
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 60px auto;
+        }
+
+        .faq-item {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .faq-question {
+            padding: 22px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(30, 41, 59, 0.5);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .faq-item:hover .faq-question {
+            background: rgba(30, 41, 59, 0.7);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .faq-icon {
+            color: #60a5fa;
+            transition: transform 0.3s ease;
+            font-size: 18px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 22px;
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        /* ============================================
+           FEATURES SECTION
+           ============================================ */
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(17, 24, 39, 0.6));
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(96, 165, 250, 0.15);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-box:hover {
+            border-color: rgba(96, 165, 250, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(96, 165, 250, 0.15);
+        }
+
+        .feature-box h3 {
+            margin-bottom: 15px;
+            color: #60a5fa;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .feature-box p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* ============================================
+           CTA SECTION
+           ============================================ */
+        
+        .cta {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+            border-radius: 24px;
+            text-align: center;
+            padding: 80px 50px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            box-shadow: 0 20px 60px rgba(96, 165, 250, 0.2);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .cta h2 {
+            font-size: 48px;
+            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.8;
+            margin-bottom: 35px;
+            color: #dbeafe;
+            font-size: 17px;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        
+        footer {
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, #020617 100%);
+            border-top: 1px solid rgba(96, 165, 250, 0.1);
+            padding: 60px 10%;
+            color: #94a3b8;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: #f8fafc;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-section ul li a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: #60a5fa;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(96, 165, 250, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #60a5fa;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .footer-social a:hover {
+            background: #60a5fa;
+            color: white;
+            transform: translateY(-4px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(96, 165, 250, 0.1);
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN
+           ============================================ */
+        
+        @media(max-width: 1024px) {
+            .hero {
+                padding: 120px 8% 60px;
+                gap: 40px;
+            }
+
+            .hero-text h1 {
+                font-size: 56px;
+            }
+
+            section {
+                padding: 80px 8%;
+            }
+
+            .section-title h2 {
+                font-size: 40px;
+            }
+
+            nav ul {
+                gap: 25px;
+            }
+        }
+
+        @media(max-width: 768px) {
+            nav {
+                padding: 12px 5%;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 100px 5% 40px;
+                gap: 30px;
+            }
+
+            .hero-text h1 {
+                font-size: 42px;
+            }
+
+            .hero-text p {
+                margin-bottom: 30px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero-image img {
+                max-width: 100%;
+            }
+
+            section {
+                padding: 60px 5%;
+            }
+
+            .section-title h2 {
+                font-size: 32px;
+            }
+
+            .section-title {
+                margin-bottom: 50px;
+            }
+
+            .services-grid,
+            .features,
+            .stats-container,
+            .testimonials-grid,
+            .steps-grid,
+            .business-services-grid,
+            .why-choose-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .cta {
+                padding: 50px 30px;
+            }
+
+            .cta h2 {
+                font-size: 36px;
+            }
+
+            .business-cta {
+                padding: 50px 30px;
+            }
+
+            .business-cta h2 {
+                font-size: 36px;
+            }
+
+            .how-it-works {
+                margin: 40px 5%;
+                padding: 60px 5%;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media(max-width: 480px) {
+            .hero-text h1 {
+                font-size: 32px;
+            }
+
+            .hero-text p {
+                font-size: 16px;
+            }
+
+            .btn {
+                padding: 14px 24px;
+                font-size: 14px;
+            }
+
+            .section-title h2 {
+                font-size: 26px;
+            }
+
+            .service-card,
+            .feature-box,
+            .testimonial-card,
+            .business-service-card,
+            .why-choose-card {
+                padding: 25px;
+            }
+
+            .cta h2 {
+                font-size: 28px;
+            }
+
+            .cta p {
+                font-size: 15px;
+            }
+
+            .business-cta {
+                padding: 40px 20px;
+            }
+
+            .business-cta h2 {
+                font-size: 28px;
+            }
+
+            .business-cta p {
+                font-size: 14px;
+            }
+
+            .business-page {
+                padding: 60px 5%;
+            }
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="/premium-style.css" />
+</head>
+
+<body>
+    <div class="page-ambient" aria-hidden="true"></div>
+
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">
+            <div class="logo-label">Elevixor</div>
+            <img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo" />
+        </div>
+        <ul>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#features">Why Us</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li id="authLink"><!-- auth link injected by script --></li>
+        </ul>
+    </nav>
+
+    <!-- Compact profile toggle button -->
+    <div id="profileToggle" title="Open dashboard" aria-label="Open dashboard">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </div>
+
+    <!-- Slide-in profile sidebar (non-disruptive) -->
+    <aside id="profileSidebar" aria-hidden="true">
+        <div class="profile-top">
+            <div class="avatar" id="sidebarAvatar"><span id="avatarInitial">T</span></div>
+            <div style="flex:1">
+                <div style="font-weight:800; color:#cbe6ff;"> <span id="sidebarName">Tarun Chakole</span></div>
+                <div style="color:#94a3b8; font-size:13px;"> <span id="sidebarEmail">tarunchakole@axl</span></div>
+                <div class="upload-btn" id="uploadTrigger">Add/Change Image</div>
+                <input type="file" id="profileImageInput" accept="image/*" style="display:none" />
+            </div>
+        </div>
+
+        <div class="section-list">
+            <div class="section-item" data-target="profile-edit.html"><span class="title">Profile</span><span class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="contact-edit.html"><span class="title">Contact</span><span class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="account-edit.html"><span class="title">Account</span><span class="chev"><i class="fas fa-chevron-right"></i></span></div>
+        </div>
+    </aside>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Build Your <span>Career</span> Smarter</h1>
+            <p>
+                Elevixor helps students and freshers optimize resumes,
+                build professional portfolios, improve LinkedIn profiles,
+                and prepare for interviews using modern AI-powered career tools.
+            </p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn primary-btn">
+                    <i class="fas fa-arrow-right"></i> Explore Services
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Career Growth">
+        </div>
+    </section>
+
+    <!-- SECTION SWITCHER -->
+    <section class="switcher-section">
+        <div class="selection-box">
+            <div class="section-box">
+                <div class="section-header">
+                    <h2>Sections</h2>
+                </div>
+                <div class="section-card-row">
+                    <div class="section-card active" data-tab="student">
+                        <h3>Student</h3>
+                    </div>
+                    <div class="section-card" data-tab="business">
+                        <h3>Business</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="businessPage" class="business-page hidden">
+        <div class="section-title">
+            <h2>Business Solutions</h2>
+            <p>Empowering businesses with innovative technology solutions that drive growth, efficiency, automation, and digital transformation.</p>
+        </div>
+
+        <!-- Business Services Grid -->
+        <div class="business-services-grid">
+            <!-- Website Development -->
+            <div class="business-service-card">
+                <div class="service-icon">🌐</div>
+                <h3>Website Development</h3>
+                <ul class="service-list">
+                    <li>Business Websites</li>
+                    <li>Company Websites</li>
+                    <li>Landing Pages</li>
+                    <li>E-Commerce Websites</li>
+                    <li>Portfolio Websites</li>
+                </ul>
+                <div class="service-price">Starting Price: Rs. 4,999+</div>
+                <a href="service-website.html" class="learn-more-btn" target="_blank">Learn More</a>
+            </div>
+
+            <!-- Custom Software Development -->
+            <div class="business-service-card">
+                <div class="service-icon">💻</div>
+                <h3>Custom Software Development</h3>
+                <ul class="service-list">
+                    <li>CRM Systems</li>
+                    <li>Inventory Management</li>
+                    <li>Employee Management</li>
+                    <li>Booking Systems</li>
+                    <li>Business Applications</li>
+                </ul>
+                <div class="service-price">Starting Price: Rs. 5,999+</div>
+                <a href="service-software.html" class="learn-more-btn" target="_blank">Learn More</a>
+            </div>
+
+            <!-- Mobile App Development -->
+            <div class="business-service-card">
+                <div class="service-icon">📱</div>
+                <h3>Mobile App Development</h3>
+                <ul class="service-list">
+                    <li>Android Apps</li>
+                    <li>Customer Apps</li>
+                    <li>Business Apps</li>
+                    <li>Startup Applications</li>
+                </ul>
+                <div class="service-price">Starting Price: Rs. 11,999+</div>
+                <a href="service-mobile.html" class="learn-more-btn" target="_blank">Learn More</a>
+            </div>
+
+            <!-- AI Solutions -->
+            <div class="business-service-card">
+                <div class="service-icon">🤖</div>
+                <h3>AI Solutions</h3>
+                <ul class="service-list">
+                    <li>AI Chatbots</li>
+                    <li>Intelligent Automation</li>
+                    <li>Recommendation Systems</li>
+                    <li>AI Assistants</li>
+                </ul>
+                <div class="service-price">Starting Price: Rs. 4,999+</div>
+                <a href="service-ai.html" class="learn-more-btn" target="_blank">Learn More</a>
+            </div>
+
+            <!-- Data Analytics & Dashboards -->
+            <div class="business-service-card">
+                <div class="service-icon">📊</div>
+                <h3>Data Analytics & Dashboards</h3>
+                <ul class="service-list">
+                    <li>Power BI Dashboards</li>
+                    <li>KPI Tracking</li>
+                    <li>Business Intelligence</li>
+                    <li>Data Visualization</li>
+                    <li>Reporting Systems</li>
+                </ul>
+                <div class="service-price">Starting Price: Rs. 3,999+</div>
+                <a href="service-analytics.html" class="learn-more-btn" target="_blank">Learn More</a>
+            </div>
+
+            <!-- Business Automation -->
+            <div class="business-service-card">
+                <div class="service-icon">⚙️</div>
+                <h3>Business Automation</h3>
+                <ul class="service-list">
+                    <li>Workflow Automation</li>
+                    <li>Lead Management</li>
+                    <li>Email Automation</li>
+                    <li>Process Optimization</li>
+                </ul>
+                <div class="service-price">Starting Price: Rs. 4,999+</div>
+                <a href="service-automation.html" class="learn-more-btn" target="_blank">Learn More</a>
+            </div>
+        </div>
+
+        <!-- Why Choose Elevixor Section -->
+        <section class="why-choose-section">
+            <div class="section-title">
+                <h2>Why Choose Elevixor?</h2>
+                <p>We deliver excellence in every project</p>
+            </div>
+            <div class="why-choose-grid">
+                <div class="why-choose-card">
+                    <div class="feature-icon">✓</div>
+                    <h4>Custom Solutions</h4>
+                    <p>Tailored technology solutions designed specifically for your business needs and goals.</p>
+                </div>
+                <div class="why-choose-card">
+                    <div class="feature-icon">✓</div>
+                    <h4>Scalable Technology</h4>
+                    <p>Build systems that grow with your business, from startups to enterprises.</p>
+                </div>
+                <div class="why-choose-card">
+                    <div class="feature-icon">✓</div>
+                    <h4>Modern Development</h4>
+                    <p>Latest technologies and best practices to ensure future-proof solutions.</p>
+                </div>
+                <div class="why-choose-card">
+                    <div class="feature-icon">✓</div>
+                    <h4>Dedicated Support</h4>
+                    <p>Comprehensive support and maintenance to keep your systems running smoothly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="business-cta">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>From websites and software systems to AI solutions and analytics platforms, Elevixor helps businesses build smarter digital solutions for long-term growth.</p>
+            <a href="#contact" class="btn primary-btn">Book a Free Consultation</a>
+        </section>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="student-page">
+        <div class="section-title">
+            <h2>Our Premium Services</h2>
+            <p>Smart career solutions designed for modern professionals</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-file-alt"></i>
+                <h3>AI Resume Optimization</h3>
+                <p>Upload your resume and get ATS analysis, domain prediction, skill suggestions, and professional resume template recommendations.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-globe"></i>
+                <h3>Portfolio Templates</h3>
+                <p>Choose from multiple modern portfolio templates designed for Data Analysts, Developers, Business Analysts, and AI professionals.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fab fa-linkedin"></i>
+                <h3>LinkedIn Optimization</h3>
+                <p>Get LinkedIn profile analysis and professional suggestions to improve visibility, networking, and recruiter attraction.</p>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-user-tie"></i>
+                <h3>Interview Preparation</h3>
+                <p>Prepare with domain-wise interview questions, answers, HR preparation PDFs, and career guidance resources.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS/TRUST SECTION -->
+    <section class="student-page">
+        <div class="section-title">
+            <h2>Career Resource Highlights</h2>
+            <p>Elevixor delivers premium templates, portfolio designs, and career support for students and freshers.</p>
+        </div>
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Premium Resume Templates</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">7+</div>
+                <div class="stat-label">Portfolio Designs</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Career Domains Supported</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Learning & Career Resources</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="student-page">
+        <div class="section-title">
+            <h2>Why Choose Elevixor?</h2>
+            <p>Designed to help freshers stand out in the modern hiring market</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-box">
+                <h3>🎯 ATS Friendly Solutions</h3>
+                <p>Build resumes and portfolios optimized for modern company ATS systems and recruiters.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>✨ AI-Powered Recommendations</h3>
+                <p>Smart analysis tools suggest domains, improvements, and professional enhancements.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>🎨 Professional Templates</h3>
+                <p>Access modern resume and portfolio designs that create strong first impressions.</p>
+            </div>
+
+            <div class="feature-box">
+                <h3>🚀 Career Growth Platform</h3>
+                <p>More than just resumes — Elevixor helps users improve careers, confidence, and professional branding.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="student-page">
+        <div class="section-title">
+            <h2>What Our Users Say</h2>
+            <p>Real stories from students and professionals who've grown with Elevixor</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">A</div>
+                    <div class="testimonial-meta">
+                        <h4>Aisha Khan</h4>
+                        <p>Software Developer</p>
+                    </div>
+                </div>
+                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-text">
+                    "Elevixor helped me optimize my resume and I got 3 interview calls in the first week. The ATS feedback was super helpful!"
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">R</div>
+                    <div class="testimonial-meta">
+                        <h4>Rohit Sharma</h4>
+                        <p>Data Analyst</p>
+                    </div>
+                </div>
+                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-text">
+                    "Elevixor built my website quickly and professionally. It looks premium and helped me present my skills clearly to recruiters."
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <div class="testimonial-avatar">P</div>
+                    <div class="testimonial-meta">
+                        <h4>Priya Patel</h4>
+                        <p>Business Analyst</p>
+                    </div>
+                </div>
+                <div class="testimonial-stars">★★★★★</div>
+                <div class="testimonial-text">
+                    "The interview preparation materials were incredibly comprehensive. I felt so confident going into my interviews!"
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="student-page">
+        <div class="section-title">
+            <h2>Frequently Asked Questions</h2>
+            <p>Find answers to common questions about our services</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What does ATS mean and why is it important?</span>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    ATS stands for Applicant Tracking System. Most companies use ATS to filter resumes before they reach human recruiters. Our optimization ensures your resume passes the ATS scan and reaches hiring managers.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How long does resume optimization take?</span>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    You get instant ATS analysis and recommendations right after uploading your resume. Detailed optimization reports are typically ready within 24 hours.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I customize the portfolio templates?</span>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Yes! All our portfolio templates are fully customizable. You can change colors, add your projects, modify text, and deploy them on your domain.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What if I'm not satisfied with the service?</span>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    We offer a 7-day money-back guarantee. If you're not satisfied with any service, contact our support team and we'll process a full refund.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do you provide career counseling?</span>
+                    <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Yes! Our Career Starter Pack includes interview preparation, domain guidance, and personalized recommendations to help you grow professionally.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="student-page">
+        <div class="section-title">
+            <h2>Pricing Plans</h2>
+            <p>Affordable career solutions designed for students and professionals</p>
+        </div>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-file-alt"></i>
+                <h3>ATS Resume Optimization</h3>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹269</h2>
+                <p>
+                    ✔ ATS Friendly Resume<br><br>
+                    ✔ Professional Template<br><br>
+                    ✔ Skill Optimization<br><br>
+                    ✔ Domain Specific Improvements<br><br>
+                    ✔ Recruiter Friendly Formatting
+                </p>
+                <br>
+                <a href="login.html?reason=plans" data-target="ats_resume_plans.html" class="btn primary-btn requires-auth" target="_blank">
+                    Choose Plan
+                </a>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-globe"></i>
+                <h3>Portfolio Website</h3>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹1999</h2>
+                <p>
+                    ✔ Modern Portfolio Design<br><br>
+                    ✔ Mobile Responsive<br><br>
+                    ✔ GitHub Integration<br><br>
+                    ✔ Resume Download Section<br><br>
+                    ✔ Deployment Support
+                </p>
+                <br>
+                <a href="login.html?reason=plans" data-target="Portfolio_Websites.html" class="btn primary-btn requires-auth">
+                    Choose Plan
+                </a>
+            </div>
+
+            <div class="service-card">
+                <i class="fab fa-linkedin"></i>
+                <h3>LinkedIn Optimization</h3>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹999</h2>
+                <p>
+                    ✔ Professional Headline<br><br>
+                    ✔ About Section Optimization<br><br>
+                    ✔ Skills Enhancement<br><br>
+                    ✔ Recruiter Visibility Tips<br><br>
+                    ✔ Profile Improvement Suggestions
+                </p>
+                <br>
+                <a href="login.html?reason=plans" data-target="#" class="btn primary-btn requires-auth">
+                    Choose Plan
+                </a>
+            </div>
+
+            <div class="service-card">
+                <i class="fas fa-user-tie"></i>
+                <h3>Interview Preparation</h3>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹499</h2>
+                <p>
+                    ✔ Domain Wise Questions<br><br>
+                    ✔ HR Interview Preparation<br><br>
+                    ✔ Most Asked Questions PDF<br><br>
+                    ✔ Communication Tips<br><br>
+                    ✔ Fresher Interview Guidance
+                </p>
+                <br>
+                <a href="login.html?reason=plans" data-target="#" class="btn primary-btn requires-auth">
+                    Choose Plan
+                </a>
+            </div>
+
+            <div class="service-card" style="border:2px solid #60a5fa; transform: scale(1.03);">
+                <i class="fas fa-crown"></i>
+                <h3>Career Starter Pack</h3>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹2999</h2>
+                <p>
+                    ✔ ATS Resume Optimization<br><br>
+                    ✔ Premium Portfolio Website<br><br>
+                    ✔ LinkedIn Optimization<br><br>
+                    ✔ Interview Preparation Kit<br><br>
+                    ✔ Priority Support
+                </p>
+                <br>
+                <a href="#" class="btn primary-btn">
+                    Most Popular
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="student-page" style="padding-top: 60px; padding-bottom: 60px;">
+        <div class="cta">
+            <h2>Ready To Upgrade Your Career?</h2>
+            <p>
+                Build professional resumes, portfolios, LinkedIn profiles, and interview preparation
+                systems with Elevixor. Start your journey to success today.
+            </p>
+            <a href="#services" class="btn primary-btn">
+                Get Started Now
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>
+                    <i class="fas fa-rocket" style="margin-right: 8px;"></i>Elevixor
+                </h4>
+                <p style="margin-bottom: 20px; color: #cbd5e1; font-size: 14px;">
+                    Empowering students and freshers with AI-powered career tools to succeed in the modern job market.
+                </p>
+                <div class="footer-social">
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="mailto:elevixor1042@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Resume Optimization</a></li>
+                    <li><a href="#services">Portfolio Templates</a></li>
+                    <li><a href="#services">LinkedIn Optimization</a></li>
+                    <li><a href="#services">Interview Prep</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#features">Why Choose Us</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 12px;">
+                    <i class="fas fa-envelope" style="margin-right: 8px;"></i>
+                    <a href="mailto:elevixor1042@gmail.com" style="color: #cbd5e1; text-decoration: none;">elevixor1042@gmail.com</a>
+                </p>
+                <p style="color: #cbd5e1; font-size: 14px;">
+                    <i class="fas fa-phone" style="margin-right: 8px;"></i>
+                    +91 7249726407
+                </p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Elevixor. All Rights Reserved. | <a href="mailto:elevixor1042@gmail.com" style="color: #60a5fa; text-decoration: none;">Privacy Policy</a> | <a href="mailto:elevixor1042@gmail.com" style="color: #60a5fa; text-decoration: none;">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Auth and navigation functionality
+        (function(){
+            try{
+                const logged = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
+                const authLink = document.getElementById('authLink');
+                if(!authLink) return;
+
+                if(logged){
+                    const avatarData = localStorage.getItem('userAvatarData');
+                    const firstName = localStorage.getItem('userFirstName') || 'User';
+                    const lastName = localStorage.getItem('userLastName') || '';
+                    const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
+                    const avatarHtml = avatarData ? '<img src="'+avatarData+'" alt="avatar"/>' : '<span>'+initials+'</span>';
+                    authLink.innerHTML = '<a href="#" id="signOutBtn">Sign Out</a><a href="user-profile.html" target="_blank" rel="noopener" class="profile-avatar" title="View Profile">'+avatarHtml+'</a>';
+                    const btn = document.getElementById('signOutBtn');
+                    btn && btn.addEventListener('click', function(e){
+                        e.preventDefault();
+                        try{
+                            sessionStorage.removeItem('loggedIn');
+                            localStorage.removeItem('loggedIn');
+                            sessionStorage.removeItem('userEmail');
+                            localStorage.removeItem('userEmail');
+                        }catch(e){}
+                        window.location = 'index.html';
+                    });
+                } else {
+                    authLink.innerHTML = '<a href="login.html">Sign In</a>';
+                }
+
+                var authButtons = document.querySelectorAll('a.requires-auth');
+                authButtons.forEach(function(a){
+                    var target = a.getAttribute('data-target');
+                    if(logged){
+                        if(target && target !== '#') a.href = target;
+                        else a.href = '#';
+                        a.target = '_blank';
+                    } else {
+                        a.href = 'login.html?reason=plans' + (target && target !== '#' ? '&redirect=' + encodeURIComponent(target) : '');
+                    }
+                });
+
+            }catch(e){console.warn(e)}
+        })();
+
+        // FAQ Accordion functionality
+        (function(){
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    faqItems.forEach(otherItem => otherItem.classList.remove('active'));
+                    if(!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        })();
+
+        // Reveal and animation utilities
+        (function(){
+            const revealItems = Array.from(document.querySelectorAll('section, .service-card, .feature-box, .testimonial-card, .stat-box, .why-choose-card, .faq-item, .step, .business-service-card'));
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const index = revealItems.indexOf(entry.target);
+                        const delay = (index % 10) * 80;
+                        window.setTimeout(() => {
+                            entry.target.classList.add('animate-in');
+                        }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.16, rootMargin: '0px 0px -80px 0px' });
+
+            revealItems.forEach(el => observer.observe(el));
+
+            const counterElements = document.querySelectorAll('.stat-number');
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        const element = entry.target;
+                        const text = element.textContent.trim();
+                        const match = text.match(/^\d+/);
+                        if(match) {
+                            const endValue = parseInt(match[0], 10);
+                            let current = 0;
+                            const suffix = text.replace(match[0], '');
+                            const start = performance.now();
+                            const duration = 1400;
+                            const step = (timestamp) => {
+                                const elapsed = Math.min(duration, timestamp - start);
+                                const progress = elapsed / duration;
+                                current = Math.round(endValue * easeOutCubic(progress));
+                                element.textContent = current + suffix;
+                                if(elapsed < duration) requestAnimationFrame(step);
+                            };
+                            requestAnimationFrame(step);
+                        }
+                        counterObserver.unobserve(element);
+                    }
+                });
+            }, { threshold: 0.45 });
+            counterElements.forEach(el => counterObserver.observe(el));
+
+            function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+            function tiltCard(card, event, intensity){
+                const rect = card.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                const rotateY = x * intensity;
+                const rotateX = -y * intensity;
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+            }
+
+            function resetTilt(card){
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+            }
+
+            document.querySelectorAll('.service-card, .business-service-card').forEach(card => {
+                card.style.transformStyle = 'preserve-3d';
+                card.addEventListener('mousemove', (event) => tiltCard(card, event, 10));
+                card.addEventListener('mouseleave', () => resetTilt(card));
+            });
+
+            document.querySelectorAll('.btn.primary-btn, .btn.secondary-btn').forEach(btn => {
+                btn.addEventListener('mousemove', (event) => {
+                    const rect = btn.getBoundingClientRect();
+                    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
+                    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
+                    btn.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.02)`;
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = '';
+                });
+            });
+
+            window.addEventListener('mousemove', (event) => {
+                document.body.style.setProperty('--mouse-x', event.clientX + 'px');
+                document.body.style.setProperty('--mouse-y', event.clientY + 'px');
+            });
+
+            const hero = document.querySelector('.hero');
+            const heroImage = document.querySelector('.hero-image');
+            window.addEventListener('scroll', () => {
+                const offset = window.scrollY * 0.06;
+                if(hero) hero.style.transform = `translateY(${offset}px)`;
+                if(heroImage) heroImage.style.transform = `translateY(${offset / 2}px)`;
+            }, { passive: true });
+
+            window.addEventListener('load', () => {
+                document.body.classList.add('loaded');
+            });
+        })();
+
+        // Profile sidebar toggle, image upload and navigation
+        (function(){
+            const toggle = document.getElementById('profileToggle');
+            const sidebar = document.getElementById('profileSidebar');
+            const uploadTrigger = document.getElementById('uploadTrigger');
+            const input = document.getElementById('profileImageInput');
+            const avatar = document.getElementById('sidebarAvatar');
+            const avatarInitial = document.getElementById('avatarInitial');
+
+            function openSidebar(){ sidebar.classList.add('open'); sidebar.setAttribute('aria-hidden','false'); }
+            function closeSidebar(){ sidebar.classList.remove('open'); sidebar.setAttribute('aria-hidden','true'); }
+
+            toggle && toggle.addEventListener('click', e => {
+                if(sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
+            });
+
+            // populate fields from localStorage/session
+            const data = {
+                firstName: localStorage.getItem('userFirstName') || 'Tarun',
+                lastName: localStorage.getItem('userLastName') || 'Chakole',
+                age: localStorage.getItem('userAge') || '26',
+                gender: localStorage.getItem('userGender') || 'Male',
+                email: sessionStorage.getItem('userEmail') || localStorage.getItem('userEmail') || 'tarunchakole@axl',
+                contact: localStorage.getItem('userContact') || '+91 98765 43210',
+                whatsapp: localStorage.getItem('userWhatsApp') || '+91 98765 43210'
+            };
+
+            const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+            set('sidebarName', data.firstName + ' ' + data.lastName); set('sidebarEmail', data.email);
+
+            // load saved avatar
+            const savedAvatar = localStorage.getItem('userAvatarData');
+            if(savedAvatar){ avatar.innerHTML = '<img src="'+savedAvatar+'" alt="avatar"/>'; avatarInitial.style.display='none'; }
+
+            uploadTrigger && uploadTrigger.addEventListener('click', ()=> input && input.click());
+            input && input.addEventListener('change', function(e){
+                const file = e.target.files && e.target.files[0]; if(!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev){
+                    const url = ev.target.result;
+                    localStorage.setItem('userAvatarData', url);
+                    avatar.innerHTML = '<img src="'+url+'" alt="avatar"/>';
+                    avatarInitial.style.display='none';
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // (logout is available in account edit page) 
+
+            // clicking a section-item navigates to its edit page
+            document.querySelectorAll('#profileSidebar .section-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const target = item.getAttribute('data-target');
+                    if(target) {
+                        window.open(target, '_blank');
+                    }
+                });
+            });
+        })();
+
+        (function(){
+            const sectionCards = document.querySelectorAll('.section-card');
+            const studentPages = document.querySelectorAll('.student-page');
+            const businessPage = document.getElementById('businessPage');
+
+            function activateTab(tabId) {
+                sectionCards.forEach(card => card.classList.toggle('active', card.dataset.tab === tabId));
+
+                if(tabId === 'student') {
+                    studentPages.forEach(section => section.classList.remove('hidden'));
+                    if(businessPage) businessPage.classList.add('hidden');
+                } else {
+                    studentPages.forEach(section => section.classList.add('hidden'));
+                    if(businessPage) businessPage.classList.remove('hidden');
+                }
+            }
+
+            sectionCards.forEach(card => {
+                card.addEventListener('click', () => activateTab(card.dataset.tab));
+            });
+
+            activateTab('student');
+        })();
+    </script>
+
+    <script src="/premium-animations.js"></script>
+</body>
+
+</html> 

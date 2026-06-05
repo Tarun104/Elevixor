@@ -1,0 +1,279 @@
+:root {
+    --elevixor-primary: #60a5fa;
+    --elevixor-primary-dark: #2563eb;
+    --elevixor-glass: rgba(15, 23, 42, 0.62);
+    --elevixor-glow: rgba(96, 165, 250, 0.18);
+    --elevixor-card: rgba(15, 23, 42, 0.78);
+    --elevixor-border: rgba(96, 165, 250, 0.14);
+    --elevixor-shadow: 0 32px 100px rgba(0, 0, 0, 0.22);
+}
+
+body {
+    opacity: 0;
+    transition: opacity 0.75s ease;
+}
+
+body.loaded {
+    opacity: 1;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(96, 165, 250, 0.12) 0%, transparent 24%);
+    z-index: -1;
+    transition: background-position 0.16s ease;
+}
+
+.page-ambient {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+}
+
+.page-ambient::before,
+.page-ambient::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(76px);
+    opacity: 0.44;
+    animation: floatBlob 14s ease-in-out infinite;
+}
+
+.page-ambient::before {
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(96, 165, 250, 0.34) 0%, transparent 62%);
+    top: 12%;
+    left: 9%;
+}
+
+.page-ambient::after {
+    width: 560px;
+    height: 560px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.28) 0%, transparent 56%);
+    bottom: 8%;
+    right: 8%;
+    animation-delay: 3s;
+}
+
+@keyframes floatBlob {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-24px) scale(1.08); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+    will-change: opacity, transform;
+}
+
+.animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+button.btn,
+a.btn,
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
+}
+
+button.btn::after,
+a.btn::after,
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+button.btn:hover,
+a.btn:hover,
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 45px rgba(96, 165, 250, 0.22);
+}
+
+button.btn:hover::after,
+a.btn:hover::after,
+.btn:hover::after {
+    opacity: 1;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    perspective: 1600px;
+}
+
+.hero-text,
+.hero-image {
+    transform-style: preserve-3d;
+    transition: transform 0.28s ease;
+}
+
+.hero-image img {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -22%;
+    right: -12%;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(96, 165, 250, 0.14) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    bottom: 8%;
+    left: 6%;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 72%);
+    pointer-events: none;
+    filter: blur(1px);
+    animation: floatBlob 16s ease-in-out infinite;
+}
+
+.hero-image img,
+.floating-img {
+    animation: float 6s ease-in-out infinite;
+    transition: transform 0.35s ease;
+}
+
+.hero-image:hover img,
+.floating-img:hover {
+    transform: translateY(-4px) scale(1.01);
+}
+
+.card,
+.plan-card,
+.service-card,
+.business-service-card,
+.feature-box,
+.testimonial-card,
+.info-card,
+.payment-card,
+.modal-card,
+.why-choose-card,
+.faq-item,
+.section-card {
+    position: relative;
+    z-index: 0;
+    border-radius: 18px;
+    border: 1px solid var(--elevixor-border);
+    box-shadow: var(--elevixor-shadow);
+    background: var(--elevixor-card);
+    transition: transform 0.28s ease, border-color 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
+    transform-style: preserve-3d;
+}
+
+.card::before,
+.plan-card::before,
+.service-card::before,
+.business-service-card::before,
+.feature-box::before,
+.testimonial-card::before,
+.info-card::before,
+.payment-card::before,
+.modal-card::before,
+.why-choose-card::before,
+.faq-item::before,
+.section-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.14), transparent 46%);
+    opacity: 0.28;
+    filter: blur(24px);
+    transition: transform 0.28s ease, opacity 0.28s ease;
+    transform: translateZ(-4px) scale(1);
+    z-index: -1;
+}
+
+.card:hover,
+.plan-card:hover,
+.service-card:hover,
+.business-service-card:hover,
+.feature-box:hover,
+.testimonial-card:hover,
+.info-card:hover,
+.payment-card:hover,
+.modal-card:hover,
+.why-choose-card:hover,
+.faq-item:hover,
+.section-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(96, 165, 250, 0.35);
+    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.24);
+}
+
+.service-card:hover,
+.business-service-card:hover,
+.plan-card:hover,
+.info-card:hover,
+.payment-card:hover {
+    transform: translateY(-10px) scale(1.01);
+}
+
+.service-card:hover::before,
+.business-service-card:hover::before,
+.plan-card:hover::before,
+.info-card:hover::before,
+.payment-card:hover::before,
+.feature-box:hover::before,
+.testimonial-card:hover::before,
+.why-choose-card:hover::before,
+.faq-item:hover::before,
+.section-card:hover::before {
+    opacity: 0.42;
+    transform: translateZ(-2px) scale(1.02);
+}
+
+.feature-icon,
+.testimonial-avatar,
+.footer-social a,
+.service-card i,
+.service-card h3,
+.service-card p {
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.feature-box:hover .feature-icon,
+.testimonial-card:hover .testimonial-avatar,
+.service-card:hover i {
+    transform: scale(1.08);
+}
+
+@media (max-width: 1024px) {
+    body::before {
+        background: radial-gradient(circle at 40% var(--mouse-y, 50%), rgba(96, 165, 250, 0.12) 0%, transparent 22%);
+    }
+}

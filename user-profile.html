@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>User Profile - Elevixor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root { --brand: #60a5fa; --bg: #071029; --card: rgba(15,23,42,0.95); }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; font-family: Poppins, sans-serif; background: radial-gradient(circle at top, rgba(96,165,250,0.14), transparent 28%), var(--bg); color: #e6eef8; }
+        a { color: inherit; text-decoration: none; }
+        .page-header { padding: 24px 28px 0; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+        .page-header .logo { display: flex; align-items: center; gap: 10px; color: var(--brand); font-weight: 700; }
+        .page-header .logo img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px 40px; }
+        .card { background: var(--card); border: 1px solid rgba(96,165,250,0.08); border-radius: 18px; padding: 28px; box-shadow: 0 25px 60px rgba(2,6,23,0.5); }
+        .page-title { font-size: 28px; margin: 0; color: #ffffff; }
+        .page-subtitle { margin-top: 8px; color: #94a3b8; font-size: 14px; }
+        .grid { display: grid; grid-template-columns: 320px 1fr; gap: 28px; margin-top: 26px; }
+        .profile-panel { display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+        .profile-ring { position: relative; width: 180px; height: 180px; border-radius: 50%; display: grid; place-items: center; }
+        .profile-ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%; padding: 4px; background: conic-gradient(var(--ring-color) 0deg, var(--ring-color) var(--progress), rgba(255,255,255,0.08) var(--progress), rgba(255,255,255,0.08) 360deg); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 14px)); mask: radial-gradient(farthest-side, transparent calc(100% - 14px), #000 calc(100% - 14px)); }
+        .profile-ring-inner { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: linear-gradient(135deg,#3b82f6,#60a5fa); display: flex; align-items: center; justify-content: center; }
+        .profile-ring-inner img, .profile-ring-inner span { width: 100%; height: 100%; object-fit: cover; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 800; color: #fff; }
+        .profile-status { font-size: 14px; color: #cbd5e1; transition: all 0.3s ease; }
+        .profile-status strong { color: #ffffff; }
+        
+        @keyframes redGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(239, 68, 68, 0.8), 0 0 20px rgba(239, 68, 68, 0.5); color: #ef4444; }
+            50% { text-shadow: 0 0 20px rgba(239, 68, 68, 1), 0 0 30px rgba(239, 68, 68, 0.7); color: #f87171; }
+        }
+        
+        @keyframes greenGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(34, 197, 94, 0.8), 0 0 20px rgba(34, 197, 94, 0.5); color: #22c55e; }
+            50% { text-shadow: 0 0 20px rgba(34, 197, 94, 1), 0 0 30px rgba(34, 197, 94, 0.7); color: #4ade80; }
+        }
+        
+        .profile-status.incomplete { animation: redGlow 2s ease-in-out infinite; }
+        .profile-status.complete { animation: greenGlow 2s ease-in-out infinite; }
+        
+        .profile-metadata { width: 100%; display: grid; gap: 12px; margin-top: 8px; }
+        .profile-summary { padding: 16px 18px; border-radius: 16px; background: rgba(15,23,42,0.84); border: 1px solid rgba(96,165,250,0.08); }
+        .summary-item { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: #cbd5e1; }
+        .summary-item strong { color: #ffffff; }
+        .details { display: grid; gap: 20px; }
+        .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+        .section-title h2 { margin: 0; font-size: 20px; color: #ffffff; }
+        .section-title a { font-size: 14px; color: var(--brand); font-weight: 700; }
+        .info-card { background: rgba(15,23,42,0.97); border-radius: 18px; border: 1px solid rgba(96,165,250,0.06); padding: 22px; }
+        .info-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+        .info-item { background: rgba(255,255,255,0.03); padding: 16px; border-radius: 14px; }
+        .info-label { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+        .info-value { color: #f8fafc; font-size: 15px; line-height: 1.6; word-break: break-word; }
+        .profile-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 18px; border-radius: 14px; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; }
+        .btn.primary { background: linear-gradient(135deg,#60a5fa,#3b82f6); color: #fff; }
+        .btn.secondary { background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.08); }
+        .btn:hover { transform: translateY(-1px); }
+        .empty-state { color: #94a3b8; font-size: 14px; }
+
+        @media (max-width: 820px) {
+            .grid { grid-template-columns: 1fr; }
+            .page-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <link rel="stylesheet" href="/premium-style.css" />
+</head>
+<body>
+    <div class="page-header">
+        <div class="logo"><img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo"/><span>Elevixor Profile</span></div>
+        <div>
+            <a href="index.html" class="btn secondary"><i class="fas fa-arrow-left"></i> Back to home</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="section-title"><div>
+                <h2>User Profile Summary</h2>
+                <p class="profile-status">All saved user information appears here, with an update progress indicator around the profile avatar.</p>
+            </div><a href="profile-edit.html">Edit</a></div>
+            <div class="grid">
+                <div class="profile-panel">
+                    <div class="profile-ring" id="profileRing" style="--progress: 0deg; --ring-color: #f97316;">
+                        <div class="profile-ring-inner" id="profileAvatarInner"><span id="profileInitials">U</span></div>
+                    </div>
+                    <div class="profile-status" id="profileCompleteText">Profile completion: 0%</div>
+                    <div class="profile-summary">
+                        <div class="summary-item"><span>Completed</span><strong id="profilePercent">0%</strong></div>
+                        <div class="summary-item"><span>Profile status</span><strong id="profileStatusText">Incomplete</strong></div>
+                        <div class="summary-item"><span>Saved email</span><strong id="profileEmailShort">---</strong></div>
+                    </div>
+                    <div class="profile-actions">
+                        <a href="profile-edit.html" class="btn primary"><i class="fas fa-user-edit"></i> Edit Profile</a>
+                        <a href="contact-edit.html" class="btn secondary"><i class="fas fa-address-book"></i> Edit Contact</a>
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="info-card">
+                        <div class="section-title"><h2>Personal Details</h2></div>
+                        <div class="info-grid">
+                            <div class="info-item"><div class="info-label">First Name</div><div class="info-value" id="fieldFirst">-</div></div>
+                            <div class="info-item"><div class="info-label">Last Name</div><div class="info-value" id="fieldLast">-</div></div>
+                            <div class="info-item"><div class="info-label">Age</div><div class="info-value" id="fieldAge">-</div></div>
+                            <div class="info-item"><div class="info-label">Gender</div><div class="info-value" id="fieldGender">-</div></div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="section-title"><h2>Contact Information</h2></div>
+                        <div class="info-grid">
+                            <div class="info-item"><div class="info-label">Email</div><div class="info-value" id="fieldEmail">-</div></div>
+                            <div class="info-item"><div class="info-label">Contact No.</div><div class="info-value" id="fieldContact">-</div></div>
+                            <div class="info-item"><div class="info-label">WhatsApp</div><div class="info-value" id="fieldWhatsApp">-</div></div>
+                            <div class="info-item"><div class="info-label">Login Status</div><div class="info-value" id="fieldLoginStatus">-</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function(){
+            const fields = {
+                firstName: localStorage.getItem('userFirstName') || '',
+                lastName: localStorage.getItem('userLastName') || '',
+                age: localStorage.getItem('userAge') || '',
+                gender: localStorage.getItem('userGender') || '',
+                email: localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail') || '',
+                contact: localStorage.getItem('userContact') || '',
+                whatsapp: localStorage.getItem('userWhatsApp') || '',
+                avatar: localStorage.getItem('userAvatarData') || ''
+            };
+            const savedAvatar = fields.avatar;
+            const profileAvatarInner = document.getElementById('profileAvatarInner');
+            const initials = (fields.firstName.charAt(0) || 'U').toUpperCase() + (fields.lastName.charAt(0) || '').toUpperCase();
+            if(savedAvatar){ profileAvatarInner.innerHTML = '<img src="'+savedAvatar+'" alt="avatar"/>'; }
+            else { profileAvatarInner.innerHTML = '<span>'+(initials.trim() || 'U')+'</span>'; }
+            const nonEmpty = Object.values(fields).filter(value => value && value.toString().trim().length > 0).length;
+            const total = Object.keys(fields).length;
+            const percentage = Math.round((nonEmpty / total) * 100);
+            const complete = percentage === 100;
+            const ring = document.getElementById('profileRing');
+            ring.style.setProperty('--progress', percentage * 3.6 + 'deg');
+            ring.style.setProperty('--ring-color', complete ? '#22c55e' : '#fb7185');
+            document.getElementById('profilePercent').textContent = percentage + '%';
+            const profileCompleteText = document.getElementById('profileCompleteText');
+            profileCompleteText.textContent = 'Profile completion: ' + percentage + '%';
+            profileCompleteText.className = 'profile-status ' + (complete ? 'complete' : 'incomplete');
+            document.getElementById('profileStatusText').textContent = complete ? 'Fully updated' : 'Needs update';
+            document.getElementById('profileEmailShort').textContent = fields.email ? fields.email : 'No email saved';
+            document.getElementById('fieldFirst').textContent = fields.firstName || 'Not available';
+            document.getElementById('fieldLast').textContent = fields.lastName || 'Not available';
+            document.getElementById('fieldAge').textContent = fields.age || 'Not available';
+            document.getElementById('fieldGender').textContent = fields.gender || 'Not available';
+            document.getElementById('fieldEmail').textContent = fields.email || 'Not available';
+            document.getElementById('fieldContact').textContent = fields.contact || 'Not available';
+            document.getElementById('fieldWhatsApp').textContent = fields.whatsapp || 'Not available';
+            const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
+            document.getElementById('fieldLoginStatus').textContent = isLoggedIn ? 'Signed in' : 'Signed out';
+            const nameText = ((fields.firstName || '') + ' ' + (fields.lastName || '')).trim();
+            const emailUser = fields.email ? fields.email.split('@')[0].replace(/[^a-zA-Z]/g, '') : '';
+            const displayName = nameText || emailUser || 'User';
+            const pageTitle = displayName + ' profile';
+            document.title = pageTitle;
+            const titleElement = document.getElementById('pageTitle');
+            if(titleElement) titleElement.textContent = pageTitle;
+        })();
+    </script>
+    <script src="/premium-animations.js"></script>
+</body>
+</html>

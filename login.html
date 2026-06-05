@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign In / Sign Up</title>
+  <style>
+    :root{--brand:#60a5fa;--card-bg:rgba(7,16,40,0.6);--glass:rgba(255,255,255,0.04)}
+    html,body{height:100%}
+    body{font-family:Inter,ui-sans-serif,system-ui,Arial,Helvetica,sans-serif;background:linear-gradient(120deg,#041229,#06122b 40%,#021826);color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+
+    /* animated gradient background */
+    .bg {
+      position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+      background: radial-gradient(circle at 10% 20%, rgba(96,165,250,0.08), transparent 10%),
+                  radial-gradient(circle at 80% 70%, rgba(96,165,250,0.06), transparent 12%);
+      animation: bgMove 12s linear infinite;
+    }
+
+    @keyframes bgMove{0%{background-position:0% 0%, 100% 100%}50%{background-position:10% 20%, 90% 80%}100%{background-position:0% 0%, 100% 100%}}
+
+    /* floating blobs */
+    .blob{position:absolute;border-radius:50%;filter:blur(36px);opacity:0.55}
+    .blob.b1{width:360px;height:360px;background:linear-gradient(45deg,var(--brand),#3b82f6);left:-80px;top:-80px;animation:float1 8s ease-in-out infinite}
+    .blob.b2{width:260px;height:260px;background:linear-gradient(45deg,#06b6d4,#7c3aed);right:-60px;bottom:-80px;animation:float2 10s ease-in-out infinite}
+    @keyframes float1{0%{transform:translateY(0)}50%{transform:translateY(18px)}100%{transform:translateY(0)}}
+    @keyframes float2{0%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(12deg)}100%{transform:translateY(0) rotate(0deg)}}
+
+    /* subtle parallax via transform will be applied by JS */
+    .blob { transition: transform 0.15s ease-out; }
+
+    .card{position:relative;z-index:2;background:var(--card-bg);padding:36px;border-radius:14px;box-shadow:0 20px 60px rgba(2,6,23,.7);width:480px;border:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(6px)}
+    h2{margin-bottom:14px;color:var(--brand);font-weight:800;font-size:28px}
+
+    /* input icon */
+    .input-icon{position:absolute;right:12px;top:12px;color:#93c5fd;opacity:0.95;width:28px;height:28px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+    .input-wrap{position:relative}
+
+    /* floating label inputs */
+    .field{position:relative;margin-top:16px}
+    input{box-sizing:border-box;display:block;width:100%;padding:18px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:var(--glass);color:#fff;font-size:15px;line-height:1.4}
+    input::placeholder{color:#94a3b8}
+    input[type="email"]{padding-right:52px}
+    input[type="password"]{padding-right:140px}
+    input:focus{outline:none;border-color:rgba(96,165,250,0.35);box-shadow:0 6px 20px rgba(96,165,250,0.08)}
+
+    .input-wrap{position:relative;width:100%}
+    .toggle-pass{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(96,165,250,0.18);border:1px solid rgba(96,165,250,0.6);color:#60a5fa;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:800;font-size:13px}
+    .toggle-pass:hover{background:rgba(96,165,250,0.3)}
+
+    .btn{margin-top:18px;width:100%;padding:14px;border-radius:10px;border:none;background:var(--brand);color:#021025;font-weight:800;cursor:pointer;text-align:center}
+    .secondary-btn{background:rgba(255,255,255,0.06);color:#93c5fd;border:1px solid rgba(96,165,250,0.35);margin-top:10px}
+    .otp-inputs{display:flex;gap:10px;justify-content:space-between;margin-top:18px}
+    .otp-input{width:44px;height:56px;box-sizing:border-box;padding:0;border-radius:12px;border:1px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0.18);color:#ffffff;font-size:28px;font-weight:800;line-height:56px;text-align:center;letter-spacing:0.15em;text-shadow:0 1px 3px rgba(0,0,0,0.5);font-family:inherit}
+    .otp-input::selection{background:rgba(96,165,250,0.35);color:#fff}
+    .otp-input:focus{outline:none;border-color:rgba(96,165,250,0.95);box-shadow:0 10px 25px rgba(96,165,250,0.18)}
+    .btn{position:relative;overflow:hidden}
+    .btn .ripple{position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,0.35);animation:ripple 600ms linear;pointer-events:none}
+    @keyframes ripple{to{transform:scale(4);opacity:0}}
+    .muted{color:#94a3b8;font-size:13px;margin-top:12px}
+    .error{color:#ff7b7b;font-size:13px;margin-top:6px}
+    .success{color:#4ade80;font-size:13px;margin-top:6px}
+    .small-link{display:block;text-align:center;margin-top:12px;color:#93c5fd;text-decoration:none;cursor:pointer}
+    .small-link:hover{text-decoration:underline}
+
+    .tabs{display:flex;gap:10px;margin-bottom:24px;border-bottom:1px solid rgba(255,255,255,0.06)}
+    .tab-btn{flex:1;padding:12px;background:none;border:none;color:#94a3b8;cursor:pointer;font-weight:600;font-size:14px;border-bottom:3px solid transparent;transition:all 0.3s}
+    .tab-btn.active{color:var(--brand);border-bottom-color:var(--brand)}
+    .tab-btn:hover{color:#cbd5e1}
+
+    .hidden{display:none}
+
+    .toast{position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(17,24,39,0.98);color:#fff;padding:12px 18px;border-radius:8px;box-shadow:0 8px 30px rgba(2,6,23,.6);border-left:4px solid var(--brand);z-index:9999;opacity:0;transition:opacity .25s,transform .25s}
+    .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+    @media (max-width:640px){.card{width:92%;padding:22px}}@media (max-width:420px){.card{width:96%;padding:16px}}
+  </style>
+    <link rel="stylesheet" href="/premium-style.css" />
+</head>
+<body>
+  <div class="bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+  </div>
+
+  <div class="card">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="signin">Sign In</button>
+      <button type="button" class="tab-btn" data-tab="signup">Sign Up</button>
+      <button type="button" class="tab-btn" data-tab="forgot">Forgot Password</button>
+    </div>
+
+    <!-- Sign In Tab -->
+    <div id="signin-tab" class="tab-content">
+      <h2>Welcome Back</h2>
+      <form id="signinForm">
+        <div class="field">
+          <div class="input-wrap">
+            <input id="signin-email" type="email" placeholder="Email (Gmail)" required />
+          </div>
+          <div id="signin-emailError" class="error" style="display:none"></div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="signin-password" type="password" placeholder="Password" required />
+            <button type="button" class="toggle-pass" data-toggle="signin-password">Show</button>
+          </div>
+          <div id="signin-passError" class="error" style="display:none"></div>
+        </div>
+
+        <button type="submit" class="btn">Sign In</button>
+      </form>
+
+      <div id="signin-otpPanel" class="hidden">
+        <p class="muted" id="signin-otpHint">Enter the 6-digit verification code sent to <strong id="signin-otpEmail"></strong></p>
+        <div class="otp-inputs" id="signin-otpInputs"></div>
+        <button type="button" id="signin-verifyOtpBtn" class="btn">Verify Code</button>
+        <button type="button" id="signin-resendOtpBtn" class="btn secondary-btn">Resend Code</button>
+        <div id="signin-otpError" class="error" style="display:none"></div>
+        <button type="button" class="small-link" id="signin-backBtn">Back to form</button>
+      </div>
+
+      <div class="muted">Don't have an account? <span class="small-link" onclick="switchTab('signup')">Sign up</span></div>
+    </div>
+
+    <!-- Sign Up Tab -->
+    <div id="signup-tab" class="tab-content hidden">
+      <h2>Create Account</h2>
+      <form id="signupForm">
+        <div class="field">
+          <div class="input-wrap">
+            <input id="signup-email" type="email" placeholder="Email (Gmail)" required />
+          </div>
+          <div id="signup-emailError" class="error" style="display:none"></div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="signup-password" type="password" placeholder="Password" required />
+            <button type="button" class="toggle-pass" data-toggle="signup-password">Show</button>
+          </div>
+          <div id="signup-passError" class="error" style="display:none">Use uppercase, lowercase, number, and special character.</div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="signup-confirmPassword" type="password" placeholder="Confirm Password" required />
+            <button type="button" class="toggle-pass" data-toggle="signup-confirmPassword">Show</button>
+          </div>
+          <div id="signup-confirmError" class="error" style="display:none"></div>
+        </div>
+
+        <button type="submit" class="btn">Create Account</button>
+      </form>
+
+      <div id="signup-success" class="success hidden"></div>
+      <div id="signup-error" class="error hidden"></div>
+
+      <div class="muted">Already have an account? <span class="small-link" onclick="switchTab('signin')">Sign in</span></div>
+    </div>
+
+    <!-- Forgot Password Tab -->
+    <div id="forgot-tab" class="tab-content hidden">
+      <h2>Reset Password</h2>
+      <form id="forgotForm">
+        <div class="field">
+          <div class="input-wrap">
+            <input id="forgot-email" type="email" placeholder="Email (Gmail)" required />
+          </div>
+          <div id="forgot-emailError" class="error" style="display:none"></div>
+        </div>
+
+        <button type="submit" class="btn">Send Reset Code</button>
+      </form>
+
+      <div id="forgot-otpPanel" class="hidden">
+        <p class="muted" id="forgot-otpHint">Enter the 6-digit reset code sent to <strong id="forgot-otpEmail"></strong></p>
+        <div class="otp-inputs" id="forgot-otpInputs"></div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="forgot-newPassword" type="password" placeholder="New Password" />
+            <button type="button" class="toggle-pass" data-toggle="forgot-newPassword">Show</button>
+          </div>
+          <div id="forgot-passError" class="error" style="display:none">Use uppercase, lowercase, number, and special character.</div>
+        </div>
+
+        <button type="button" id="forgot-resetBtn" class="btn">Reset Password</button>
+        <button type="button" id="forgot-resendOtpBtn" class="btn secondary-btn">Resend Code</button>
+        <div id="forgot-otpError" class="error" style="display:none"></div>
+        <button type="button" class="small-link" id="forgot-backBtn">Back to form</button>
+      </div>
+
+      <div id="forgot-success" class="success hidden"></div>
+
+      <div class="muted">Remember your password? <span class="small-link" onclick="switchTab('signin')">Sign in</span></div>
+    </div>
+
+    <a class="small-link" href="index.html" style="margin-top:24px;">Back to site</a>
+  </div>
+
+  <script>
+    // Parallax blobs
+    (function(){
+      const b1 = document.querySelector('.blob.b1');
+      const b2 = document.querySelector('.blob.b2');
+      window.addEventListener('mousemove', (e)=>{
+        const x = (e.clientX / window.innerWidth - 0.5) * 30;
+        const y = (e.clientY / window.innerHeight - 0.5) * 30;
+        if(b1) b1.style.transform = `translate(${x*0.6}px, ${y*0.6}px)`;
+        if(b2) b2.style.transform = `translate(${x*-0.5}px, ${y*-0.5}px)`;
+      });
+    })();
+
+    // Button ripple
+    (function(){
+      document.querySelectorAll('.btn').forEach(btn=>{
+        btn.addEventListener('click', function(e){
+          if(e.target === this){
+            const r = document.createElement('span');
+            r.className = 'ripple';
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            r.style.width = r.style.height = size + 'px';
+            r.style.left = (e.clientX - rect.left - size/2) + 'px';
+            r.style.top = (e.clientY - rect.top - size/2) + 'px';
+            this.appendChild(r);
+            setTimeout(()=> r.remove(), 700);
+          }
+        });
+      });
+    })();
+
+    // Regex patterns
+    const emailRegex = /^[^\s@]+@gmail\.com$/i;
+    const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+    const apiBase = 'http://127.0.0.1:3000';
+
+    // Tab switching
+    function switchTab(tabName){
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabName + '-tab').classList.remove('hidden');
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    // Password toggle
+    document.querySelectorAll('.toggle-pass').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const inputId = btn.dataset.toggle;
+        const input = document.getElementById(inputId);
+        if(input.type === 'password'){
+          input.type = 'text';
+          btn.textContent = 'Hide';
+        } else {
+          input.type = 'password';
+          btn.textContent = 'Show';
+        }
+      });
+    });
+
+    // Toast notifications
+    function showToast(message, isError = false){
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.style.borderLeftColor = isError ? '#ff7b7b' : '#4ade80';
+      t.textContent = message;
+      document.body.appendChild(t);
+      setTimeout(()=> t.classList.add('show'),20);
+      setTimeout(()=>{ t.classList.remove('show'); setTimeout(()=>t.remove(),300); },4500);
+    }
+
+    // OTP input creator
+    function createOtpInputs(panelId){
+      const panel = document.getElementById(panelId);
+      if(!panel) return [];
+      const container = panel.querySelector('.otp-inputs');
+      container.innerHTML = '';
+      const inputs = [];
+      for(let i = 0; i < 6; i++){
+        const input = document.createElement('input');
+        input.className = 'otp-input';
+        input.type = 'text';
+        input.inputMode = 'numeric';
+        input.pattern = '[0-9]*';
+        input.maxLength = 1;
+        inputs.push(input);
+        container.appendChild(input);
+      }
+      return inputs;
+    }
+
+    function setupOtpInputs(inputs){
+      inputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          e.target.value = e.target.value.replace(/[^0-9]/g, '');
+          if(e.target.value && index < inputs.length - 1){
+            inputs[index + 1].focus();
+          }
+        });
+        input.addEventListener('keydown', (e) => {
+          if(e.key === 'Backspace' && !e.target.value && index > 0){
+            inputs[index - 1].focus();
+          }
+        });
+      });
+    }
+
+    function collectOtp(inputs){
+      return inputs.map(input => input.value.trim()).join('');
+    }
+
+    async function sendOtp(email){
+      try{
+        const response = await fetch(apiBase + '/send-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        const data = await response.json();
+        if(!response.ok) throw new Error(data?.error || 'Failed to send code');
+        showToast('Verification code sent to your email.');
+        return true;
+      }catch(err){
+        showToast(err.message, true);
+        return false;
+      }
+    }
+
+    // ===== SIGN IN FLOW =====
+    const signinEmail = document.getElementById('signin-email');
+    const signinPass = document.getElementById('signin-password');
+    const signinForm = document.getElementById('signinForm');
+    const signinOtpPanel = document.getElementById('signin-otpPanel');
+    let signinCurrentEmail = '';
+
+    const signinOtpInputs = createOtpInputs('signin-otpPanel');
+    setupOtpInputs(signinOtpInputs);
+
+    signinForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = signinEmail.value.trim().toLowerCase();
+      const password = signinPass.value;
+
+      if(!emailRegex.test(email)){
+        document.getElementById('signin-emailError').textContent = 'Please use a Gmail address';
+        document.getElementById('signin-emailError').style.display = 'block';
+        return;
+      }
+
+      try{
+        const response = await fetch(apiBase + '/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await response.json();
+
+        if(!response.ok){
+          showToast(data?.error || 'Login failed', true);
+          return;
+        }
+
+        try{
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('userEmail', email);
+          sessionStorage.setItem('loggedIn', 'true');
+          sessionStorage.setItem('userEmail', email);
+        }catch(e){}
+
+        showToast('Login successful!');
+        setTimeout(() => window.location = 'index.html', 1500);
+      }catch(err){
+        showToast('Error: ' + err.message, true);
+      }
+    });
+
+    document.getElementById('signin-verifyOtpBtn').addEventListener('click', async () => {
+      const otp = collectOtp(signinOtpInputs);
+      if(!/^\d{6}$/.test(otp)){
+        document.getElementById('signin-otpError').textContent = 'Enter the full 6-digit code';
+        document.getElementById('signin-otpError').style.display = 'block';
+        return;
+      }
+
+      try{
+        const response = await fetch(apiBase + '/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: signinCurrentEmail, otp })
+        });
+        const data = await response.json();
+        if(!response.ok) throw new Error(data?.error);
+
+        try{
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('userEmail', signinCurrentEmail);
+          sessionStorage.setItem('loggedIn', 'true');
+          sessionStorage.setItem('userEmail', signinCurrentEmail);
+        }catch(e){}
+
+        showToast('Verified! Redirecting...');
+        setTimeout(() => window.location = 'index.html', 1500);
+      }catch(err){
+        document.getElementById('signin-otpError').textContent = err.message;
+        document.getElementById('signin-otpError').style.display = 'block';
+      }
+    });
+
+    document.getElementById('signin-resendOtpBtn').addEventListener('click', () => {
+      sendOtp(signinCurrentEmail);
+    });
+
+    document.getElementById('signin-backBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      signinForm.style.display = 'block';
+      signinOtpPanel.classList.add('hidden');
+    });
+
+    // ===== SIGN UP FLOW =====
+    const signupForm = document.getElementById('signupForm');
+    const signupEmail = document.getElementById('signup-email');
+    const signupPass = document.getElementById('signup-password');
+    const signupConfirm = document.getElementById('signup-confirmPassword');
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = signupEmail.value.trim().toLowerCase();
+      const password = signupPass.value;
+      const confirm = signupConfirm.value;
+
+      if(!emailRegex.test(email)){
+        document.getElementById('signup-emailError').textContent = 'Please use a Gmail address';
+        document.getElementById('signup-emailError').style.display = 'block';
+        return;
+      }
+
+      if(!passRegex.test(password)){
+        document.getElementById('signup-passError').style.display = 'block';
+        return;
+      }
+
+      if(password !== confirm){
+        document.getElementById('signup-confirmError').textContent = 'Passwords do not match';
+        document.getElementById('signup-confirmError').style.display = 'block';
+        return;
+      }
+
+      try{
+        const response = await fetch(apiBase + '/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await response.json();
+
+        if(!response.ok){
+          throw new Error(data?.error || 'Registration failed');
+        }
+
+        document.getElementById('signup-success').textContent = data.message;
+        document.getElementById('signup-success').classList.remove('hidden');
+        showToast('Account created! Sign in now.');
+        setTimeout(() => switchTab('signin'), 2000);
+      }catch(err){
+        document.getElementById('signup-error').textContent = err.message;
+        document.getElementById('signup-error').classList.remove('hidden');
+        showToast(err.message, true);
+      }
+    });
+
+    // ===== FORGOT PASSWORD FLOW =====
+    const forgotForm = document.getElementById('forgotForm');
+    const forgotEmail = document.getElementById('forgot-email');
+    const forgotOtpPanel = document.getElementById('forgot-otpPanel');
+    let forgotCurrentEmail = '';
+
+    const forgotOtpInputs = createOtpInputs('forgot-otpPanel');
+    setupOtpInputs(forgotOtpInputs);
+
+    forgotForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = forgotEmail.value.trim().toLowerCase();
+
+      if(!emailRegex.test(email)){
+        document.getElementById('forgot-emailError').textContent = 'Please use a Gmail address';
+        document.getElementById('forgot-emailError').style.display = 'block';
+        return;
+      }
+
+      const ok = await sendOtp(email);
+      if(ok){
+        forgotCurrentEmail = email;
+        forgotForm.style.display = 'none';
+        forgotOtpPanel.classList.remove('hidden');
+        document.getElementById('forgot-otpEmail').textContent = email;
+        forgotOtpInputs[0].focus();
+      }
+    });
+
+    document.getElementById('forgot-resetBtn').addEventListener('click', async () => {
+      const otp = collectOtp(forgotOtpInputs);
+      const newPassword = document.getElementById('forgot-newPassword').value;
+
+      if(!/^\d{6}$/.test(otp)){
+        document.getElementById('forgot-otpError').textContent = 'Enter the full 6-digit code';
+        document.getElementById('forgot-otpError').style.display = 'block';
+        return;
+      }
+
+      if(!passRegex.test(newPassword)){
+        document.getElementById('forgot-passError').style.display = 'block';
+        return;
+      }
+
+      try{
+        const response = await fetch(apiBase + '/reset-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword })
+        });
+        const data = await response.json();
+
+        if(!response.ok) throw new Error(data?.error);
+
+        document.getElementById('forgot-success').textContent = data.message;
+        document.getElementById('forgot-success').classList.remove('hidden');
+        showToast('Password reset successful!');
+        setTimeout(() => switchTab('signin'), 2000);
+      }catch(err){
+        document.getElementById('forgot-otpError').textContent = err.message;
+        document.getElementById('forgot-otpError').style.display = 'block';
+      }
+    });
+
+    document.getElementById('forgot-resendOtpBtn').addEventListener('click', () => {
+      sendOtp(forgotCurrentEmail);
+    });
+
+    document.getElementById('forgot-backBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      forgotForm.style.display = 'block';
+      forgotOtpPanel.classList.add('hidden');
+      forgotEmail.value = '';
+      document.getElementById('forgot-newPassword').value = '';
+      document.getElementById('forgot-success').classList.add('hidden');
+    });
+  </script>
+    <script src="/premium-animations.js"></script>
+</body>
+</html>
