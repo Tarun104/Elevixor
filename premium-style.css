@@ -253,7 +253,7 @@ a.btn:hover::after,
 .why-choose-card:hover::before,
 .faq-item:hover::before,
 .section-card:hover::before {
-    opacity: 0.42;
+    opacity: 0.4;
     transform: translateZ(-2px) scale(1.02);
 }
 

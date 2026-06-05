@@ -187,7 +187,7 @@
         <div class="payment-summary">
             <div class="price-box">
                 <span class="currency">₹</span>
-                <span class="amount" id="paymentAmount">1299</span>
+                <span class="amount" id="paymentAmount">1,299</span>
                 <span style="color:#94a3b8; font-size:16px;">Auto-selected plan</span>
             </div>
             <p class="note" id="paymentNote">Select any payment mode below. All payment buttons confirm the selected subscription and link to your scanner path.</p>
@@ -240,6 +240,10 @@
             return key.replace(/[-_]/g, ' ') + ' template';
         }
 
+        function formatAmount(value) {
+            return Number(String(value).replace(/,/g, '')).toLocaleString('en-IN');
+        }
+
         const amount = getQueryParam('amount') || defaultAmount;
         const templateKey = getQueryParam('template');
         const templateName = formatTemplateName(templateKey);
@@ -248,19 +252,19 @@
         const amountNode = document.getElementById('paymentAmount');
 
         if (amountNode) {
-            amountNode.textContent = amount;
+            amountNode.textContent = formatAmount(amount);
         }
         if (subtitle) {
-            subtitle.textContent = `Choose a payment app to complete the ₹${amount} ${templateName}.`;
+            subtitle.textContent = `Choose a payment app to complete the ₹${formatAmount(amount)} ${templateName}.`;
         }
         if (details) {
-            details.textContent = `Select any payment mode below. All payment buttons confirm the ₹${amount} subscription for the ${templateName} and link to your scanner path.`;
+            details.textContent = `Select any payment mode below. All payment buttons confirm the ₹${formatAmount(amount)} subscription for the ${templateName} and link to your scanner path.`;
         }
 
         function redirectToPayment(app) {
             let paymentUrl;
             const status = document.getElementById('paymentStatus');
-            const statusText = `Opening ${app === 'googlepay' ? 'Google Pay' : app === 'phonepe' ? 'PhonePe' : 'Paytm'} for ₹${amount} payment.`;
+            const statusText = `Opening ${app === 'googlepay' ? 'Google Pay' : app === 'phonepe' ? 'PhonePe' : 'Paytm'} for ₹${formatAmount(amount)} payment.`;
 
             if (app === 'googlepay') {
                 paymentUrl = `https://pay.google.com/intl/en_us/about/`;

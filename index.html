@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+r lick<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -37,12 +37,33 @@
 
         body {
             opacity: 0;
-            transition: opacity 0.7s ease;
+            transition: opacity 0.4s ease;
         }
 
         body.loaded {
             opacity: 1;
         }
+
+        /* Safety: prevent any transient hidden state due to animation/tab scripts */
+        body.loaded .student-page.hidden,
+        body.loaded #businessPage.hidden {
+            display: none !important;
+        }
+
+        body.loaded .student-page:not(.hidden),
+        body.loaded #services:not(.hidden) {
+            display: block !important;
+        }
+
+        /* Ensure Career Resource Highlights 4 cards stay visible */
+        #pricing .stat-box,
+        .stats-container .stat-box {
+            opacity: 1 !important;
+            transform: var(--shadow) !important;
+            animation-delay: 3s !important;
+        }
+
+
 
         body::before {
             content: '';
@@ -50,7 +71,7 @@
             inset: 0;
             pointer-events: none;
             background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(96, 165, 250, 0.12) 0%, transparent 24%);
-            opacity: 0.8;
+            opacity: 0.4;
             transition: background-position 0.15s ease;
             z-index: -1;
         }
@@ -68,7 +89,7 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(70px);
-            opacity: 0.45;
+            opacity: 0.4;
             animation: floatBlob 12s ease-in-out infinite;
         }
 
@@ -146,7 +167,7 @@
             opacity: 0;
             transform: translateY(24px);
             will-change: opacity, transform;
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .reveal.visible {
@@ -2115,7 +2136,7 @@
             <div class="service-card">
                 <i class="fas fa-globe"></i>
                 <h3>Portfolio Website</h3>
-                <h2 style="margin: 15px 0; color:#60a5fa;">₹1999</h2>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹1,999</h2>
                 <p>
                     ✔ Modern Portfolio Design<br><br>
                     ✔ Mobile Responsive<br><br>
@@ -2166,7 +2187,7 @@
             <div class="service-card" style="border:2px solid #60a5fa; transform: scale(1.03);">
                 <i class="fas fa-crown"></i>
                 <h3>Career Starter Pack</h3>
-                <h2 style="margin: 15px 0; color:#60a5fa;">₹2999</h2>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹2,999</h2>
                 <p>
                     ✔ ATS Resume Optimization<br><br>
                     ✔ Premium Portfolio Website<br><br>
@@ -2175,10 +2196,35 @@
                     ✔ Priority Support
                 </p>
                 <br>
-                <a href="#" class="btn primary-btn">
-                    Most Popular
-                </a>
+                <a href="#" class="btn primary-btn">Most Popular</a>
             </div>
+
+            <!-- New Pricing Plan Card: Premium Website -->
+            <div class="service-card" id="premiumWebsitePlanCard" style="border:1px solid rgba(96,165,250,0.45); background: rgba(30, 41, 59, 0.82); box-shadow: 0 45px 140px rgba(96,165,250,0.20); position: relative; overflow: hidden; transform: scale(1.05);">
+                <div style="position:absolute; inset:-2px; background: radial-gradient(circle at 20% 0%, rgba(96,165,250,0.28), transparent 45%), radial-gradient(circle at 100% 40%, rgba(59,130,246,0.22), transparent 40%); pointer-events:none;"></div>
+                <div style="position:relative; z-index:1;">
+                    <i class="fas fa-globe" style="filter: drop-shadow(0 10px 20px rgba(96,165,250,0.22));"></i>
+                    <h3>Premium Website</h3>
+                    <h2 style="margin: 15px 0; color:#60a5fa;">₹6,999</h2>
+                    <p style="position:relative; z-index:1;">
+                        ✔ Elite Landing Pages<br><br>
+                        ✔ Fast Speed Optimization<br><br>
+                        ✔ SEO Ready Structure<br><br>
+                        ✔ Custom Design & Sections<br><br>
+                        ✔ Mobile Responsive UI
+                    </p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; position:relative; z-index:1;">
+                        <a href="Premium_web/premium.html" target="_blank" class="btn primary-btn" style="box-shadow: 0 14px 35px rgba(96, 165, 250, 0.24); animation: glow 3.6s ease-in-out infinite; border: 1px solid rgba(96, 165, 250, 0.25);">
+                            Live Demo
+                        </a>
+
+                        <a href="#" class="btn secondary-btn" id="buyPremiumWebsitePlan" style="background: rgba(255,255,255,0.92); color:#020617; border-color: rgba(255,255,255,0.9); font-weight:900;">
+                            Buy Plan
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -2311,102 +2357,16 @@
             });
         })();
 
-        // Reveal and animation utilities
-        (function(){
-            const revealItems = Array.from(document.querySelectorAll('section, .service-card, .feature-box, .testimonial-card, .stat-box, .why-choose-card, .faq-item, .step, .business-service-card'));
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        const index = revealItems.indexOf(entry.target);
-                        const delay = (index % 10) * 80;
-                        window.setTimeout(() => {
-                            entry.target.classList.add('animate-in');
-                        }, delay);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.16, rootMargin: '0px 0px -80px 0px' });
-
-            revealItems.forEach(el => observer.observe(el));
-
-            const counterElements = document.querySelectorAll('.stat-number');
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        const element = entry.target;
-                        const text = element.textContent.trim();
-                        const match = text.match(/^\d+/);
-                        if(match) {
-                            const endValue = parseInt(match[0], 10);
-                            let current = 0;
-                            const suffix = text.replace(match[0], '');
-                            const start = performance.now();
-                            const duration = 1400;
-                            const step = (timestamp) => {
-                                const elapsed = Math.min(duration, timestamp - start);
-                                const progress = elapsed / duration;
-                                current = Math.round(endValue * easeOutCubic(progress));
-                                element.textContent = current + suffix;
-                                if(elapsed < duration) requestAnimationFrame(step);
-                            };
-                            requestAnimationFrame(step);
-                        }
-                        counterObserver.unobserve(element);
-                    }
-                });
-            }, { threshold: 0.45 });
-            counterElements.forEach(el => counterObserver.observe(el));
-
-            function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
-
-            function tiltCard(card, event, intensity){
-                const rect = card.getBoundingClientRect();
-                const x = (event.clientX - rect.left) / rect.width - 0.5;
-                const y = (event.clientY - rect.top) / rect.height - 0.5;
-                const rotateY = x * intensity;
-                const rotateX = -y * intensity;
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
-            }
-
-            function resetTilt(card){
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
-            }
-
-            document.querySelectorAll('.service-card, .business-service-card').forEach(card => {
-                card.style.transformStyle = 'preserve-3d';
-                card.addEventListener('mousemove', (event) => tiltCard(card, event, 10));
-                card.addEventListener('mouseleave', () => resetTilt(card));
-            });
-
-            document.querySelectorAll('.btn.primary-btn, .btn.secondary-btn').forEach(btn => {
-                btn.addEventListener('mousemove', (event) => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 12;
-                    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 8;
-                    btn.style.transform = `translate3d(${x}px, ${y}px, 0) scale(1.02)`;
-                });
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = '';
-                });
-            });
-
-            window.addEventListener('mousemove', (event) => {
-                document.body.style.setProperty('--mouse-x', event.clientX + 'px');
-                document.body.style.setProperty('--mouse-y', event.clientY + 'px');
-            });
-
-            const hero = document.querySelector('.hero');
-            const heroImage = document.querySelector('.hero-image');
-            window.addEventListener('scroll', () => {
-                const offset = window.scrollY * 0.06;
-                if(hero) hero.style.transform = `translateY(${offset}px)`;
-                if(heroImage) heroImage.style.transform = `translateY(${offset / 2}px)`;
-            }, { passive: true });
-
-            window.addEventListener('load', () => {
-                document.body.classList.add('loaded');
-            });
+        // Reveal and animation utilities (with safe fallback)
+        // Animations are handled by /premium-animations.js.
+        // However, some users see a blank page if premium-animations.js fails to load,
+        // so we ensure the page becomes visible.
+        (function ensurePageVisibleFallback(){
+            try {
+                document.body && document.body.classList.add('loaded');
+            } catch (e) {}
         })();
+
 
         // Profile sidebar toggle, image upload and navigation
         (function(){
@@ -2468,29 +2428,143 @@
             });
         })();
 
-        (function(){
-            const sectionCards = document.querySelectorAll('.section-card');
-            const studentPages = document.querySelectorAll('.student-page');
-            const businessPage = document.getElementById('businessPage');
+            (function(){
+                const sectionCards = document.querySelectorAll('.section-card');
+                const studentPages = document.querySelectorAll('.student-page');
+                const businessPage = document.getElementById('businessPage');
 
-            function activateTab(tabId) {
-                sectionCards.forEach(card => card.classList.toggle('active', card.dataset.tab === tabId));
+                function activateTab(tabId) {
+                    sectionCards.forEach(card => card.classList.toggle('active', card.dataset.tab === tabId));
 
-                if(tabId === 'student') {
-                    studentPages.forEach(section => section.classList.remove('hidden'));
-                    if(businessPage) businessPage.classList.add('hidden');
+                    if(tabId === 'student') {
+                        studentPages.forEach(section => section.classList.remove('hidden'));
+                        if(businessPage) businessPage.classList.add('hidden');
+                    } else {
+                        studentPages.forEach(section => section.classList.add('hidden'));
+                        if(businessPage) businessPage.classList.remove('hidden');
+                    }
+                }
+
+                sectionCards.forEach(card => {
+                    card.addEventListener('click', () => activateTab(card.dataset.tab));
+                });
+
+                // Ensure initial visibility even if scripts/styles load out of order
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => activateTab('student'));
                 } else {
-                    studentPages.forEach(section => section.classList.add('hidden'));
-                    if(businessPage) businessPage.classList.remove('hidden');
+                    activateTab('student');
+                }
+            })();
+
+        // Pricing plan "Buy Plan" message modal for Premium Website
+        (function(){
+            const buyBtn = document.getElementById('buyPremiumWebsitePlan');
+            if(!buyBtn) return;
+
+            const emailTo = 'elevixor1042@gmail.com';
+            const message = [
+                'Hello Elevixor Team,',
+                '',
+                'I want to buy the Premium Website plan.',
+                'Please share the next steps and the required details/documents so I can proceed.',
+                '',
+                'Project details (please confirm what you need):',
+                '1) Business/brand name',
+                '2) Website purpose (landing / business / portfolio / e-commerce / others)',
+                '3) Pages needed (Home, About, Services, Contact, etc.)',
+                '4) Domain + hosting details (or whether you will help with deployment)',
+                '5) Content availability (text, images, logo). If not available, let me know how we can provide it.',
+                '6) Any reference websites/design examples you like',
+                '7) Preferred colors/theme + any mandatory sections',
+                '8) Contact info to be added (email/phone/WhatsApp)',
+                '',
+                'Also please confirm:',
+                '- Timeline for first draft and final delivery',
+                '- What is included in revisions',
+                '- Deployment/support after delivery',
+                '',
+                'Thanks!' 
+            ].join('\n');
+
+            // Create a lightweight modal overlay
+            const modalId = 'premiumWebsiteBuyModal';
+            function ensureModal(){
+                if(document.getElementById(modalId)) return;
+
+                const overlay = document.createElement('div');
+                overlay.id = modalId;
+                overlay.style.position = 'fixed';
+                overlay.style.inset = '0';
+                overlay.style.background = 'rgba(2,6,23,0.72)';
+                overlay.style.display = 'flex';
+                overlay.style.alignItems = 'center';
+                overlay.style.justifyContent = 'center';
+                overlay.style.zIndex = '99999';
+                overlay.style.padding = '18px';
+                overlay.innerHTML = `
+                    <div style="width:100%; max-width:720px; background: rgba(15,23,42,0.98); border:1px solid rgba(96,165,250,0.18); border-radius:18px; box-shadow: 0 40px 120px rgba(0,0,0,0.55); overflow:hidden;">
+                        <div style="padding:18px 18px 12px; border-bottom:1px solid rgba(96,165,250,0.14); display:flex; align-items:center; justify-content:space-between; gap:12px;">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:36px; height:36px; border-radius:12px; background: linear-gradient(135deg,#60a5fa,#3b82f6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900;">🌐</div>
+                                <div>
+                                    <div style="color:#ffffff; font-weight:900; font-size:16px;">Premium Website — Buy Plan</div>
+                                </div>
+                            </div>
+                            <button id="${modalId}-close" style="border:none; background:rgba(255,255,255,0.06); color:#fff; width:40px; height:40px; border-radius:12px; cursor:pointer; font-size:18px;">✕</button>
+                        </div>
+                        <div style="padding:16px 18px 18px;">
+                            <div style="color:#cbd5e1; line-height:1.7; font-size:14px; margin-bottom:12px; white-space:pre-wrap;">${message.replace(/</g,'<')}</div>
+                            <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+                                <button id="${modalId}-copy" style="padding:12px 18px; border-radius:14px; border:1px solid rgba(96,165,250,0.22); background: rgba(96,165,250,0.12); color:#93c5fd; font-weight:900; cursor:pointer;">Copy Message</button>
+                                    <button type="button" data-open-email="true" style="padding:12px 18px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.08); color:#e6eef8; font-weight:900; cursor:pointer;">Open Email</button>
+                                </a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(overlay);
+
+                document.getElementById(`${modalId}-close`).addEventListener('click', ()=> overlay.remove());
+                overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.remove(); });
+
+                    document.getElementById(`${modalId}-copy`).addEventListener('click', async ()=>{
+                    try{
+                        await navigator.clipboard.writeText(message);
+                        const copyBtn = document.getElementById(`${modalId}-copy`);
+                        if(copyBtn){
+                            const old = copyBtn.textContent;
+                            copyBtn.textContent = 'Copied!';
+                            setTimeout(()=> copyBtn.textContent = old, 1200);
+                        }
+                    }catch(err){
+                        alert('Copy failed. You can still use Open Email.');
+                    }
+                });
+
+                // Open Email button: open Gmail in Chrome and prefill compose with our message
+                const openEmailBtn = overlay.querySelector('button[data-open-email="true"]');
+                if(openEmailBtn){
+                    openEmailBtn.addEventListener('click', ()=>{
+                        const mailtoSubject = encodeURIComponent('Premium Website Plan - Purchase Request');
+                        const mailtoBody = encodeURIComponent(message);
+                        const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailTo)}&su=${mailtoSubject}&body=${mailtoBody}`;
+                        // Force open in a new tab. User's browser will handle Gmail/Compose.
+                        window.open(gmailUrl, '_blank');
+                    });
                 }
             }
 
-            sectionCards.forEach(card => {
-                card.addEventListener('click', () => activateTab(card.dataset.tab));
+            buyBtn.addEventListener('click', (e)=>{
+                e.preventDefault();
+                ensureModal();
+                document.getElementById(modalId);
             });
-
-            activateTab('student');
         })();
+
     </script>
 
     <script src="/premium-animations.js"></script>
