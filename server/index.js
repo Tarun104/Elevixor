@@ -14,6 +14,7 @@ const quoteRoutes = require('./routes/quote');
 const newsletterRoutes = require('./routes/newsletter');
 const dashboardRoutes = require('./routes/dashboard');
 const placeholderRoutes = require('./routes/placeholders');
+const serviceInquiryRoutes = require('./routes/serviceInquiry');
 
 const app = express();
 
@@ -40,10 +41,10 @@ app.use('/api/quote', quoteRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/placeholder', placeholderRoutes);
+app.use('/submit-service-inquiry', serviceInquiryRoutes);
 
 // Legacy/compat routes so existing frontend forms (unchanged) keep working
 app.use('/', authRoutes); // exposes /register and /login
-app.use('/submit-service-inquiry', contactRoutes);
 app.use('/contact', contactRoutes);
 app.use('/request-quote', quoteRoutes);
 app.use('/quote-request', quoteRoutes);

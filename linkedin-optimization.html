@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Profile Optimization - Elevixor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root{
+            --bg-dark: #07101f;
+            --glass: rgba(255,255,255,0.05);
+            --muted: #cbd5e1;
+            --accent-1: #60a5fa;
+            --accent-2: #8b5cf6;
+            --btn-min-width: 240px;
+            --card-radius: 22px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 22%), radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.14), transparent 22%), #07101f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 20% 15%, rgba(96, 165, 250, 0.14), transparent 18%), radial-gradient(circle at 80% 25%, rgba(139, 92, 246, 0.12), transparent 20%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        nav {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(7, 16, 31, 0.75);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .logo span {
+            display: inline-flex;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #60a5fa, #8b5cf6);
+            color: white;
+            box-shadow: 0 10px 30px rgba(96, 165, 250, 0.25);
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #dbeafe;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .page-wrap {
+            max-width: 1220px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+            padding: 40px 0 60px;
+        }
+
+        .hero-copy {
+            display: grid;
+            gap: 22px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(96, 165, 250, 0.12);
+            color: #bfdbfe;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 0.8rem;
+            width: fit-content;
+            font-weight: 700;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 4.2vw, 4.5rem);
+            line-height: 1.02;
+            letter-spacing: -0.08em;
+            color: #ffffff;
+            max-width: 820px;
+        }
+
+        .hero-title em {
+            font-style: normal;
+            background: linear-gradient(135deg, #60a5fa, #8b5cf6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            max-width: 680px;
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            line-height: 1.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .button-primary,
+        .button-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: var(--btn-min-width);
+            padding: 14px 22px;
+            border-radius: 999px;
+            border: none;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+            text-decoration: none;
+            gap: 10px;
+        }
+
+        .button-primary {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+            box-shadow: 0 18px 44px rgba(96, 165, 250, 0.22);
+        }
+
+        .button-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--muted);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .button-primary:hover,
+        .button-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 24px 60px rgba(96, 165, 250, 0.22);
+        }
+
+        .hero-visual {
+            display: grid;
+            gap: 24px;
+            padding: 28px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.35);
+            position: relative;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.18), rgba(139, 92, 246, 0.12));
+            filter: blur(32px);
+            opacity: 0.55;
+            border-radius: 36px;
+            z-index: -1;
+        }
+
+        .hero-panel {
+            display: grid;
+            gap: 12px;
+            padding: 18px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(96,165,250,0.04), rgba(139,92,246,0.03));
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .hero-panel h3 {
+            color: #ffffff;
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        .hero-panel p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+
+        .hero-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .hero-stat {
+            padding: 18px 14px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display:flex;
+            flex-direction:column;
+            align-items:flex-start;
+        }
+
+        .hero-stat strong {
+            display: block;
+            font-size: 1.45rem;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .hero-stat span {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 32px;
+        }
+
+        .section-block {
+            display: grid;
+            gap: 20px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .section-heading h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            line-height: 1.05;
+        }
+
+        .section-heading p {
+            color: #94a3b8;
+            max-width: 540px;
+            line-height: 1.8;
+        }
+
+        .benefits-grid,
+        .package-list,
+        .results-grid,
+        .trust-grid {
+            display: grid;
+            gap: 18px;
+        }
+
+        .benefit-card,
+        .package-item,
+        .result-card,
+        .trust-card {
+            position: relative;
+            padding: 16px 18px;
+            border-radius: var(--card-radius);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
+            backdrop-filter: blur(12px);
+            transition: transform 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            min-height:96px;
+        }
+
+        .benefit-card:hover,
+        .package-item:hover,
+        .result-card:hover,
+        .trust-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(96, 165, 250, 0.18);
+            box-shadow: 0 28px 70px rgba(96, 165, 250, 0.12);
+        }
+
+        .benefit-card::before,
+        .package-item::before,
+        .result-card::before,
+        .trust-card::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            box-shadow: 0 0 12px rgba(96, 165, 250, 0.18);
+        }
+
+        .benefit-card strong,
+        .package-item strong,
+        .result-card strong,
+        .trust-card strong {
+            display: block;
+            margin-bottom: 6px;
+            color: #ffffff;
+            font-size: 1.02rem;
+        }
+
+        .benefit-card p,
+        .package-item p,
+        .result-card p,
+        .trust-card p {
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.45;
+            margin:0;
+        }
+
+        .form-panel {
+            display: grid;
+            gap: 20px;
+            padding: 28px;
+            border-radius: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.18);
+            backdrop-filter: blur(20px);
+        }
+
+        .form-panel h3 {
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .form-panel p {
+            color: #cbd5e1;
+            line-height: 1.75;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .form-grid.single {
+            grid-template-columns: 1fr;
+        }
+
+        .field-group {
+            display: grid;
+            gap: 10px;
+        }
+
+        label {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: rgba(15, 23, 42, 0.92);
+            color: #e2e8f0;
+            font-size: 0.96rem;
+            outline: none;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: rgba(96, 165, 250, 0.45);
+            box-shadow: 0 0 0 5px rgba(96, 165, 250, 0.12);
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+
+        .form-actions .button-primary {
+            min-width: var(--btn-min-width);
+        }
+
+        .form-actions .button-secondary {
+            min-width: calc(var(--btn-min-width) - 20px);
+        }
+
+        .service-package {
+            display: grid;
+            gap: 16px;
+            padding: 24px;
+            border-radius: 28px;
+            background: rgba(8, 16, 34, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .service-package h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            color: #ffffff;
+        }
+
+        .service-package ul {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .service-package li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #dbeafe;
+            font-size: 0.95rem;
+        }
+
+        .service-package li i {
+            color: #60a5fa;
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .results-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .result-card strong {
+            font-size: 2rem;
+            color: #ffffff;
+        }
+
+        .trust-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .branding-panel {
+            padding: 24px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: grid;
+            gap: 14px;
+        }
+
+        .branding-panel h3 {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .branding-panel p {
+            color: #cbd5e1;
+            line-height: 1.75;
+        }
+
+        .alert-box {
+            padding: 18px 20px;
+            border-radius: 20px;
+            background: rgba(59, 130, 246, 0.12);
+            border: 1px solid rgba(96, 165, 250, 0.18);
+            color: #dbeafe;
+            font-size: 0.96rem;
+        }
+
+        .success-card,
+        .error-card {
+            padding: 24px;
+            border-radius: 26px;
+            background: rgba(59, 130, 246, 0.14);
+            border: 1px solid rgba(96, 165, 250, 0.25);
+        }
+
+        .success-card strong {
+            display: block;
+            margin-bottom: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        .error-card {
+            background: rgba(248, 113, 113, 0.12);
+            border-color: rgba(248, 113, 113, 0.2);
+        }
+
+        .error-card strong {
+            color: #fee2e2;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            margin-top: 80px;
+            padding: 40px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        @media (max-width: 1040px) {
+            .hero,
+            .section-grid,
+            .results-grid,
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 20px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            nav {
+                padding: 18px 20px;
+            }
+
+            .page-wrap {
+                padding: 120px 20px 60px;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+
+            .hero-visual::before {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stat-grid,
+            .results-grid,
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .button-primary,
+            .button-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo"><span>E</span> Elevixor</a>
+        <a href="index.html#services" class="nav-link">Back to Services</a>
+    </nav>
+
+    <main class="page-wrap">
+        <section class="hero">
+            <div class="hero-copy">
+                <div class="hero-badge"><i class="fa-solid fa-star"></i> Most Popular Career Service</div>
+                <h1 class="hero-title">LinkedIn Profile <em>Optimization</em></h1>
+                <p class="hero-subtitle">Get noticed by recruiters and build a powerful professional brand with a premium LinkedIn profile that converts views into opportunities.</p>
+                <div class="hero-actions">
+                    <button class="button-primary" id="scrollToForm">Request LinkedIn Optimization</button>
+                    <a href="mailto:elevixor1042@gmail.com" class="button-secondary">Contact Elevixor</a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-panel">
+                    <h3>What this service delivers</h3>
+                    <p>Premium LinkedIn optimization tailored to recruiters, ATS-style profile discovery, and career-focused personal branding for professionals who want to stand out.</p>
+                </div>
+                <div class="hero-stat-grid">
+                    <div class="hero-stat"><strong>+65%</strong><span>Recruiter visibility</span></div>
+                    <div class="hero-stat"><strong>+80%</strong><span>Profile strength</span></div>
+                    <div class="hero-stat"><strong>3x</strong><span>Job discovery rate</span></div>
+                    <div class="hero-stat"><strong>95%</strong><span>Professional brand clarity</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-block">
+            <div class="section-heading">
+                <div>
+                    <h2>Benefits</h2>
+                </div>
+                <p>Every benefit is curated to make your LinkedIn profile recruiter-ready, search-optimized, and convincingly professional.</p>
+            </div>
+            <div class="benefits-grid" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
+                <div class="benefit-card"><strong>Headline That Converts</strong><p>Clear, recruiter-focused headline that highlights your value.</p></div>
+                <div class="benefit-card"><strong>About That Tells Your Story</strong><p>Concise, achievement-led summary that communicates direction and impact.</p></div>
+                <div class="benefit-card"><strong>Experience → Impact</strong><p>Role bullets rewritten to emphasize results and measurable outcomes.</p></div>
+                <div class="benefit-card"><strong>Skills & Keywords</strong><p>Optimized skills list and keywords to improve recruiter search placement.</p></div>
+            </div>
+        </section>
+
+        <section class="section-grid">
+            <div class="form-panel" id="requestFormPanel">
+                <div class="section-heading">
+                    <div>
+                        <h2>Request Details</h2>
+                    </div>
+                    <p>Share the exact details we need to create your high-impact LinkedIn profile optimization strategy.</p>
+                </div>
+                <form id="linkedinForm" class="form-grid" novalidate>
+                    <div class="field-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="linkedInUrl">LinkedIn Profile URL</label>
+                        <input type="url" id="linkedInUrl" name="linkedInUrl" placeholder="https://www.linkedin.com/in/yourprofile" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="currentJobTitle">Current Job Title</label>
+                        <input type="text" id="currentJobTitle" name="currentJobTitle" placeholder="Current role" />
+                    </div>
+                    <div class="field-group">
+                        <label for="targetJobRole">Target Job Role</label>
+                        <input type="text" id="targetJobRole" name="targetJobRole" placeholder="Desired role" />
+                    </div>
+                    <div class="field-group">
+                        <label for="industry">Industry</label>
+                        <input type="text" id="industry" name="industry" placeholder="Your industry" />
+                    </div>
+                    <div class="field-group">
+                        <label for="yearsExperience">Years of Experience</label>
+                        <input type="text" id="yearsExperience" name="yearsExperience" placeholder="e.g. 4 years" />
+                    </div>
+                    <div class="field-group single">
+                        <label for="resumeFile">Resume Upload</label>
+                        <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.doc,.docx" />
+                    </div>
+                    <div class="field-group single">
+                        <label for="currentChallenges">Current Challenges</label>
+                        <textarea id="currentChallenges" name="currentChallenges" placeholder="What are the main blockers in your LinkedIn presence?"></textarea>
+                    </div>
+                    <div class="field-group single">
+                        <label for="careerGoals">Career Goals</label>
+                        <textarea id="careerGoals" name="careerGoals" placeholder="What career outcomes are you targeting?"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="button-primary">Request LinkedIn Optimization</button>
+                        <a href="mailto:elevixor1042@gmail.com" class="button-secondary">Contact Elevixor</a>
+                    </div>
+                </form>
+                <div id="formSuccess" class="success-card hidden">
+                    <strong>Request submitted successfully.</strong>
+                    <p>Thank you! Our Elevixor team will review your LinkedIn details and reach out within 24–48 hours with next steps.</p>
+                </div>
+                <div id="formError" class="error-card hidden">
+                    <strong>Submission failed.</strong>
+                    <p>Please complete all required fields or check your connection, then try again.</p>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="service-package">
+                    <h3>Service Package</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-check"></i>Headline & About Rewrite</li>
+                        <li><i class="fa-solid fa-check"></i>Experience → Achievements</li>
+                        <li><i class="fa-solid fa-check"></i>Skills & Keyword Optimization</li>
+                        <li><i class="fa-solid fa-check"></i>Recruiter Visibility Boost</li>
+                        <li><i class="fa-solid fa-check"></i>Two Rounds of Revisions</li>
+                    </ul>
+                </div>
+
+                <div class="branding-panel">
+                    <h3>Why Elevixor?</h3>
+                    <p>We bring premium career branding, recruiter-first profile messaging, and a polished LinkedIn presence that helps you win attention and opportunities.</p>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-card"><strong>More Recruiter Views</strong><p>Higher visibility from targeted keyword and headline work.</p></div>
+                    <div class="result-card"><strong>Stronger Profile</strong><p>Profile reads like a premium representation of your career.</p></div>
+                    <div class="result-card"><strong>Higher Response Rate</strong><p>Better outreach and message conversions from recruiters.</p></div>
+                </div>
+
+                <div class="trust-grid" style="margin-top: 20px;">
+                    <div class="trust-card"><strong>Expert Review</strong><p>Profile audited by career specialists.</p></div>
+                    <div class="trust-card"><strong>Dedicated Revisions</strong><p>Iterate until messaging is sharp and recruiter-ready.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="branding-panel" style="margin-top: 50px;">
+            <h3>Elevixor Experience</h3>
+            <p>As a trusted career partner, Elevixor helps professionals craft a LinkedIn presence that feels modern, authoritative, and recruiter-ready.</p>
+        </section>
+
+        <footer class="footer">
+            <div>© Elevixor — Premium career services for future-ready professionals.</div>
+            <div><a href="mailto:elevixor1042@gmail.com">elevixor1042@gmail.com</a></div>
+        </footer>
+    </main>
+
+    <script>
+        document.getElementById('scrollToForm').addEventListener('click', function() {
+            document.getElementById('requestFormPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        (function() {
+            const form = document.getElementById('linkedinForm');
+            const success = document.getElementById('formSuccess');
+            const error = document.getElementById('formError');
+
+            function setHidden(element, hidden) {
+                element.classList.toggle('hidden', hidden);
+            }
+
+            function validateField(field) {
+                if (field.required && !field.value.trim()) {
+                    field.style.borderColor = '#fca5a5';
+                    field.style.boxShadow = '0 0 0 4px rgba(248, 113, 113, 0.16)';
+                    return false;
+                }
+                field.style.borderColor = 'rgba(148, 163, 184, 0.18)';
+                field.style.boxShadow = 'none';
+                return true;
+            }
+
+            form.addEventListener('submit', async function(event) {
+                event.preventDefault();
+                setHidden(success, true);
+                setHidden(error, true);
+
+                const fields = Array.from(form.querySelectorAll('input, select, textarea'));
+                let valid = true;
+                fields.forEach(field => {
+                    if (!validateField(field)) {
+                        valid = false;
+                    }
+                });
+
+                if (!valid) {
+                    error.querySelector('p').textContent = 'Please complete all required fields before submitting.';
+                    setHidden(error, false);
+                    return;
+                }
+
+                const data = {};
+                fields.forEach(field => {
+                    if (!field.name) return;
+                    if (field.type === 'file') {
+                        data[field.name] = field.files && field.files[0] ? field.files[0].name : '';
+                    } else {
+                        data[field.name] = field.value.trim();
+                    }
+                });
+
+                const payload = {
+                    fullName: data.fullName || '',
+                    email: data.email || '',
+                    phone: data.phone || '',
+                    serviceType: 'LinkedIn Optimization',
+                    formData: data
+                };
+
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Submitting...';
+
+                try {
+                    const backendHost = 'http://localhost:3000';
+                    const endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000') ? '/submit-service-inquiry' : backendHost + '/submit-service-inquiry';
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    const contentType = response.headers.get('content-type') || '';
+                    let result;
+                    if (contentType.includes('application/json')) {
+                        result = await response.json();
+                    } else {
+                        const text = await response.text();
+                        result = { success: false, error: text || `Server returned ${response.status}` };
+                    }
+
+                    if (response.ok && result.success) {
+                        form.reset();
+                        setHidden(success, false);
+                    } else {
+                        setHidden(error, false);
+                        error.querySelector('p').textContent = result.error || `Submission failed. Please try again.`;
+                    }
+                } catch (err) {
+                    setHidden(error, false);
+                    error.querySelector('p').textContent = 'Network error. Please check your connection and try again.';
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Request LinkedIn Optimization';
+                }
+            });
+        })();
+    </script>
+    <script src="/cosmic-effects.js"></script>`n</body>
+</html>

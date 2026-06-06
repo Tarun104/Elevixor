@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,35 +12,54 @@
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: radial-gradient(circle at top, rgba(96,165,250,0.14), transparent 28%),
-                        linear-gradient(180deg, #020617 0%, #071025 55%, #0f1a34 100%);
+            background: radial-gradient(circle at top, rgba(96, 165, 250, 0.14), transparent 28%),
+                linear-gradient(180deg, #020617 0%, #071025 55%, #0f1a34 100%);
             color: #e6eef5;
+
         }
 
         .container {
-            max-width: 1180px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 60px 24px 80px;
+            padding: 0 24px 60px;
+
         }
 
         .hero {
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
             text-align: center;
-            margin-bottom: 50px;
+
+            gap: 0px;
+
+            padding-top: 120px;
+            padding-bottom: 40px;
+
+            min-height: auto;
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 4vw, 4.5rem);
+            font-size: clamp(3rem, 6vw, 5.5rem);
             margin: 0;
-            letter-spacing: -1px;
-            line-height: 1.05;
+            letter-spacing: -2px;
+            line-height: 0.85;
+            margin-bottom: -8px;
         }
 
         .hero p {
             color: #94a3b8;
-            font-size: 1.05rem;
-            max-width: 760px;
-            margin: 18px auto 0;
-            line-height: 1.8;
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: -5px 0 0 0;
+            line-height: 1.5;
+            text-align: center;
+            opacity: 0.95;
+            padding: 0;
+            margin-top: 0px;
         }
 
         .plans-grid {
@@ -47,6 +67,7 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 26px;
             margin-top: 36px;
+
         }
 
         .plan-card {
@@ -129,27 +150,39 @@
         }
 
         @media (max-width: 640px) {
-            .container { padding: 40px 16px 60px; }
-            .plan-card { padding: 28px 22px; }
+            .container {
+                padding: 40px 16px 60px;
+            }
+
+            .plan-card {
+                padding: 28px 22px;
+            }
         }
+        
     </style>
     <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
 </head>
+
 <body>
     <div class="container">
         <section class="hero">
             <h1>ATS Resume Plans</h1>
-            <p>Choose the perfect resume domain and connect with us on WhatsApp to get your optimized resume delivered fast.</p>
+            <p>Choose the perfect resume domain and connect with us on WhatsApp to get your optimized resume delivered
+                fast.</p>
         </section>
 
         <p class="note">Prices shown in INR (Rs.). Click any plan to start a WhatsApp conversation with our team.</p>
 
         <div class="plans-grid">
             <div class="plan-card">
-                <div class="plan-title">Full Stack Resume</div>
+                <div class="plan-title">Full Stack Development Resume</div>
                 <div class="price">Rs. 269</div>
-                <div class="plan-desc">Resume optimized for full-stack developers with React, Node.js, and DevOps-ready formatting.</div>
-                <a class="btn primary-btn" href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Full%20Stack%20Resume%20(Rs.269).%20Please%20assist." target="_blank">
+                <div class="plan-desc">Resume optimized for full-stack developers with React, Node.js, and DevOps-ready
+                    formatting.</div>
+                <a class="btn primary-btn"
+                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Full%20Stack%20Resume%20(Rs.269).%20Please%20assist."
+                    target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat On WhatsApp
                 </a>
             </div>
@@ -157,8 +190,11 @@
             <div class="plan-card">
                 <div class="plan-title">Software Development Resume</div>
                 <div class="price">Rs. 269</div>
-                <div class="plan-desc">Professional resume tailored for software developers and engineers to showcase coding impact.</div>
-                <a class="btn primary-btn" href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Software%20Development%20Resume%20(Rs.269).%20Please%20assist." target="_blank">
+                <div class="plan-desc">Professional resume tailored for software developers and engineers to showcase
+                    coding impact.</div>
+                <a class="btn primary-btn"
+                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Software%20Development%20Resume%20(Rs.269).%20Please%20assist."
+                    target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat On WhatsApp
                 </a>
             </div>
@@ -166,8 +202,11 @@
             <div class="plan-card">
                 <div class="plan-title">Data Analytics Resume</div>
                 <div class="price">Rs. 219</div>
-                <div class="plan-desc">Analytics resume highlighting SQL, Excel, visualization, and business insights for hiring managers.</div>
-                <a class="btn primary-btn" href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Data%20Analytics%20Resume%20(Rs.219).%20Please%20assist." target="_blank">
+                <div class="plan-desc">Analytics resume highlighting SQL, Excel, visualization, and business insights
+                    for hiring managers.</div>
+                <a class="btn primary-btn"
+                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Data%20Analytics%20Resume%20(Rs.219).%20Please%20assist."
+                    target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat On WhatsApp
                 </a>
             </div>
@@ -175,8 +214,11 @@
             <div class="plan-card">
                 <div class="plan-title">Data Science Template</div>
                 <div class="price">Rs. 219</div>
-                <div class="plan-desc">Resume and template built for data science roles, including projects, modeling, and publication highlights.</div>
-                <a class="btn primary-btn" href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Data%20Science%20Template%20(Rs.219).%20Please%20assist." target="_blank">
+                <div class="plan-desc">Resume and template built for data science roles, including projects, modeling,
+                    and publication highlights.</div>
+                <a class="btn primary-btn"
+                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Data%20Science%20Template%20(Rs.219).%20Please%20assist."
+                    target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat On WhatsApp
                 </a>
             </div>
@@ -184,8 +226,11 @@
             <div class="plan-card">
                 <div class="plan-title">AI/ML Resume</div>
                 <div class="price">Rs. 259</div>
-                <div class="plan-desc">Resume designed for AI/ML roles with model descriptions, project outcomes, and reproducibility details.</div>
-                <a class="btn primary-btn" href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20AI%2FML%20Resume%20(Rs.259).%20Please%20assist." target="_blank">
+                <div class="plan-desc">Resume designed for AI/ML roles with model descriptions, project outcomes, and
+                    reproducibility details.</div>
+                <a class="btn primary-btn"
+                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20AI%2FML%20Resume%20(Rs.259).%20Please%20assist."
+                    target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat On WhatsApp
                 </a>
             </div>
@@ -193,17 +238,24 @@
             <div class="plan-card">
                 <div class="plan-title">Cloud Infrastructure & DevOps</div>
                 <div class="price">Rs. 269</div>
-                <div class="plan-desc">Resume for Cloud and DevOps roles highlighting CI/CD, IaC, and infrastructure delivery experience.</div>
-                <a class="btn primary-btn" href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Cloud%20Infrastructure%20%26%20DevOps%20Resume%20(Rs.269).%20Please%20assist." target="_blank">
+                <div class="plan-desc">Resume for Cloud and DevOps roles highlighting CI/CD, IaC, and infrastructure
+                    delivery experience.</div>
+                <a class="btn primary-btn"
+                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Cloud%20Infrastructure%20%26%20DevOps%20Resume%20(Rs.269).%20Please%20assist."
+                    target="_blank">
                     <i class="fab fa-whatsapp"></i> Chat On WhatsApp
                 </a>
             </div>
         </div>
 
         <footer>
-            <p>If you'd prefer email, contact us at <a href="mailto:elevixor1042@gmail.com" style="color:#60a5fa; text-decoration:none;">elevixor1042@gmail.com</a> with the selected plan and your requirements.</p>
+            <p>If you'd prefer email, contact us at <a href="mailto:elevixor1042@gmail.com"
+                    style="color:#60a5fa; text-decoration:none;">elevixor1042@gmail.com</a> with the selected plan and
+                your requirements.</p>
         </footer>
     </div>
     <script src="/premium-animations.js"></script>
+    <script src="/cosmic-effects.js"></script>`n
 </body>
+
 </html>

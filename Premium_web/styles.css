@@ -64,6 +64,73 @@ body {
   font-feature-settings: 'kern' 1, 'liga' 1;
 }
 
+body.premium-page {
+  background: radial-gradient(circle at top left, rgba(79, 124, 255, 0.16), transparent 26%), radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.12), transparent 18%), #f4f8ff;
+}
+
+#hero {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(234,244,255,0.95) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 15%, rgba(79,124,255,0.18), transparent 22%), radial-gradient(circle at 85% 70%, rgba(139,92,246,0.12), transparent 24%);
+  pointer-events: none;
+}
+
+.premium-page nav {
+  background: rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(79, 124, 255, 0.08);
+}
+
+.premium-page .nav-logo {
+  color: #0f1322;
+}
+
+.premium-page .hero-badge {
+  background: rgba(79, 124, 255, 0.12);
+  border-color: rgba(79, 124, 255, 0.25);
+}
+
+.premium-page .hero-actions .btn-primary {
+  padding: 18px 40px;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.premium-page .hero-play {
+  color: var(--accent-blue);
+  border-bottom: 1px solid rgba(79, 124, 255, 0.22);
+}
+
+.premium-page .hero-play:hover {
+  color: #4f7cff;
+}
+
+.premium-page .hero-play .play-icon {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 16px 40px rgba(79, 124, 255, 0.14);
+}
+
+.premium-page .hero-stats {
+  background: rgba(255,255,255,0.72);
+  border-radius: 24px;
+  padding: 26px 30px;
+  box-shadow: 0 20px 50px rgba(79, 124, 255, 0.08);
+}
+
+.premium-page .hero-stat-num {
+  color: #0f1322;
+}
+
+.premium-page .hero-stat-label {
+  color: #5b6b8d;
+}
+
 /* ─── Loader ───────────────────────────────────────────── */
 #loader {
   position: fixed;
@@ -262,6 +329,24 @@ nav.scrolled {
   transform: translateY(-2px);
 }
 
+.premium-page .btn-primary {
+  box-shadow: 0 16px 45px rgba(79, 124, 255, 0.28);
+}
+
+.premium-page .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 60px rgba(79, 124, 255, 0.34);
+}
+
+.premium-page .btn-outline {
+  border-color: rgba(79, 124, 255, 0.2);
+  color: var(--gray-700);
+}
+
+.premium-page .btn-outline:hover {
+  background: rgba(79, 124, 255, 0.08);
+}
+
 /* ─── Hamburger (mobile) ───────────────────────────────── */
 .hamburger {
   display: none;
@@ -335,6 +420,49 @@ section {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.premium-page .section-title {
+  background: linear-gradient(135deg, rgba(79, 124, 255, 0.98), rgba(139, 92, 246, 0.98));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.premium-page .section-sub {
+  color: #616f91;
+}
+
+.premium-page .service-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(79, 124, 255, 0.12);
+  box-shadow: 0 24px 68px rgba(79, 124, 255, 0.08);
+}
+
+.premium-page .service-card::before {
+  background: radial-gradient(circle at top left, rgba(79, 124, 255, 0.16), transparent 35%);
+}
+
+.premium-page .service-card:hover {
+  transform: translateY(-10px) scale(1.01);
+}
+
+.premium-page .pricing-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(79, 124, 255, 0.12);
+  box-shadow: 0 24px 68px rgba(79, 124, 255, 0.08);
+}
+
+.premium-page .pricing-card.featured {
+  background: linear-gradient(180deg, #4f7cff, #8b5cf6);
+  box-shadow: 0 32px 90px rgba(79, 124, 255, 0.26);
+}
+
+.premium-page .pricing-card.featured .pricing-plan,
+.premium-page .pricing-card.featured .pricing-desc,
+.premium-page .pricing-card.featured .pricing-price,
+.premium-page .pricing-card.featured .pricing-features li {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .container {
@@ -573,10 +701,12 @@ section {
 
 .hero-card {
   position: absolute;
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(18px);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-lg);
-  padding: 20px 24px;
+  box-shadow: 0 40px 90px rgba(79, 124, 255, 0.08);
+  padding: 22px 26px;
   animation: card-float 6s ease-in-out infinite;
   transform-style: preserve-3d;
   backface-visibility: hidden;
@@ -606,9 +736,11 @@ section {
 .hero-card-main {
   top: 50%;
   left: 50%;
-  width: 260px;
+  width: 280px;
   transform: translate(-50%, -50%);
   animation-delay: 0s;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,250,255,0.92));
+  border: 1px solid rgba(79,124,255,0.16);
 }
 
 .hero-card-1 {
@@ -1703,10 +1835,10 @@ section {
 }
 
 .pricing-card {
-  background: var(--white);
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,248,255,0.98));
   border-radius: var(--radius-md);
   padding: 40px 36px;
-  border: 1px solid var(--gray-100);
+  border: 1px solid rgba(79,124,255,0.12);
   transition: all 0.6s var(--transition);
   position: relative;
   display: flex;
@@ -1722,10 +1854,10 @@ section {
 }
 
 .pricing-card.featured {
-  background: var(--grad-primary);
+  background: linear-gradient(180deg, #4f7cff, #8b5cf6);
   border-color: transparent;
   transform: none;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 32px 90px rgba(79, 124, 255, 0.26);
 }
 
 .pricing-card.featured:hover {
@@ -1855,9 +1987,10 @@ section {
 }
 
 .btn-featured {
-  background: var(--white);
-  color: var(--accent-blue);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background: rgba(255,255,255,0.18);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 24px 54px rgba(79, 124, 255, 0.18);
 }
 
 .btn-featured:hover {

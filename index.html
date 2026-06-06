@@ -1,4 +1,4 @@
-r lick<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,7 +6,7 @@ r lick<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Elevixor - Your Career, Upgraded</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    
+
     <style>
         * {
             margin: 0;
@@ -27,7 +27,7 @@ r lick<!DOCTYPE html>
 
         :root {
             --primary: #60a5fa;
-            --primary-soft: rgba(96,165,250,0.18);
+            --primary-soft: rgba(96, 165, 250, 0.18);
             --bg-glow: rgba(96, 165, 250, 0.12);
             --card-bg: rgba(15, 23, 42, 0.68);
             --card-border: rgba(96, 165, 250, 0.15);
@@ -111,8 +111,15 @@ r lick<!DOCTYPE html>
         }
 
         @keyframes floatBlob {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-24px) scale(1.08); }
+
+            0%,
+            100% {
+                transform: translateY(0px) scale(1);
+            }
+
+            50% {
+                transform: translateY(-24px) scale(1.08);
+            }
         }
 
         @keyframes fadeInUp {
@@ -120,6 +127,7 @@ r lick<!DOCTYPE html>
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -127,18 +135,37 @@ r lick<!DOCTYPE html>
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(96, 165, 250, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(96, 165, 250, 0.6);
+            }
         }
 
         @keyframes slideInLeft {
@@ -146,6 +173,7 @@ r lick<!DOCTYPE html>
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -157,6 +185,7 @@ r lick<!DOCTYPE html>
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -213,7 +242,7 @@ r lick<!DOCTYPE html>
             position: absolute;
             inset: 0;
             border-radius: inherit;
-            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -236,6 +265,466 @@ r lick<!DOCTYPE html>
 
         .secondary-btn {
             box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.25);
+        }
+
+        .premium-modal-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(1, 11, 31, 0.82);
+            backdrop-filter: blur(14px);
+            z-index: 99999;
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .premium-modal-overlay.open {
+            opacity: 1;
+        }
+
+        .premium-modal-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 15% 16%, rgba(96, 165, 250, 0.18), transparent 20%), radial-gradient(circle at 82% 28%, rgba(139, 92, 246, 0.14), transparent 24%), radial-gradient(circle at 52% 88%, rgba(14, 165, 233, 0.08), transparent 24%);
+            pointer-events: none;
+        }
+
+        .premium-modal-card {
+            position: relative;
+            width: min(92vw, 820px);
+            max-width: 820px;
+            min-width: 320px;
+            max-height: calc(100vh - 56px);
+            border-radius: 32px;
+            background: rgba(6, 17, 37, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 40px 130px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            transform: translateY(36px) scale(0.98);
+            opacity: 0;
+            transition: opacity 0.45s ease, transform 0.45s ease;
+        }
+
+        .premium-modal-overlay.open .premium-modal-card {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .premium-modal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.32), rgba(139, 92, 246, 0.24));
+            opacity: 0.22;
+            pointer-events: none;
+            filter: blur(20px);
+        }
+
+        .premium-modal-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .premium-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: #f8fafc;
+            font-size: 1.15rem;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+
+        .premium-modal-close:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .premium-modal-hero {
+            display: grid;
+            gap: 18px;
+            padding: 34px 34px 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(18px);
+        }
+
+        .premium-modal-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: rgba(96, 165, 250, 0.14);
+            color: #bfdbfe;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .premium-modal-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 2.6vw, 2.6rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.02;
+        }
+
+        .premium-modal-copy {
+            color: #cbd5e1;
+            font-size: 0.96rem;
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .premium-modal-price-panel {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .premium-modal-price-details {
+            display: grid;
+            gap: 8px;
+        }
+
+        .premium-modal-price-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #93c5fd;
+            font-weight: 700;
+        }
+
+        .premium-modal-price-value {
+            color: #ffffff;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+        }
+
+        .premium-modal-price-badge {
+            padding: 12px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            color: #dbeafe;
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .premium-modal-accent {
+            width: 120px;
+            height: 4px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #60a5fa, #8b5cf6, #7c3aed);
+            box-shadow: 0 0 22px rgba(96, 165, 250, 0.35);
+            opacity: 0.95;
+            margin-top: 6px;
+        }
+
+        .premium-modal-body {
+            padding: 22px 28px 28px;
+            display: grid;
+            gap: 22px;
+            max-height: calc(100vh - 260px);
+            overflow-y: auto;
+        }
+
+        .premium-modal-section {
+            display: grid;
+            gap: 18px;
+        }
+
+        .premium-modal-section-title {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .premium-modal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .premium-modal-card-item {
+            position: relative;
+            padding: 18px 18px 18px;
+            min-height: 88px;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 24px 56px rgba(15, 23, 42, 0.28);
+            backdrop-filter: blur(18px);
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .premium-modal-card-item:nth-child(1) {
+            animation-delay: 0.08s;
+        }
+
+        .premium-modal-card-item:nth-child(2) {
+            animation-delay: 0.14s;
+        }
+
+        .premium-modal-card-item:nth-child(3) {
+            animation-delay: 0.20s;
+        }
+
+        .premium-modal-card-item:nth-child(4) {
+            animation-delay: 0.26s;
+        }
+
+        .premium-modal-card-item:nth-child(5) {
+            animation-delay: 0.32s;
+        }
+
+        .premium-modal-card-item:nth-child(6) {
+            animation-delay: 0.38s;
+        }
+
+        .premium-modal-card-item:nth-child(7) {
+            animation-delay: 0.44s;
+        }
+
+        .premium-modal-card-item:nth-child(8) {
+            animation-delay: 0.50s;
+        }
+
+        .premium-modal-card-item:nth-child(9) {
+            animation-delay: 0.56s;
+        }
+
+        .premium-modal-card-item:nth-child(10) {
+            animation-delay: 0.62s;
+        }
+
+        .premium-modal-card-item:nth-child(11) {
+            animation-delay: 0.68s;
+        }
+
+        .premium-modal-card-item:hover {
+            transform: translateY(-6px);
+            border-color: rgba(96, 165, 250, 0.22);
+            box-shadow: 0 32px 68px rgba(96, 165, 250, 0.18);
+        }
+
+        .premium-modal-card-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            background: rgba(96, 165, 250, 0.14);
+            color: #e0f2fe;
+            font-size: 1.1rem;
+            margin-bottom: 14px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        .premium-modal-card-text {
+            color: #cbd5e1;
+            font-size: 0.94rem;
+            line-height: 1.8;
+            letter-spacing: 0.01em;
+        }
+
+        .premium-modal-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 16px;
+        }
+
+        .premium-modal-action {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 160px;
+            padding: 14px 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            cursor: pointer;
+        }
+
+        .premium-modal-action::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 45%);
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+        }
+
+        .premium-modal-action:active::after {
+            opacity: 1;
+            transform: scale(1);
+            transition: none;
+        }
+
+        .premium-modal-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 50px rgba(96, 165, 250, 0.22);
+        }
+
+        .premium-modal-action.loading {
+            cursor: default;
+            pointer-events: none;
+            background: rgba(96, 165, 250, 0.14);
+            box-shadow: 0 18px 44px rgba(96, 165, 250, 0.18);
+            color: #e2e8f0;
+        }
+
+        .premium-modal-action.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.45);
+            border-top-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-50%);
+            animation: modal-spinner 0.8s linear infinite;
+            opacity: 1;
+        }
+
+        @keyframes modal-spinner {
+            to {
+                transform: translateY(-50%) rotate(360deg);
+            }
+        }
+
+        .premium-modal-copy {
+            background: rgba(96, 165, 250, 0.16);
+            color: #dbeafe;
+        }
+
+        .premium-modal-email {
+            background: linear-gradient(135deg, #60a5fa, #8b5cf6);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .premium-modal-email:hover {
+            box-shadow: 0 26px 64px rgba(79, 124, 255, 0.3);
+        }
+
+        @media (max-width: 960px) {
+            .premium-modal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .premium-modal-price-panel {
+                justify-content: flex-start;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .premium-modal-overlay {
+                padding: 16px;
+            }
+
+            .premium-modal-card {
+                border-radius: 24px;
+            }
+
+            .premium-modal-hero {
+                padding: 24px 22px 18px;
+            }
+
+            .premium-modal-body {
+                padding: 18px 22px 22px;
+            }
+
+            .premium-modal-close {
+                top: 16px;
+                right: 16px;
+            }
+
+            .premium-modal-price-value {
+                font-size: 1.7rem;
+            }
+
+            .premium-modal-action {
+                width: 100%;
+            }
+        }
+
+        .premium-btn {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.98), rgba(96, 165, 250, 0.95));
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.45) !important;
+            box-shadow: 0 20px 45px rgba(59, 130, 246, 0.28);
+            font-weight: 900;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.35s ease;
+        }
+
+        .premium-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.35), transparent 14%), radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.12), transparent 16%);
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 24px 60px rgba(59, 130, 246, 0.35);
+        }
+
+        .premium-btn:active {
+            animation: premium-click 0.28s ease forwards;
+        }
+
+        @keyframes premium-click {
+            0% {
+                transform: scale(1.02);
+            }
+
+            50% {
+                transform: scale(0.92);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         .hero {
@@ -354,12 +843,13 @@ r lick<!DOCTYPE html>
             margin-bottom: 70px;
             animation: fadeInUp 0.8s ease;
         }
-        
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -367,18 +857,37 @@ r lick<!DOCTYPE html>
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(96, 165, 250, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(96, 165, 250, 0.6); }
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(96, 165, 250, 0.6);
+            }
         }
 
         @keyframes slideInLeft {
@@ -386,6 +895,7 @@ r lick<!DOCTYPE html>
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -397,6 +907,7 @@ r lick<!DOCTYPE html>
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -406,25 +917,29 @@ r lick<!DOCTYPE html>
         /* ============================================
            NAVBAR
            ============================================ */
-        
+
         nav {
             width: 100%;
             padding: 16px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.46);
             position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
-            transition: all 0.3s ease;
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 20px 45px rgba(0, 0, 0, 0.14);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         nav:hover {
-            background: rgba(15, 23, 42, 0.95);
-            border-bottom-color: rgba(96, 165, 250, 0.2);
+            background: rgba(15, 23, 42, 0.62);
+            border-bottom-color: rgba(96, 165, 250, 0.18);
         }
 
         .logo {
@@ -467,7 +982,7 @@ r lick<!DOCTYPE html>
             color: #cbd5e1;
             text-decoration: none;
             transition: all 0.3s ease;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 500;
             position: relative;
         }
@@ -521,8 +1036,8 @@ r lick<!DOCTYPE html>
             padding: 0;
             border-radius: 50%;
             overflow: hidden;
-            border: 2px solid rgba(255,255,255,0.18);
-            box-shadow: 0 10px 24px rgba(96,165,250,0.18);
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 10px 24px rgba(96, 165, 250, 0.18);
             background: linear-gradient(135deg, #60a5fa, #3b82f6);
             z-index: 10;
         }
@@ -542,19 +1057,19 @@ r lick<!DOCTYPE html>
 
         nav ul li#authLink .profile-avatar:hover {
             transform: translateY(-50%) scale(1.05);
-            border-color: rgba(255,255,255,0.55);
+            border-color: rgba(255, 255, 255, 0.55);
         }
 
         /* Profile sidebar toggle (compact, non-disruptive) — white boundary with dark bars */
         #profileToggle {
             position: fixed;
             left: 14px;
-            top: 14px;
+            top: 23px;
             width: 44px;
             height: 44px;
             border-radius: 10px;
             background: transparent;
-            border: 2px solid rgba(255,255,255,0.95);
+            border: 2px solid rgba(255, 255, 255, 0.95);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -565,9 +1080,20 @@ r lick<!DOCTYPE html>
             padding: 6px;
         }
 
-        #profileToggle:hover { transform: translateY(-2px); background: rgba(255,255,255,0.03); box-shadow: 0 6px 18px rgba(255,255,255,0.04); }
+        #profileToggle:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 6px 18px rgba(255, 255, 255, 0.04);
+        }
 
-        #profileToggle .bar { width: 18px; height: 2px; background: #ffffff; display:block; margin:3px 0; border-radius:2px; }
+        #profileToggle .bar {
+            width: 18px;
+            height: 2px;
+            background: #ffffff;
+            display: block;
+            margin: 3px 0;
+            border-radius: 2px;
+        }
 
         #profileSidebar {
             position: fixed;
@@ -575,11 +1101,11 @@ r lick<!DOCTYPE html>
             top: 70px;
             width: 320px;
             max-width: calc(100% - 28px);
-            background: rgba(15,23,42,0.96);
-            border: 1px solid rgba(96,165,250,0.08);
+            background: rgba(15, 23, 42, 0.96);
+            border: 1px solid rgba(96, 165, 250, 0.08);
             border-radius: 14px;
             padding: 16px;
-            box-shadow: 0 30px 60px rgba(2,6,23,0.5);
+            box-shadow: 0 30px 60px rgba(2, 6, 23, 0.5);
             z-index: 1150;
             transform: translateX(-8px);
             transition: transform 0.25s ease, opacity 0.25s ease;
@@ -587,24 +1113,82 @@ r lick<!DOCTYPE html>
             pointer-events: none;
         }
 
-        #profileSidebar.open { transform: translateX(0); opacity: 1; pointer-events: auto; }
+        #profileSidebar.open {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         /* compact section list */
-        #profileSidebar .profile-top { display:flex; gap:12px; align-items:center }
-        #profileSidebar .avatar { width:64px; height:64px; border-radius:50%; background:linear-gradient(135deg,#60a5fa,#3b82f6); display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700; font-size:18px; overflow:hidden }
-        #profileSidebar .avatar img { width:100%; height:100%; object-fit:cover }
-        #profileSidebar .upload-btn { margin-top:6px; font-size:13px; color:#60a5fa; cursor:pointer }
+        #profileSidebar .profile-top {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
 
-        #profileSidebar .section-list { display:flex; flex-direction:column; gap:8px; margin-top:12px }
-        .section-item { display:flex; align-items:center; justify-content:space-between; padding:12px 10px; border-radius:10px; background:rgba(30,41,59,0.8); color:#e6eef8; cursor:pointer; border:1px solid rgba(96,165,250,0.04) }
-        .section-item .title { font-weight:800; color:#ffffff }
-        .section-item .chev { color:#94a3b8 }
-        .section-item:hover { background: rgba(96,165,250,0.06) }
+        #profileSidebar .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+            overflow: hidden
+        }
+
+        #profileSidebar .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        #profileSidebar .upload-btn {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #60a5fa;
+            cursor: pointer
+        }
+
+        #profileSidebar .section-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        .section-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 10px;
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.8);
+            color: #e6eef8;
+            cursor: pointer;
+            border: 1px solid rgba(96, 165, 250, 0.04)
+        }
+
+        .section-item .title {
+            font-weight: 800;
+            color: #ffffff
+        }
+
+        .section-item .chev {
+            color: #94a3b8
+        }
+
+        .section-item:hover {
+            background: rgba(96, 165, 250, 0.06)
+        }
 
         /* ============================================
            HERO SECTION
            ============================================ */
-        
+
         .hero {
             min-height: 100vh;
             display: flex;
@@ -719,7 +1303,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            GENERAL SECTION STYLES
            ============================================ */
-        
+
         section {
             padding: 100px 10%;
             position: relative;
@@ -751,7 +1335,7 @@ r lick<!DOCTYPE html>
 
         .selection-box {
             width: 100%;
-            max-width: 620px;
+            max-width: 400px;
             margin: 0 auto;
             background: rgba(15, 23, 42, 0.96);
             border: 1px solid rgba(96, 165, 250, 0.16);
@@ -766,7 +1350,7 @@ r lick<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
         }
 
         .section-header {
@@ -789,20 +1373,19 @@ r lick<!DOCTYPE html>
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 16px;
+            gap: 12px;
         }
 
         .section-card {
             flex: 0 0 auto;
-            min-width: 160px;
-            max-width: 180px;
             border-radius: 12px;
             background: rgba(15, 23, 42, 0.95);
             border: 1px solid rgba(96, 165, 250, 0.12);
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            padding: 14px 24px;
+            padding: 12px 32px;
+            height: 48px;
             cursor: pointer;
             transition: all 0.25s ease;
         }
@@ -823,8 +1406,8 @@ r lick<!DOCTYPE html>
         .section-card h3 {
             margin: 0;
             color: inherit;
-            font-size: 18px;
-            letter-spacing: 0.2em;
+            font-size: 16px;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
         }
 
@@ -903,13 +1486,21 @@ r lick<!DOCTYPE html>
         .service-price {
             margin-bottom: 18px;
             color: #e2e8f0;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 700;
+        }
+
+        .service-card h2,
+        .business-service-card h2 {
+            font-size: 30px;
+            margin: 12px 0;
+            font-weight: 800;
+            line-height: 1.05;
         }
 
         .service-list li {
             color: #cbd5e1;
-            font-size: 15px;
+            font-size: 14px;
             padding: 8px 0;
             border-bottom: 1px solid rgba(96, 165, 250, 0.08);
         }
@@ -1065,7 +1656,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            SERVICES SECTION
            ============================================ */
-        
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
@@ -1157,7 +1748,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            HOW IT WORKS SECTION
            ============================================ */
-        
+
         .how-it-works {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.4) 100%);
             border-radius: 24px;
@@ -1207,7 +1798,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            STATS SECTION
            ============================================ */
-        
+
         .stats-container {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1250,7 +1841,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            TESTIMONIALS SECTION
            ============================================ */
-        
+
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1320,23 +1911,23 @@ r lick<!DOCTYPE html>
         /* ============================================
            FAQ SECTION
            ============================================ */
-        
+
         .faq-container {
-            max-width: 800px;
-            margin: 60px auto;
+            max-width: 720px;
+            margin: 50px auto;
         }
 
         .faq-item {
             background: rgba(30, 41, 59, 0.5);
             border: 1px solid rgba(96, 165, 250, 0.15);
             border-radius: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             overflow: hidden;
             animation: fadeInUp 0.8s ease;
         }
 
         .faq-question {
-            padding: 22px;
+            padding: 18px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -1344,6 +1935,7 @@ r lick<!DOCTYPE html>
             background: rgba(30, 41, 59, 0.5);
             transition: all 0.3s ease;
             font-weight: 600;
+            font-size: 15px;
             color: #f8fafc;
         }
 
@@ -1355,7 +1947,7 @@ r lick<!DOCTYPE html>
         .faq-icon {
             color: #60a5fa;
             transition: transform 0.3s ease;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .faq-item.active .faq-icon {
@@ -1371,7 +1963,7 @@ r lick<!DOCTYPE html>
 
         .faq-item.active .faq-answer {
             max-height: 300px;
-            padding: 22px;
+            padding: 18px;
             color: #cbd5e1;
             line-height: 1.8;
         }
@@ -1379,7 +1971,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            FEATURES SECTION
            ============================================ */
-        
+
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1418,7 +2010,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            CTA SECTION
            ============================================ */
-        
+
         .cta {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
             border-radius: 24px;
@@ -1448,7 +2040,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            FOOTER
            ============================================ */
-        
+
         footer {
             background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, #020617 100%);
             border-top: 1px solid rgba(96, 165, 250, 0.1);
@@ -1524,7 +2116,7 @@ r lick<!DOCTYPE html>
         /* ============================================
            RESPONSIVE DESIGN
            ============================================ */
-        
+
         @media(max-width: 1024px) {
             .hero {
                 padding: 120px 8% 60px;
@@ -1685,10 +2277,10 @@ r lick<!DOCTYPE html>
                 padding: 60px 5%;
             }
         }
-
     </style>
 
     <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
 </head>
 
 <body>
@@ -1729,9 +2321,12 @@ r lick<!DOCTYPE html>
         </div>
 
         <div class="section-list">
-            <div class="section-item" data-target="profile-edit.html"><span class="title">Profile</span><span class="chev"><i class="fas fa-chevron-right"></i></span></div>
-            <div class="section-item" data-target="contact-edit.html"><span class="title">Contact</span><span class="chev"><i class="fas fa-chevron-right"></i></span></div>
-            <div class="section-item" data-target="account-edit.html"><span class="title">Account</span><span class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="profile-edit.html"><span class="title">Profile</span><span
+                    class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="contact-edit.html"><span class="title">Contact</span><span
+                    class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="account-edit.html"><span class="title">Account</span><span
+                    class="chev"><i class="fas fa-chevron-right"></i></span></div>
         </div>
     </aside>
 
@@ -1777,7 +2372,8 @@ r lick<!DOCTYPE html>
     <section id="businessPage" class="business-page hidden">
         <div class="section-title">
             <h2>Business Solutions</h2>
-            <p>Empowering businesses with innovative technology solutions that drive growth, efficiency, automation, and digital transformation.</p>
+            <p>Empowering businesses with innovative technology solutions that drive growth, efficiency, automation, and
+                digital transformation.</p>
         </div>
 
         <!-- Business Services Grid -->
@@ -1855,6 +2451,38 @@ r lick<!DOCTYPE html>
                 <a href="service-analytics.html" class="learn-more-btn" target="_blank">Learn More</a>
             </div>
 
+            <!-- New Business Card: Premium Website -->
+            <div class="service-card" id="premiumWebsitePlanCard"
+                style="border:1px solid rgba(96,165,250,0.45); background: rgba(30, 41, 59, 0.82); box-shadow: 0 45px 140px rgba(96,165,250,0.20); position: relative; overflow: hidden; transform: scale(1.05);">
+                <div
+                    style="position:absolute; inset:-2px; background: radial-gradient(circle at 20% 0%, rgba(96,165,250,0.28), transparent 45%), radial-gradient(circle at 100% 40%, rgba(59,130,246,0.22), transparent 40%); pointer-events:none;">
+                </div>
+                <div style="position:relative; z-index:1;">
+                    <i class="fas fa-globe" style="filter: drop-shadow(0 10px 20px rgba(96,165,250,0.22));"></i>
+                    <h3>Premium Website</h3>
+                    <h2 style="margin: 15px 0; color:#60a5fa;">₹6,999</h2>
+                    <p style="position:relative; z-index:1;">
+                        ✔ Elite Landing Pages<br><br>
+                        ✔ Fast Speed Optimization<br><br>
+                        ✔ SEO Ready Structure<br><br>
+                        ✔ Custom Design & Sections<br><br>
+                        ✔ Mobile Responsive UI
+                    </p>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; position:relative; z-index:1;">
+                        <a href="Premium_web/premium.html" target="_blank" class="btn primary-btn"
+                            style="box-shadow: 0 14px 35px rgba(96, 165, 250, 0.24); animation: glow 3.6s ease-in-out infinite; border: 1px solid rgba(96, 165, 250, 0.25);">
+                            Live Demo
+                        </a>
+
+                        <a href="Premium_web/premium.html" target="_blank" class="btn secondary-btn premium-btn"
+                            id="buyPremiumWebsitePlan"
+                            style="font-weight:900; background: linear-gradient(180deg, #ffffff, #f8f9ff); color: #0f172a; border-color: rgba(255,255,255,0.8); box-shadow: 0 18px 42px rgba(96, 165, 250, 0.18);">
+                            Buy Plan
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Business Automation -->
             <div class="business-service-card">
                 <div class="service-icon">⚙️</div>
@@ -1903,7 +2531,8 @@ r lick<!DOCTYPE html>
         <!-- CTA Section -->
         <section class="business-cta">
             <h2>Ready to Transform Your Business?</h2>
-            <p>From websites and software systems to AI solutions and analytics platforms, Elevixor helps businesses build smarter digital solutions for long-term growth.</p>
+            <p>From websites and software systems to AI solutions and analytics platforms, Elevixor helps businesses
+                build smarter digital solutions for long-term growth.</p>
             <a href="#contact" class="btn primary-btn">Book a Free Consultation</a>
         </section>
     </section>
@@ -1919,25 +2548,30 @@ r lick<!DOCTYPE html>
             <div class="service-card">
                 <i class="fas fa-file-alt"></i>
                 <h3>AI Resume Optimization</h3>
-                <p>Upload your resume and get ATS analysis, domain prediction, skill suggestions, and professional resume template recommendations.</p>
+                <p>Upload your resume and get ATS analysis, domain prediction, skill suggestions, and professional
+                    resume template recommendations.</p>
             </div>
 
             <div class="service-card">
                 <i class="fas fa-globe"></i>
                 <h3>Portfolio Templates</h3>
-                <p>Choose from multiple modern portfolio templates designed for Data Analysts, Developers, Business Analysts, and AI professionals.</p>
+                <p>Choose from multiple modern portfolio templates designed for Data Analysts, Developers, Business
+                    Analysts, and AI professionals.</p>
             </div>
 
-            <div class="service-card">
+            <a href="login.html?reason=plans" data-target="linkedin-optimization.html" target="_blank"
+                class="service-card requires-auth">
                 <i class="fab fa-linkedin"></i>
                 <h3>LinkedIn Optimization</h3>
-                <p>Get LinkedIn profile analysis and professional suggestions to improve visibility, networking, and recruiter attraction.</p>
-            </div>
+                <p>Get LinkedIn profile analysis and professional suggestions to improve visibility, networking, and
+                    recruiter attraction.</p>
+            </a>
 
             <div class="service-card">
                 <i class="fas fa-user-tie"></i>
                 <h3>Interview Preparation</h3>
-                <p>Prepare with domain-wise interview questions, answers, HR preparation PDFs, and career guidance resources.</p>
+                <p>Prepare with domain-wise interview questions, answers, HR preparation PDFs, and career guidance
+                    resources.</p>
             </div>
         </div>
     </section>
@@ -1993,7 +2627,8 @@ r lick<!DOCTYPE html>
 
             <div class="feature-box">
                 <h3>🚀 Career Growth Platform</h3>
-                <p>More than just resumes — Elevixor helps users improve careers, confidence, and professional branding.</p>
+                <p>More than just resumes — Elevixor helps users improve careers, confidence, and professional branding.
+                </p>
             </div>
         </div>
     </section>
@@ -2015,7 +2650,8 @@ r lick<!DOCTYPE html>
                 </div>
                 <div class="testimonial-stars">★★★★★</div>
                 <div class="testimonial-text">
-                    "Elevixor helped me optimize my resume and I got 3 interview calls in the first week. The ATS feedback was super helpful!"
+                    "Elevixor helped me optimize my resume and I got 3 interview calls in the first week. The ATS
+                    feedback was super helpful!"
                 </div>
             </div>
 
@@ -2029,7 +2665,8 @@ r lick<!DOCTYPE html>
                 </div>
                 <div class="testimonial-stars">★★★★★</div>
                 <div class="testimonial-text">
-                    "Elevixor built my website quickly and professionally. It looks premium and helped me present my skills clearly to recruiters."
+                    "Elevixor built my website quickly and professionally. It looks premium and helped me present my
+                    skills clearly to recruiters."
                 </div>
             </div>
 
@@ -2043,7 +2680,8 @@ r lick<!DOCTYPE html>
                 </div>
                 <div class="testimonial-stars">★★★★★</div>
                 <div class="testimonial-text">
-                    "The interview preparation materials were incredibly comprehensive. I felt so confident going into my interviews!"
+                    "The interview preparation materials were incredibly comprehensive. I felt so confident going into
+                    my interviews!"
                 </div>
             </div>
         </div>
@@ -2062,7 +2700,9 @@ r lick<!DOCTYPE html>
                     <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    ATS stands for Applicant Tracking System. Most companies use ATS to filter resumes before they reach human recruiters. Our optimization ensures your resume passes the ATS scan and reaches hiring managers.
+                    ATS stands for Applicant Tracking System. Most companies use ATS to filter resumes before they reach
+                    human recruiters. Our optimization ensures your resume passes the ATS scan and reaches hiring
+                    managers.
                 </div>
             </div>
 
@@ -2072,7 +2712,8 @@ r lick<!DOCTYPE html>
                     <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    You get instant ATS analysis and recommendations right after uploading your resume. Detailed optimization reports are typically ready within 24 hours.
+                    You get instant ATS analysis and recommendations right after uploading your resume. Detailed
+                    optimization reports are typically ready within 24 hours.
                 </div>
             </div>
 
@@ -2082,7 +2723,8 @@ r lick<!DOCTYPE html>
                     <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    Yes! All our portfolio templates are fully customizable. You can change colors, add your projects, modify text, and deploy them on your domain.
+                    Yes! All our portfolio templates are fully customizable. You can change colors, add your projects,
+                    modify text, and deploy them on your domain.
                 </div>
             </div>
 
@@ -2092,7 +2734,8 @@ r lick<!DOCTYPE html>
                     <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    We offer a 7-day money-back guarantee. If you're not satisfied with any service, contact our support team and we'll process a full refund.
+                    We offer a 7-day money-back guarantee. If you're not satisfied with any service, contact our support
+                    team and we'll process a full refund.
                 </div>
             </div>
 
@@ -2102,7 +2745,8 @@ r lick<!DOCTYPE html>
                     <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    Yes! Our Career Starter Pack includes interview preparation, domain guidance, and personalized recommendations to help you grow professionally.
+                    Yes! Our Career Starter Pack includes interview preparation, domain guidance, and personalized
+                    recommendations to help you grow professionally.
                 </div>
             </div>
         </div>
@@ -2119,7 +2763,7 @@ r lick<!DOCTYPE html>
             <div class="service-card">
                 <i class="fas fa-file-alt"></i>
                 <h3>ATS Resume Optimization</h3>
-                <h2 style="margin: 15px 0; color:#60a5fa;">₹269</h2>
+                <h2 style="margin: 15px 0; color:#599ff4;">₹269</h2>
                 <p>
                     ✔ ATS Friendly Resume<br><br>
                     ✔ Professional Template<br><br>
@@ -2128,7 +2772,8 @@ r lick<!DOCTYPE html>
                     ✔ Recruiter Friendly Formatting
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="ats_resume_plans.html" class="btn primary-btn requires-auth" target="_blank">
+                <a href="login.html?reason=plans" data-target="ats_resume_plans.html"
+                    class="btn primary-btn requires-auth" target="_blank">
                     Choose Plan
                 </a>
             </div>
@@ -2145,7 +2790,8 @@ r lick<!DOCTYPE html>
                     ✔ Deployment Support
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="Portfolio_Websites.html" class="btn primary-btn requires-auth">
+                <a href="login.html?reason=plans" data-target="Portfolio_Websites.html"
+                    class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
             </div>
@@ -2162,7 +2808,8 @@ r lick<!DOCTYPE html>
                     ✔ Profile Improvement Suggestions
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="#" class="btn primary-btn requires-auth">
+                <a href="login.html?reason=plans" data-target="linkedin-optimization.html"
+                    class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
             </div>
@@ -2197,32 +2844,6 @@ r lick<!DOCTYPE html>
                 </p>
                 <br>
                 <a href="#" class="btn primary-btn">Most Popular</a>
-            </div>
-
-            <!-- New Pricing Plan Card: Premium Website -->
-            <div class="service-card" id="premiumWebsitePlanCard" style="border:1px solid rgba(96,165,250,0.45); background: rgba(30, 41, 59, 0.82); box-shadow: 0 45px 140px rgba(96,165,250,0.20); position: relative; overflow: hidden; transform: scale(1.05);">
-                <div style="position:absolute; inset:-2px; background: radial-gradient(circle at 20% 0%, rgba(96,165,250,0.28), transparent 45%), radial-gradient(circle at 100% 40%, rgba(59,130,246,0.22), transparent 40%); pointer-events:none;"></div>
-                <div style="position:relative; z-index:1;">
-                    <i class="fas fa-globe" style="filter: drop-shadow(0 10px 20px rgba(96,165,250,0.22));"></i>
-                    <h3>Premium Website</h3>
-                    <h2 style="margin: 15px 0; color:#60a5fa;">₹6,999</h2>
-                    <p style="position:relative; z-index:1;">
-                        ✔ Elite Landing Pages<br><br>
-                        ✔ Fast Speed Optimization<br><br>
-                        ✔ SEO Ready Structure<br><br>
-                        ✔ Custom Design & Sections<br><br>
-                        ✔ Mobile Responsive UI
-                    </p>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; position:relative; z-index:1;">
-                        <a href="Premium_web/premium.html" target="_blank" class="btn primary-btn" style="box-shadow: 0 14px 35px rgba(96, 165, 250, 0.24); animation: glow 3.6s ease-in-out infinite; border: 1px solid rgba(96, 165, 250, 0.25);">
-                            Live Demo
-                        </a>
-
-                        <a href="#" class="btn secondary-btn" id="buyPremiumWebsitePlan" style="background: rgba(255,255,255,0.92); color:#020617; border-color: rgba(255,255,255,0.9); font-weight:900;">
-                            Buy Plan
-                        </a>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -2283,7 +2904,8 @@ r lick<!DOCTYPE html>
                 <h4>Contact</h4>
                 <p style="color: #cbd5e1; font-size: 14px; margin-bottom: 12px;">
                     <i class="fas fa-envelope" style="margin-right: 8px;"></i>
-                    <a href="mailto:elevixor1042@gmail.com" style="color: #cbd5e1; text-decoration: none;">elevixor1042@gmail.com</a>
+                    <a href="mailto:elevixor1042@gmail.com"
+                        style="color: #cbd5e1; text-decoration: none;">elevixor1042@gmail.com</a>
                 </p>
                 <p style="color: #cbd5e1; font-size: 14px;">
                     <i class="fas fa-phone" style="margin-right: 8px;"></i>
@@ -2293,34 +2915,37 @@ r lick<!DOCTYPE html>
         </div>
 
         <div class="footer-bottom">
-            <p>© 2026 Elevixor. All Rights Reserved. | <a href="mailto:elevixor1042@gmail.com" style="color: #60a5fa; text-decoration: none;">Privacy Policy</a> | <a href="mailto:elevixor1042@gmail.com" style="color: #60a5fa; text-decoration: none;">Terms of Service</a></p>
+            <p>© 2026 Elevixor. All Rights Reserved. | <a href="mailto:elevixor1042@gmail.com"
+                    style="color: #60a5fa; text-decoration: none;">Privacy Policy</a> | <a
+                    href="mailto:elevixor1042@gmail.com" style="color: #60a5fa; text-decoration: none;">Terms of
+                    Service</a></p>
         </div>
     </footer>
 
     <script>
         // Auth and navigation functionality
-        (function(){
-            try{
+        (function () {
+            try {
                 const logged = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
                 const authLink = document.getElementById('authLink');
-                if(!authLink) return;
+                if (!authLink) return;
 
-                if(logged){
+                if (logged) {
                     const avatarData = localStorage.getItem('userAvatarData');
                     const firstName = localStorage.getItem('userFirstName') || 'User';
                     const lastName = localStorage.getItem('userLastName') || '';
                     const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
-                    const avatarHtml = avatarData ? '<img src="'+avatarData+'" alt="avatar"/>' : '<span>'+initials+'</span>';
-                    authLink.innerHTML = '<a href="#" id="signOutBtn">Sign Out</a><a href="user-profile.html" target="_blank" rel="noopener" class="profile-avatar" title="View Profile">'+avatarHtml+'</a>';
+                    const avatarHtml = avatarData ? '<img src="' + avatarData + '" alt="avatar"/>' : '<span>' + initials + '</span>';
+                    authLink.innerHTML = '<a href="#" id="signOutBtn">Sign Out</a><a href="user-profile.html" target="_blank" rel="noopener" class="profile-avatar" title="View Profile">' + avatarHtml + '</a>';
                     const btn = document.getElementById('signOutBtn');
-                    btn && btn.addEventListener('click', function(e){
+                    btn && btn.addEventListener('click', function (e) {
                         e.preventDefault();
-                        try{
+                        try {
                             sessionStorage.removeItem('loggedIn');
                             localStorage.removeItem('loggedIn');
                             sessionStorage.removeItem('userEmail');
                             localStorage.removeItem('userEmail');
-                        }catch(e){}
+                        } catch (e) { }
                         window.location = 'index.html';
                     });
                 } else {
@@ -2328,29 +2953,29 @@ r lick<!DOCTYPE html>
                 }
 
                 var authButtons = document.querySelectorAll('a.requires-auth');
-                authButtons.forEach(function(a){
+                authButtons.forEach(function (a) {
                     var target = a.getAttribute('data-target');
-                    if(logged){
-                        if(target && target !== '#') a.href = target;
+                    if (logged) {
+                        if (target && target !== '#') a.href = target;
                         else a.href = '#';
-                        a.target = '_blank';
                     } else {
                         a.href = 'login.html?reason=plans' + (target && target !== '#' ? '&redirect=' + encodeURIComponent(target) : '');
                     }
+                    a.target = '_blank';
                 });
 
-            }catch(e){console.warn(e)}
-        })();
+        }catch (e) { console.warn(e) }
+        }) ();
 
         // FAQ Accordion functionality
-        (function(){
+        (function () {
             const faqItems = document.querySelectorAll('.faq-item');
             faqItems.forEach(item => {
                 const question = item.querySelector('.faq-question');
                 question.addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
                     faqItems.forEach(otherItem => otherItem.classList.remove('active'));
-                    if(!isActive) {
+                    if (!isActive) {
                         item.classList.add('active');
                     }
                 });
@@ -2361,15 +2986,15 @@ r lick<!DOCTYPE html>
         // Animations are handled by /premium-animations.js.
         // However, some users see a blank page if premium-animations.js fails to load,
         // so we ensure the page becomes visible.
-        (function ensurePageVisibleFallback(){
+        (function ensurePageVisibleFallback() {
             try {
                 document.body && document.body.classList.add('loaded');
-            } catch (e) {}
+            } catch (e) { }
         })();
 
 
         // Profile sidebar toggle, image upload and navigation
-        (function(){
+        (function () {
             const toggle = document.getElementById('profileToggle');
             const sidebar = document.getElementById('profileSidebar');
             const uploadTrigger = document.getElementById('uploadTrigger');
@@ -2377,11 +3002,11 @@ r lick<!DOCTYPE html>
             const avatar = document.getElementById('sidebarAvatar');
             const avatarInitial = document.getElementById('avatarInitial');
 
-            function openSidebar(){ sidebar.classList.add('open'); sidebar.setAttribute('aria-hidden','false'); }
-            function closeSidebar(){ sidebar.classList.remove('open'); sidebar.setAttribute('aria-hidden','true'); }
+            function openSidebar() { sidebar.classList.add('open'); sidebar.setAttribute('aria-hidden', 'false'); }
+            function closeSidebar() { sidebar.classList.remove('open'); sidebar.setAttribute('aria-hidden', 'true'); }
 
             toggle && toggle.addEventListener('click', e => {
-                if(sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
+                if (sidebar.classList.contains('open')) closeSidebar(); else openSidebar();
             });
 
             // populate fields from localStorage/session
@@ -2395,22 +3020,22 @@ r lick<!DOCTYPE html>
                 whatsapp: localStorage.getItem('userWhatsApp') || '+91 98765 43210'
             };
 
-            const set = (id, v) => { const el = document.getElementById(id); if(el) el.textContent = v; };
+            const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
             set('sidebarName', data.firstName + ' ' + data.lastName); set('sidebarEmail', data.email);
 
             // load saved avatar
             const savedAvatar = localStorage.getItem('userAvatarData');
-            if(savedAvatar){ avatar.innerHTML = '<img src="'+savedAvatar+'" alt="avatar"/>'; avatarInitial.style.display='none'; }
+            if (savedAvatar) { avatar.innerHTML = '<img src="' + savedAvatar + '" alt="avatar"/>'; avatarInitial.style.display = 'none'; }
 
-            uploadTrigger && uploadTrigger.addEventListener('click', ()=> input && input.click());
-            input && input.addEventListener('change', function(e){
-                const file = e.target.files && e.target.files[0]; if(!file) return;
+            uploadTrigger && uploadTrigger.addEventListener('click', () => input && input.click());
+            input && input.addEventListener('change', function (e) {
+                const file = e.target.files && e.target.files[0]; if (!file) return;
                 const reader = new FileReader();
-                reader.onload = function(ev){
+                reader.onload = function (ev) {
                     const url = ev.target.result;
                     localStorage.setItem('userAvatarData', url);
-                    avatar.innerHTML = '<img src="'+url+'" alt="avatar"/>';
-                    avatarInitial.style.display='none';
+                    avatar.innerHTML = '<img src="' + url + '" alt="avatar"/>';
+                    avatarInitial.style.display = 'none';
                 };
                 reader.readAsDataURL(file);
             });
@@ -2421,46 +3046,46 @@ r lick<!DOCTYPE html>
             document.querySelectorAll('#profileSidebar .section-item').forEach(item => {
                 item.addEventListener('click', (e) => {
                     const target = item.getAttribute('data-target');
-                    if(target) {
+                    if (target) {
                         window.open(target, '_blank');
                     }
                 });
             });
         })();
 
-            (function(){
-                const sectionCards = document.querySelectorAll('.section-card');
-                const studentPages = document.querySelectorAll('.student-page');
-                const businessPage = document.getElementById('businessPage');
+        (function () {
+            const sectionCards = document.querySelectorAll('.section-card');
+            const studentPages = document.querySelectorAll('.student-page');
+            const businessPage = document.getElementById('businessPage');
 
-                function activateTab(tabId) {
-                    sectionCards.forEach(card => card.classList.toggle('active', card.dataset.tab === tabId));
+            function activateTab(tabId) {
+                sectionCards.forEach(card => card.classList.toggle('active', card.dataset.tab === tabId));
 
-                    if(tabId === 'student') {
-                        studentPages.forEach(section => section.classList.remove('hidden'));
-                        if(businessPage) businessPage.classList.add('hidden');
-                    } else {
-                        studentPages.forEach(section => section.classList.add('hidden'));
-                        if(businessPage) businessPage.classList.remove('hidden');
-                    }
-                }
-
-                sectionCards.forEach(card => {
-                    card.addEventListener('click', () => activateTab(card.dataset.tab));
-                });
-
-                // Ensure initial visibility even if scripts/styles load out of order
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', () => activateTab('student'));
+                if (tabId === 'student') {
+                    studentPages.forEach(section => section.classList.remove('hidden'));
+                    if (businessPage) businessPage.classList.add('hidden');
                 } else {
-                    activateTab('student');
+                    studentPages.forEach(section => section.classList.add('hidden'));
+                    if (businessPage) businessPage.classList.remove('hidden');
                 }
-            })();
+            }
+
+            sectionCards.forEach(card => {
+                card.addEventListener('click', () => activateTab(card.dataset.tab));
+            });
+
+            // Ensure initial visibility even if scripts/styles load out of order
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => activateTab('student'));
+            } else {
+                activateTab('student');
+            }
+        })();
 
         // Pricing plan "Buy Plan" message modal for Premium Website
-        (function(){
+        (function () {
             const buyBtn = document.getElementById('buyPremiumWebsitePlan');
-            if(!buyBtn) return;
+            if (!buyBtn) return;
 
             const emailTo = 'elevixor1042@gmail.com';
             const message = [
@@ -2484,81 +3109,149 @@ r lick<!DOCTYPE html>
                 '- What is included in revisions',
                 '- Deployment/support after delivery',
                 '',
-                'Thanks!' 
+                'Thanks!'
             ].join('\n');
 
-            // Create a lightweight modal overlay
             const modalId = 'premiumWebsiteBuyModal';
-            function ensureModal(){
-                if(document.getElementById(modalId)) return;
+            function ensureModal() {
+                if (document.getElementById(modalId)) return;
 
                 const overlay = document.createElement('div');
                 overlay.id = modalId;
-                overlay.style.position = 'fixed';
-                overlay.style.inset = '0';
-                overlay.style.background = 'rgba(2,6,23,0.72)';
-                overlay.style.display = 'flex';
-                overlay.style.alignItems = 'center';
-                overlay.style.justifyContent = 'center';
-                overlay.style.zIndex = '99999';
-                overlay.style.padding = '18px';
+                overlay.className = 'premium-modal-overlay';
                 overlay.innerHTML = `
-                    <div style="width:100%; max-width:720px; background: rgba(15,23,42,0.98); border:1px solid rgba(96,165,250,0.18); border-radius:18px; box-shadow: 0 40px 120px rgba(0,0,0,0.55); overflow:hidden;">
-                        <div style="padding:18px 18px 12px; border-bottom:1px solid rgba(96,165,250,0.14); display:flex; align-items:center; justify-content:space-between; gap:12px;">
-                            <div style="display:flex; align-items:center; gap:10px;">
-                                <div style="width:36px; height:36px; border-radius:12px; background: linear-gradient(135deg,#60a5fa,#3b82f6); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900;">🌐</div>
-                                <div>
-                                    <div style="color:#ffffff; font-weight:900; font-size:16px;">Premium Website — Buy Plan</div>
+                    <div class="premium-modal-card">
+                        <button id="${modalId}-close" class="premium-modal-close" aria-label="Close modal">✕</button>
+                        <div class="premium-modal-hero">
+                            <div class="premium-modal-tag"><i class="fa-solid fa-crown"></i> Premium Website Plan</div>
+                            <div class="premium-modal-title">Custom Development Service</div>
+                            <p class="premium-modal-copy">Share your requirements and launch a premium website experience with a focused plan, tailored scope, and fast next steps.</p>
+                            <div class="premium-modal-price-panel">
+                                <div class="premium-modal-price-details">
+                                    <div class="premium-modal-price-label">Plan</div>
+                                    <div class="premium-modal-price-value">Premium Website Plan</div>
+                                </div>
+                                <div class="premium-modal-price-badge">Custom Development Service</div>
+                            </div>
+                            <div class="premium-modal-accent"></div>
+                        </div>
+                        <div class="premium-modal-body">
+                            <div class="premium-modal-section">
+                                <div class="premium-modal-section-title">Project requirements</div>
+                                <div class="premium-modal-grid">
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-briefcase"></i></div>
+                                        <div class="premium-modal-card-text">Business/brand name</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-bullseye"></i></div>
+                                        <div class="premium-modal-card-text">Website purpose (landing / business / portfolio / e-commerce / others)</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-file-lines"></i></div>
+                                        <div class="premium-modal-card-text">Pages needed (Home, About, Services, Contact, etc.)</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-globe"></i></div>
+                                        <div class="premium-modal-card-text">Domain + hosting details (or whether you will help with deployment)</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-image"></i></div>
+                                        <div class="premium-modal-card-text">Content availability (text, images, logo). If not available, let me know how we can provide it.</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-link"></i></div>
+                                        <div class="premium-modal-card-text">Any reference websites/design examples you like</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-palette"></i></div>
+                                        <div class="premium-modal-card-text">Preferred colors/theme + any mandatory sections</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-phone"></i></div>
+                                        <div class="premium-modal-card-text">Contact info to be added (email/phone/WhatsApp)</div>
+                                    </div>
                                 </div>
                             </div>
-                            <button id="${modalId}-close" style="border:none; background:rgba(255,255,255,0.06); color:#fff; width:40px; height:40px; border-radius:12px; cursor:pointer; font-size:18px;">✕</button>
-                        </div>
-                        <div style="padding:16px 18px 18px;">
-                            <div style="color:#cbd5e1; line-height:1.7; font-size:14px; margin-bottom:12px; white-space:pre-wrap;">${message.replace(/</g,'<')}</div>
-                            <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
-                                <button id="${modalId}-copy" style="padding:12px 18px; border-radius:14px; border:1px solid rgba(96,165,250,0.22); background: rgba(96,165,250,0.12); color:#93c5fd; font-weight:900; cursor:pointer;">Copy Message</button>
-                                    <button type="button" data-open-email="true" style="padding:12px 18px; border-radius:14px; border:1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.08); color:#e6eef8; font-weight:900; cursor:pointer;">Open Email</button>
-                                </a>
 
+                            <div class="premium-modal-section">
+                                <div class="premium-modal-section-title">Also please confirm</div>
+                                <div class="premium-modal-grid">
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-clock"></i></div>
+                                        <div class="premium-modal-card-text">Timeline for first draft and final delivery</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-check-double"></i></div>
+                                        <div class="premium-modal-card-text">What is included in revisions</div>
+                                    </div>
+                                    <div class="premium-modal-card-item">
+                                        <div class="premium-modal-card-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                                        <div class="premium-modal-card-text">Deployment/support after delivery</div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="premium-modal-actions">
+                                <button id="${modalId}-copy" class="premium-modal-action premium-modal-copy">Copy Message</button>
+                                <button type="button" data-open-email="true" class="premium-modal-action premium-modal-email">Open Email</button>
                             </div>
                         </div>
                     </div>
                 `;
 
                 document.body.appendChild(overlay);
+                setTimeout(() => overlay.classList.add('open'), 20);
 
-                document.getElementById(`${modalId}-close`).addEventListener('click', ()=> overlay.remove());
-                overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.remove(); });
+                document.getElementById(`${modalId}-close`).addEventListener('click', () => overlay.remove());
+                overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
 
-                    document.getElementById(`${modalId}-copy`).addEventListener('click', async ()=>{
-                    try{
-                        await navigator.clipboard.writeText(message);
-                        const copyBtn = document.getElementById(`${modalId}-copy`);
-                        if(copyBtn){
-                            const old = copyBtn.textContent;
+                document.getElementById(`${modalId}-copy`).addEventListener('click', async () => {
+                    const copyBtn = document.getElementById(`${modalId}-copy`);
+                    if (copyBtn) {
+                        copyBtn.classList.add('loading');
+                        copyBtn.disabled = true;
+                        const oldText = copyBtn.textContent;
+                        copyBtn.textContent = 'Copying...';
+                        try {
+                            await navigator.clipboard.writeText(message);
                             copyBtn.textContent = 'Copied!';
-                            setTimeout(()=> copyBtn.textContent = old, 1200);
+                        } catch (err) {
+                            copyBtn.textContent = 'Copy failed';
                         }
-                    }catch(err){
-                        alert('Copy failed. You can still use Open Email.');
+                        setTimeout(() => {
+                            if (copyBtn) {
+                                copyBtn.classList.remove('loading');
+                                copyBtn.disabled = false;
+                                copyBtn.textContent = oldText;
+                            }
+                        }, 1200);
                     }
                 });
 
-                // Open Email button: open Gmail in Chrome and prefill compose with our message
                 const openEmailBtn = overlay.querySelector('button[data-open-email="true"]');
-                if(openEmailBtn){
-                    openEmailBtn.addEventListener('click', ()=>{
+                if (openEmailBtn) {
+                    openEmailBtn.addEventListener('click', () => {
+                        openEmailBtn.classList.add('loading');
+                        openEmailBtn.disabled = true;
+                        const oldText = openEmailBtn.textContent;
+                        openEmailBtn.textContent = 'Opening...';
                         const mailtoSubject = encodeURIComponent('Premium Website Plan - Purchase Request');
                         const mailtoBody = encodeURIComponent(message);
                         const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailTo)}&su=${mailtoSubject}&body=${mailtoBody}`;
-                        // Force open in a new tab. User's browser will handle Gmail/Compose.
-                        window.open(gmailUrl, '_blank');
+                        setTimeout(() => {
+                            window.open(gmailUrl, '_blank');
+                            setTimeout(() => {
+                                openEmailBtn.classList.remove('loading');
+                                openEmailBtn.disabled = false;
+                                openEmailBtn.textContent = oldText;
+                            }, 800);
+                        }, 120);
                     });
                 }
             }
 
-            buyBtn.addEventListener('click', (e)=>{
+            buyBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 ensureModal();
                 document.getElementById(modalId);
@@ -2568,6 +3261,7 @@ r lick<!DOCTYPE html>
     </script>
 
     <script src="/premium-animations.js"></script>
+    <script src="/cosmic-effects.js"></script>
 </body>
 
-</html> 
+</html>

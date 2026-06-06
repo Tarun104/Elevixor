@@ -447,6 +447,7 @@
         }
     </style>
     <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
 </head>
 <body>
     <nav>
@@ -663,9 +664,10 @@
                 };
 
                 try {
-                    var endpoint = window.location.protocol === 'file:'
-                        ? 'http://localhost:3000/submit-service-inquiry'
-                        : '/submit-service-inquiry';
+                    var backendHost = 'http://localhost:3000';
+                    var endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000')
+                        ? '/submit-service-inquiry'
+                        : backendHost + '/submit-service-inquiry';
                     var response = await fetch(endpoint, {
                         method: 'POST',
                         headers: {
