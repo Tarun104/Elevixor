@@ -45,6 +45,32 @@ async function persistUserToFile(user) {
   await saveUsersFile(users);
 }
 
+function isBcryptHash(hash) {
+  return typeof hash === 'string' && /^\$2[aby]\$/.test(hash);
+}
+
+async function verifyStoredPassword(password, storedHash) {
+  if (!storedHash || typeof storedHash !== 'string') return false;
+  if (isBcryptHash(storedHash)) {
+    return bcrypt.compare(password, storedHash);
+  }
+  try {
+    return Buffer.from(password).toString('base64') === storedHash;
+  } catch (err) {
+    return false;
+  }
+}
+
+async function upgradeFilePasswordHash(email, password) {
+  const users = await loadUsersFile();
+  const stored = users.find(user => user.email.toLowerCase() === email.toLowerCase());
+  if (!stored) return;
+  if (!isBcryptHash(stored.password)) {
+    stored.password = await bcrypt.hash(password, 12);
+    await saveUsersFile(users);
+  }
+}
+
 exports.register = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -85,8 +111,12 @@ exports.login = async (req, res, next) => {
 
     if (!user) return res.status(401).json({ error: 'Invalid credentials' });
 
-    const ok = await bcrypt.compare(password, user.password);
+    const ok = await verifyStoredPassword(password, user.password);
     if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
+
+    if (isFileUser) {
+      await upgradeFilePasswordHash(email, password);
+    }
 
     const token = jwt.sign({ id: isFileUser ? email : user._id }, process.env.JWT_SECRET || 'dev-secret', { expiresIn: '7d' });
     res.json({ token, user: { id: isFileUser ? email : user._id, email: user.email, name: user.name || '' } });

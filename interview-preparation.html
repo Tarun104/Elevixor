@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Interview Preparation Plans</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at top, rgba(96, 165, 250, 0.14), transparent 28%),
+                linear-gradient(180deg, #020617 0%, #071025 55%, #0f1a34 100%);
+            color: #e6eef5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0px;
+            padding-top: 120px;
+            padding-bottom: 40px;
+            min-height: auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5.5rem);
+            margin: 0;
+            letter-spacing: -2px;
+            line-height: 0.85;
+            margin-bottom: -8px;
+        }
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: -5px 0 0 0;
+            line-height: 1.5;
+            text-align: center;
+            opacity: 0.95;
+            padding: 0;
+            margin-top: 0px;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 26px;
+            margin-top: 36px;
+        }
+
+        .plan-card {
+            background: rgba(30, 41, 59, 0.72);
+            border: 1px solid rgba(96, 165, 250, 0.16);
+            border-radius: 24px;
+            padding: 34px 28px;
+            box-shadow: 0 24px 60px rgba(2, 6, 23, 0.32);
+            backdrop-filter: blur(14px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(96, 165, 250, 0.4);
+            box-shadow: 0 28px 70px rgba(96, 165, 250, 0.16);
+        }
+
+        .plan-title {
+            margin: 0 0 14px;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
+        .price {
+            margin: 0 0 18px;
+            font-size: 2.5rem;
+            color: #60a5fa;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .features-list {
+            margin: 0 0 24px;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .features-list li i {
+            color: #60a5fa;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .plan-desc {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            font-size: 0.98rem;
+        }
+
+        .btn {
+            padding: 14px 24px;
+            border-radius: 28px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.98rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(96, 165, 250, 0.35);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(96, 165, 250, 0.45);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .info-section {
+            margin-top: 60px;
+            padding: 40px 32px;
+            border-radius: 24px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(96, 165, 250, 0.12);
+            backdrop-filter: blur(12px);
+        }
+
+        .info-section h2 {
+            font-size: 1.8rem;
+            margin: 0 0 20px;
+            color: #ffffff;
+        }
+
+        .info-section p {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin: 0;
+            font-size: 0.98rem;
+        }
+
+        .cta-section {
+            margin-top: 60px;
+            padding: 48px 32px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.12), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(96, 165, 250, 0.18);
+            backdrop-filter: blur(12px);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 1.8rem;
+            margin: 0 0 16px;
+            color: #ffffff;
+        }
+
+        .cta-section p {
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 28px;
+            line-height: 1.6;
+        }
+
+        .form-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(1, 10, 25, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 50;
+        }
+
+        .form-overlay.active {
+            display: flex;
+        }
+
+        .form-card {
+            width: min(640px, 100%);
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .form-card h2 {
+            margin: 0 0 20px;
+            font-size: 1.9rem;
+            color: #f8fafc;
+        }
+
+        .form-caption {
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(15, 23, 42, 0.9);
+            color: #e2e8f0;
+            padding: 14px 16px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 999px;
+            border: none;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.14);
+        }
+
+        .form-close {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: auto;
+            display: block;
+        }
+
+        .form-status {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 18px;
+            background: rgba(96, 165, 250, 0.08);
+            border: 1px solid rgba(96, 165, 250, 0.16);
+        }
+
+        .form-status strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffffff;
+        }
+
+        .form-status p {
+            margin: 0;
+            color: #cbd5e1;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .cta-btn {
+            padding: 16px 36px;
+            border-radius: 28px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(96, 165, 250, 0.35);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(96, 165, 250, 0.45);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .note {
+            color: #94a3b8;
+            margin-top: 14px;
+            text-align: center;
+            font-size: 0.98rem;
+        }
+
+        footer {
+            margin-top: 46px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(148, 163, 184, 0.12);
+            color: #94a3b8;
+            text-align: center;
+            font-size: 0.96rem;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 40px 16px 60px;
+            }
+
+            .plan-card {
+                padding: 28px 22px;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-section,
+            .cta-section {
+                padding: 32px 20px;
+            }
+
+            .info-section h2,
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
+</head>
+
+<body>
+    <div class="container">
+        <section class="hero">
+            <h1>Interview Preparation</h1>
+            <p>Build confidence, improve communication, and prepare strategically for your next interview with personalized guidance tailored to your target role.</p>
+        </section>
+
+        <div class="plans-grid">
+            <div class="plan-card">
+                <div class="plan-title">Interview Preparation Plan</div>
+                <div class="price">₹499</div>
+                <ul class="features-list">
+                    <li><i class="fas fa-check-circle"></i> Personalized Interview Guidance</li>
+                    <li><i class="fas fa-check-circle"></i> Resume-Based Question Preparation</li>
+                    <li><i class="fas fa-check-circle"></i> HR Interview Questions & Answers</li>
+                    <li><i class="fas fa-check-circle"></i> Technical Interview Preparation</li>
+                    <li><i class="fas fa-check-circle"></i> Company-Specific Interview Strategy</li>
+                    <li><i class="fas fa-check-circle"></i> Communication & Confidence Building</li>
+                    <li><i class="fas fa-check-circle"></i> Interview Cheat Sheet PDF</li>
+                    <li><i class="fas fa-check-circle"></i> WhatsApp Support</li>
+                </ul>
+                <button class="btn primary-btn" id="openInterviewForm">
+                    Choose Plan
+                </button>
+            </div>
+        </div>
+
+        <div class="form-overlay" id="interviewFormOverlay" aria-hidden="true">
+            <div class="form-card" role="dialog" aria-modal="true" aria-labelledby="interviewFormTitle">
+                <button class="form-close" id="closeInterviewForm">Close ✕</button>
+                <h2 id="interviewFormTitle">Interview Preparation Details</h2>
+                <p class="form-caption">Share your details and interview requirements below. Submit once complete to send the request to Elevixor.</p>
+                <form id="interviewForm">
+                    <div class="form-group">
+                        <label for="interviewName">Full Name</label>
+                        <input type="text" id="interviewName" name="fullName" placeholder="Your full name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="interviewEmail">Email Address</label>
+                        <input type="email" id="interviewEmail" name="email" placeholder="you@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="interviewPhone">Phone Number</label>
+                        <input type="tel" id="interviewPhone" name="phone" placeholder="+91 99999 99999" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="interviewRole">Target Job Role</label>
+                        <input type="text" id="interviewRole" name="targetJobRole" placeholder="Desired role" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="currentExperience">Current Experience</label>
+                        <input type="text" id="currentExperience" name="yearsExperience" placeholder="e.g. 3 years" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="interviewChallenges">Current Challenges</label>
+                        <textarea id="interviewChallenges" name="currentChallenges" placeholder="What are your main interview challenges?" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="interviewGoals">Career Goals</label>
+                        <textarea id="interviewGoals" name="careerGoals" placeholder="What outcomes are you targeting?" required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Submit Details</button>
+                </form>
+                <div id="interviewFormSuccess" class="form-status hidden">
+                    <strong>Request submitted successfully.</strong>
+                    <p>Our team will review your interview preparation request and get back to you shortly.</p>
+                </div>
+                <div id="interviewFormError" class="form-status hidden">
+                    <strong>Submission failed.</strong>
+                    <p>Please check your details and try again later.</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="info-section">
+            <h2>Why Choose This Service?</h2>
+            <p>This service is designed for students, freshers, and job seekers who want structured interview preparation based on their target role. Receive personalized guidance, practical preparation strategies, and confidence-building support to improve interview performance.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Ace Your Next Interview</h2>
+            <p>Get personalized interview preparation designed to help you communicate effectively, answer confidently, and stand out during interviews.</p>
+
+        </section>
+
+        <footer>
+            <p>If you'd prefer email, contact us at <a href="mailto:elevixor1042@gmail.com"
+                    style="color:#60a5fa; text-decoration:none;">elevixor1042@gmail.com</a> with the selected plan and your requirements.</p>
+            <div style="margin-top:12px; font-size:0.95rem; color:#94a3b8;">
+                <a href="/privacy-policy.html" style="color:#60a5fa; text-decoration:none; margin-right:8px;">Privacy Policy</a> |
+                <a href="/terms-and-conditions.html" style="color:#60a5fa; text-decoration:none; margin-left:8px;">Terms &amp; Conditions</a>
+            </div>
+        </footer>
+    </div>
+    <script src="/premium-animations.js"></script>
+    <script src="/cosmic-effects.js"></script>
+    <script>
+        const openInterviewForm = document.getElementById('openInterviewForm');
+        const interviewFormOverlay = document.getElementById('interviewFormOverlay');
+        const closeInterviewForm = document.getElementById('closeInterviewForm');
+        const interviewForm = document.getElementById('interviewForm');
+        const interviewFormSuccess = document.getElementById('interviewFormSuccess');
+        const interviewFormError = document.getElementById('interviewFormError');
+
+        function openForm() {
+            interviewFormOverlay.classList.add('active');
+            interviewFormOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeForm() {
+            interviewFormOverlay.classList.remove('active');
+            interviewFormOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        openInterviewForm.addEventListener('click', openForm);
+        closeInterviewForm.addEventListener('click', closeForm);
+        interviewFormOverlay.addEventListener('click', (event) => {
+            if (event.target === interviewFormOverlay) {
+                closeForm();
+            }
+        });
+
+        interviewForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            interviewFormSuccess.classList.add('hidden');
+            interviewFormError.classList.add('hidden');
+
+            const fields = Array.from(interviewForm.querySelectorAll('input, textarea'));
+            let valid = true;
+            fields.forEach(field => {
+                field.style.borderColor = 'rgba(148, 163, 184, 0.24)';
+                field.style.boxShadow = 'none';
+                if (field.required && !field.value.trim()) {
+                    field.style.borderColor = '#fca5a5';
+                    field.style.boxShadow = '0 0 0 4px rgba(248, 113, 113, 0.16)';
+                    valid = false;
+                }
+            });
+
+            if (!valid) {
+                interviewFormError.querySelector('p').textContent = 'Please complete all required fields before submitting.';
+                interviewFormError.classList.remove('hidden');
+                return;
+            }
+
+            const data = {};
+            fields.forEach(field => {
+                data[field.name] = field.value.trim();
+            });
+
+            const message = `Interview Preparation Request:\n\nName: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nTarget Job Role: ${data.targetJobRole}\nCurrent Experience: ${data.yearsExperience}\nCurrent Challenges: ${data.currentChallenges}\nCareer Goals: ${data.careerGoals}`;
+
+            const payload = {
+                name: data.fullName,
+                email: data.email,
+                phone: data.phone,
+                serviceType: 'Interview Preparation',
+                message
+            };
+
+            const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
+                ? 'http://localhost:3000/api/contact'
+                : '/api/contact';
+
+            const submitBtn = interviewForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const err = await response.json().catch(() => ({}));
+                    throw new Error(err.message || 'Unable to send request');
+                }
+
+                interviewFormSuccess.classList.remove('hidden');
+                interviewForm.reset();
+            } catch (err) {
+                console.error('Form submit error', err);
+                interviewFormError.querySelector('p').textContent = 'Unable to send details right now. Please try again later.';
+                interviewFormError.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -271,12 +271,13 @@
         .section-grid {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 32px;
+            
         }
 
         .section-block {
             display: grid;
-            gap: 20px;
+            gap: 10px;
+            
         }
 
         .section-heading {
@@ -629,11 +630,272 @@
                 width: 100%;
             }
         }
+        .linkedin-page .page-wrap {
+            max-width: 1220px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+            padding: 120px 40px 80px !important;
+        }
+
+        .linkedin-page .hero {
+            display: grid !important;
+            grid-template-columns: 1.1fr 0.9fr !important;
+            gap: 40px !important;
+            align-items: center !important;
+            padding: 40px 0 60px !important;
+            min-height: auto !important;
+            justify-content: normal !important;
+            position: relative !important;
+        }
+
+        .linkedin-page .hero::before,
+        .linkedin-page .hero::after {
+            display: none !important;
+        }
+
+        .linkedin-page .hero-copy {
+            display: grid !important;
+            gap: 22px !important;
+        }
+
+        .linkedin-page .hero-visual {
+            display: grid !important;
+            gap: 24px !important;
+        }
+
+        .linkedin-page .section-grid {
+            display: grid !important;
+            grid-template-columns: 1.1fr 0.9fr !important;
+            gap: 32px !important;
+        }
+
+        .linkedin-page .form-panel {
+            display: grid !important;
+            gap: 18px !important;
+            padding: 32px !important;
+            border-radius: 32px !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            box-shadow: 0 30px 90px rgba(8, 15, 38, 0.45) !important;
+            backdrop-filter: blur(28px) !important;
+        }
+
+        .linkedin-page .section-block > .section-heading {
+            display: grid !important;
+            gap: 8px !important;
+            align-items: start !important;
+        }
+
+        .linkedin-page .section-block > .section-heading p {
+            margin-top: 0 !important;
+            max-width: 540px !important;
+            line-height: 1.55 !important;
+            color: #d0d7e1 !important;
+        }
+
+        .linkedin-page .button-primary {
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.95), rgba(139, 92, 246, 0.95)) !important;
+            color: #ffffff !important;
+            box-shadow: 0 20px 50px rgba(96, 165, 250, 0.28) !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            padding: 14px 24px !important;
+            border-radius: 999px !important;
+            min-width: auto !important;
+            width: auto !important;
+            white-space: nowrap !important;
+        }
+
+        .linkedin-page .button-secondary {
+            background: rgba(255, 255, 255, 0.09) !important;
+            color: #e2e8f0 !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            backdrop-filter: blur(18px) !important;
+            padding: 14px 24px !important;
+            border-radius: 999px !important;
+            min-width: auto !important;
+            width: auto !important;
+            white-space: nowrap !important;
+        }
+
+        .linkedin-page .button-primary:hover,
+        .linkedin-page .button-secondary:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 28px 75px rgba(96, 165, 250, 0.28) !important;
+        }
+
+        .linkedin-page .form-actions {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            gap: 14px !important;
+            justify-content: flex-start !important;
+        }
+
+        .linkedin-page .form-actions .button-primary,
+        .linkedin-page .form-actions .button-secondary {
+            min-width: 180px !important;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(7, 14, 30, 0.88);
+            display: grid;
+            place-items: center;
+            z-index: 2000;
+            padding: 24px;
+        }
+
+        .modal-card {
+            position: relative;
+            width: min(760px, 100%);
+            max-height: min(85vh, 780px);
+            overflow: hidden;
+            background: rgba(12, 24, 47, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 30px;
+            box-shadow: 0 42px 120px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(24px);
+            padding: 30px 28px 24px;
+        }
+
+        .modal-card h3 {
+            margin: 0 0 10px;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+
+        .modal-copy-note {
+            margin: 0 0 18px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .modal-card textarea {
+            width: 100%;
+            min-height: 260px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            color: #e2e8f0;
+            padding: 18px;
+            resize: vertical;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            overflow: auto;
+        }
+
+        .modal-actions {
+            margin-top: 18px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-size: 1.4rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.08);
+            background: rgba(255, 255, 255, 0.16);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .linkedin-page .benefit-card,
+        .linkedin-page .result-card,
+        .linkedin-page .trust-card,
+        .linkedin-page .service-package,
+        .linkedin-page .branding-panel,
+        .linkedin-page .hero-panel {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            box-shadow: 0 28px 80px rgba(8, 15, 38, 0.35) !important;
+            backdrop-filter: blur(22px) !important;
+        }
+
+        .linkedin-page .benefit-card,
+        .linkedin-page .result-card,
+        .linkedin-page .trust-card {
+            padding: 24px !important;
+            min-height: 130px !important;
+            gap: 12px !important;
+        }
+
+        .linkedin-page .service-package,
+        .linkedin-page .branding-panel {
+            padding: 28px !important;
+        }
+
+        .linkedin-page .benefit-card strong,
+        .linkedin-page .result-card strong,
+        .linkedin-page .trust-card strong,
+        .linkedin-page .service-package h3,
+        .linkedin-page .branding-panel h3 {
+            color: #ffffff !important;
+        }
+
+        .linkedin-page input,
+        .linkedin-page textarea {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(148, 163, 184, 0.2) !important;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .linkedin-page .form-actions {
+            justify-content: flex-start !important;
+            gap: 14px !important;
+            margin-top: 12px !important;
+        }
+
+        .linkedin-page .form-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 18px !important;
+        }
+
+        .linkedin-page .form-grid.single {
+            grid-template-columns: 1fr !important;
+        }
+
+        .linkedin-page .hero-actions {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 18px !important;
+            align-items: center !important;
+        }
+
+        .linkedin-page .results-grid,
+        .linkedin-page .trust-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 18px !important;
+        }
+
+        .linkedin-page .footer {
+            flex-wrap: wrap !important;
+            justify-content: space-between !important;
+            gap: 20px !important;
+        }
     </style>
-    <link rel="stylesheet" href="/premium-style.css" />
-    <link rel="stylesheet" href="/cosmic-system.css" />
+    <link rel="stylesheet" href="premium-style.css" />
+    <link rel="stylesheet" href="cosmic-system.css" />
 </head>
-<body>
+<body class="linkedin-page">
     <nav>
         <a href="index.html" class="logo"><span>E</span> Elevixor</a>
         <a href="index.html#services" class="nav-link">Back to Services</a>
@@ -647,7 +909,7 @@
                 <p class="hero-subtitle">Get noticed by recruiters and build a powerful professional brand with a premium LinkedIn profile that converts views into opportunities.</p>
                 <div class="hero-actions">
                     <button class="button-primary" id="scrollToForm">Request LinkedIn Optimization</button>
-                    <a href="mailto:elevixor1042@gmail.com" class="button-secondary">Contact Elevixor</a>
+                    <a href="index.html#contact" class="button-secondary">Contact Elevixor</a>
                 </div>
             </div>
 
@@ -722,10 +984,6 @@
                         <input type="text" id="yearsExperience" name="yearsExperience" placeholder="e.g. 4 years" />
                     </div>
                     <div class="field-group single">
-                        <label for="resumeFile">Resume Upload</label>
-                        <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.doc,.docx" />
-                    </div>
-                    <div class="field-group single">
                         <label for="currentChallenges">Current Challenges</label>
                         <textarea id="currentChallenges" name="currentChallenges" placeholder="What are the main blockers in your LinkedIn presence?"></textarea>
                     </div>
@@ -735,7 +993,7 @@
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="button-primary">Request LinkedIn Optimization</button>
-                        <a href="mailto:elevixor1042@gmail.com" class="button-secondary">Contact Elevixor</a>
+                        <a href="index.html#contact" class="button-secondary">Contact Elevixor</a>
                     </div>
                 </form>
                 <div id="formSuccess" class="success-card hidden">
@@ -745,6 +1003,17 @@
                 <div id="formError" class="error-card hidden">
                     <strong>Submission failed.</strong>
                     <p>Please complete all required fields or check your connection, then try again.</p>
+                </div>
+                <div id="copyMessageModal" class="modal-overlay hidden">
+                    <div class="modal-card">
+                        <button type="button" class="modal-close" id="closeCopyModal" aria-label="Close">&times;</button>
+                        <h3>Generated LinkedIn Optimization Message</h3>
+                        <p class="modal-copy-note">Copy this message and send to elevixor1042@gmail.com with your payment screenshot of rupees 399.</p>
+                        <textarea id="generatedMessage" readonly></textarea>
+                        <div class="modal-actions">
+                            <button type="button" class="button-primary" id="copyMessageButton">Copy Text</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -768,7 +1037,7 @@
                 <div class="results-grid">
                     <div class="result-card"><strong>More Recruiter Views</strong><p>Higher visibility from targeted keyword and headline work.</p></div>
                     <div class="result-card"><strong>Stronger Profile</strong><p>Profile reads like a premium representation of your career.</p></div>
-                    <div class="result-card"><strong>Higher Response Rate</strong><p>Better outreach and message conversions from recruiters.</p></div>
+                    
                 </div>
 
                 <div class="trust-grid" style="margin-top: 20px;">
@@ -785,12 +1054,19 @@
 
         <footer class="footer">
             <div>© Elevixor — Premium career services for future-ready professionals.</div>
-            <div><a href="mailto:elevixor1042@gmail.com">elevixor1042@gmail.com</a></div>
+            <div>
+                <a href="mailto:elevixor1042@gmail.com">elevixor1042@gmail.com</a>
+                &nbsp;|&nbsp;
+                <a href="/privacy-policy.html" style="color:#60a5fa; text-decoration:none;">Privacy Policy</a>
+                &nbsp;|&nbsp;
+                <a href="/terms-and-conditions.html" style="color:#60a5fa; text-decoration:none;">Terms &amp; Conditions</a>
+            </div>
         </footer>
     </main>
 
     <script>
         document.getElementById('scrollToForm').addEventListener('click', function() {
+            alert('Please fill the required details in the Request Details form before submitting.');
             document.getElementById('requestFormPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
@@ -813,6 +1089,47 @@
                 field.style.boxShadow = 'none';
                 return true;
             }
+
+            const copyModal = document.getElementById('copyMessageModal');
+            const generatedMessage = document.getElementById('generatedMessage');
+            const copyButton = document.getElementById('copyMessageButton');
+            const closeCopyModal = document.getElementById('closeCopyModal');
+
+            function buildMessage(data) {
+                return `Hello Elevixor Team,\n\nI would like to request LinkedIn Profile Optimization with the details below:\n\nName: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nLinkedIn Profile URL: ${data.linkedInUrl}\nCurrent Job Title: ${data.currentJobTitle || 'N/A'}\nTarget Job Role: ${data.targetJobRole || 'N/A'}\nIndustry: ${data.industry || 'N/A'}\nYears of Experience: ${data.yearsExperience || 'N/A'}\nCurrent Challenges: ${data.currentChallenges || 'N/A'}\nCareer Goals: ${data.careerGoals || 'N/A'}\n\nPlease find my payment screenshot for rupees 399 attached when you email me back with the next steps.\n\nThank you.\n`;
+            }
+
+            function showCopyModal(text) {
+                generatedMessage.value = text;
+                copyModal.classList.remove('hidden');
+                generatedMessage.scrollTop = 0;
+            }
+
+            function hideCopyModal() {
+                copyModal.classList.add('hidden');
+            }
+
+            copyButton.addEventListener('click', function() {
+                const text = generatedMessage.value;
+                navigator.clipboard.writeText(text).then(() => {
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Text';
+                    }, 2000);
+                }).catch(() => {
+                    generatedMessage.select();
+                    document.execCommand('copy');
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => {
+                        copyButton.textContent = 'Copy Text';
+                    }, 2000);
+                });
+            });
+
+            closeCopyModal.addEventListener('click', hideCopyModal);
+            copyModal.addEventListener('click', function(event) {
+                if (event.target === copyModal) hideCopyModal();
+            });
 
             form.addEventListener('submit', async function(event) {
                 event.preventDefault();
@@ -837,59 +1154,59 @@
                 fields.forEach(field => {
                     if (!field.name) return;
                     if (field.type === 'file') {
-                        data[field.name] = field.files && field.files[0] ? field.files[0].name : '';
+                        data[field.name] = field.files && field.files[0] ? field.files[0].name : 'Attached document';
                     } else {
                         data[field.name] = field.value.trim();
                     }
                 });
 
+                // Build a readable message for email
+                const messageText = buildMessage(data);
+
+                // Prepare payload for backend
                 const payload = {
-                    fullName: data.fullName || '',
+                    name: data.fullName || 'Unknown',
                     email: data.email || '',
                     phone: data.phone || '',
                     serviceType: 'LinkedIn Optimization',
-                    formData: data
+                    message: messageText
                 };
 
-                const submitButton = form.querySelector('button[type="submit"]');
-                submitButton.disabled = true;
-                submitButton.textContent = 'Submitting...';
+                // choose backend URL when using Live Server
+                const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
+                    ? 'http://localhost:3000/api/contact'
+                    : '/api/contact';
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalLabel = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
 
                 try {
-                    const backendHost = 'http://localhost:3000';
-                    const endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000') ? '/submit-service-inquiry' : backendHost + '/submit-service-inquiry';
-                    const response = await fetch(endpoint, {
+                    const res = await fetch(apiUrl, {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    const contentType = response.headers.get('content-type') || '';
-                    let result;
-                    if (contentType.includes('application/json')) {
-                        result = await response.json();
-                    } else {
-                        const text = await response.text();
-                        result = { success: false, error: text || `Server returned ${response.status}` };
+
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.message || 'Failed to send request');
                     }
 
-                    if (response.ok && result.success) {
-                        form.reset();
-                        setHidden(success, false);
-                    } else {
-                        setHidden(error, false);
-                        error.querySelector('p').textContent = result.error || `Submission failed. Please try again.`;
-                    }
-                } catch (err) {
+                    setHidden(success, false);
+                    form.reset();
+                } catch (e) {
+                    console.error('LinkedIn request send error', e);
+                    error.querySelector('p').textContent = 'Unable to send details right now. Please try again later.';
                     setHidden(error, false);
-                    error.querySelector('p').textContent = 'Network error. Please check your connection and try again.';
                 } finally {
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Request LinkedIn Optimization';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalLabel;
                 }
             });
         })();
     </script>
-    <script src="/cosmic-effects.js"></script>`n</body>
+    <script src="cosmic-effects.js"></script>
+</body>
 </html>

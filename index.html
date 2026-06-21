@@ -1285,19 +1285,314 @@
         }
 
         .hero-image {
+            position: relative;
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
             animation: slideInRight 0.8s ease 0.3s backwards;
             z-index: 1;
+            min-height: 520px;
+            overflow: visible;
         }
 
-        .hero-image img {
-            width: 100%;
-            max-width: 450px;
-            animation: float 6s ease-in-out infinite;
-            filter: drop-shadow(0 20px 50px rgba(96, 165, 250, 0.25));
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 22% 20%, rgba(96, 165, 250, 0.18), transparent 16%), radial-gradient(circle at 80% 18%, rgba(139, 92, 246, 0.12), transparent 22%), radial-gradient(circle at 50% 80%, rgba(120, 116, 255, 0.09), transparent 18%);
+            filter: blur(20px);
+            opacity: 0.82;
+            pointer-events: none;
+        }
+
+        .planet-holder {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            perspective: 900px;
+            perspective-origin: center;
+        }
+
+        .orbit-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 18px rgba(255, 255, 255, 0.85);
+            opacity: 0.9;
+            mix-blend-mode: screen;
+            animation: twinkle 3.5s ease-in-out infinite alternate;
+        }
+
+        .orbit-point.point-1 { top: 8%; left: 24%; animation-duration: 4.2s; }
+        .orbit-point.point-2 { top: 16%; right: 18%; animation-duration: 3.6s; }
+        .orbit-point.point-3 { bottom: 10%; left: 18%; animation-duration: 4.8s; }
+        .orbit-point.point-4 { bottom: 14%; right: 22%; animation-duration: 3.8s; }
+        .orbit-point.point-5 { top: 46%; left: -6%; animation-duration: 5.2s; }
+
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.16) 1px, transparent 1px), radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 34px 34px, 58px 58px;
+            opacity: 0.12;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        .space-haze {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 40% 30%, rgba(96, 165, 250, 0.18), transparent 22%), radial-gradient(circle at 60% 45%, rgba(139, 92, 246, 0.16), transparent 20%);
+            filter: blur(32px);
+            opacity: 0.74;
+            pointer-events: none;
+        }
+
+        .glass-planet {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, rgba(227, 236, 100, 0.24), rgba(116, 181, 255, 0.08) 16%, rgba(8, 16, 34, 0.9) 64%, rgba(3, 8, 18, 0.98) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: inset 0 0 64px rgba(96, 165, 250, 0.18), 0 0 70px rgba(96, 165, 250, 0.12);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+            animation: float 8s ease-in-out infinite;
+            opacity: 0.96;
+            z-index: 1;
+        }
+
+        .glass-planet::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.32), transparent 12%), radial-gradient(circle at 68% 45%, rgba(96, 165, 250, 0.14), transparent 18%);
+            mix-blend-mode: screen;
+            opacity: 0.82;
+        }
+
+        .glass-planet::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 32px rgba(255, 210, 100, 0.14), inset 0 0 28px rgba(255, 255, 255, 0.12);
+        }
+
+        .planet-shell {
+            position: absolute;
+            inset: 8%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 54% 40%, rgba(255, 255, 255, 0.14), transparent 22%), linear-gradient(135deg, rgba(79, 146, 227, 0.08), rgba(255, 220, 120, 0.04));
+            border: 1px solid rgba(237, 231, 140, 0.06);
+            backdrop-filter: blur(12px);
+            opacity: 0.82;
+        }
+
+        .planet-core {
+            position: absolute;
+            inset: 36%;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255, 222, 120, 1) 0%, rgba(255, 195, 55, 0.95) 18%, rgba(225, 138, 32, 0.28) 48%, transparent 82%);
+            box-shadow: 0 0 120px rgba(228, 184, 63, 0.7), inset 0 0 50px rgba(255, 255, 255, 0.18);
+            filter: blur(0.5px);
+        }
+
+        .planet-core::before {
+            content: '';
+            position: absolute;
+            inset: 22%;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.86), rgba(255, 235, 170, 0.16) 40%, transparent 100%);
+            filter: blur(2px);
+        }
+
+        .glass-layer {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at center, rgba(129, 20, 20, 0.1), transparent 72%);
+            border: 1px solid rgba(255,255,255,0.08);
+            mix-blend-mode: screen;
+            opacity: 0.7;
+        }
+
+        .glass-layer.layer-1 {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            transform: rotate(9deg);
+            box-shadow: inset 0 0 14px rgba(255,255,255,0.06);
+        }
+
+        .glass-layer.layer-2 {
+            width: 58%;
+            height: 58%;
+            top: 21%;
+            left: 21%;
+            transform: rotate(-11deg);
+            box-shadow: inset 0 0 10px rgba(96, 165, 250, 0.1);
+        }
+
+        .glass-reflection {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.38), rgba(255,255,255,0.04));
+            mix-blend-mode: screen;
+            opacity: 0.72;
+            filter: blur(8px);
+        }
+
+        .glass-reflection.reflection-1 {
+            width: 200px;
+            height: 100px;
+            top: 10%;
+            left: 20%;
+            transform: rotate(-16deg);
+        }
+
+        .glass-reflection.reflection-2 {
+            width: 130px;
+            height: 60px;
+            top: 30%;
+            left: 44%;
+            transform: rotate(22deg);
+        }
+
+        .glass-reflection.reflection-3 {
+            width: 100px;
+            height: 48px;
+            top: 56%;
+            left: 20%;
+            transform: rotate(10deg);
+        }
+
+        .luminous-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 0 12px rgba(255,255,255,0.6);
+            mix-blend-mode: screen;
+            opacity: 0.9;
+        }
+
+        .luminous-particle.particle-1 { top: 12%; left: 22%; }
+        .luminous-particle.particle-2 { top: 42%; left: 10%; }
+        .luminous-particle.particle-3 { top: 72%; left: 16%; }
+
+        .saturn-ring {
+            position: absolute;
+            border-radius: 100%;
+            background: radial-gradient(ellipse at center, rgba(14, 100, 240, 0.18), rgba(30, 160, 255, 0.22) 20%, rgba(16, 120, 255, 0.18) 34%, rgba(8, 34, 74, 0.08) 52%, transparent 78%);
+            box-shadow: inset 0 0 24px rgba(48, 170, 255, 0.22), 0 0 32px rgba(48, 170, 255, 0.16);
+            mix-blend-mode: screen;
+            overflow: visible;
+            transform-style: preserve-3d;
+            transform-origin: center;
+        }
+
+        .saturn-ring::before {
+            content: '';
+            position: absolute;
+            inset: 18% 10%;
+            border-radius: 50%;
+            background: transparent;
+            filter: none;
+        }
+
+        .saturn-ring::after {
+            content: '';
+            position: absolute;
+            inset: 24% 16%;
+            border-radius: 50%;
+            background: transparent;
+        }
+
+        .saturn-ring.ring-1 {
+            width: 600px;
+            height: 600px;
+            top: -165px;
+            left: -150px;
+            transform: rotateX(80deg) rotateZ(14deg);
+            opacity: 0.88;
+            z-index: 0;
+        }
+
+        .saturn-ring.ring-2 {
+            width: 550px;
+            height: 550px;
+            top: -140px;
+            left: -120px;
+            transform: rotateX(80deg) rotateZ(14deg);
+            opacity: 0.72;
+            z-index: 0;
+        }
+
+        .saturn-ring.ring-3 {
+            width: 680px;
+            height: 680px;
+            top: -207px;
+            left: -184px;
+            transform: rotateX(80deg) rotateZ(14deg);
+            opacity: 0.80;
+            z-index: 0;
+        }
+
+        .saturn-ring.ring-front {
+            opacity: 1;
+            z-index: 5;
+            filter: brightness(1.25);
+        }
+
+        .ring-shadow {
+            position: absolute;
+            width: 380px;
+            height: 140px;
+            top: 88px;
+            left: -30px;
+            background: radial-gradient(ellipse at center, rgba(0, 10, 24, 0.22), transparent 65%);
+            transform: rotateX(82deg);
+            filter: blur(0.9px);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glass-reflection,
+        .luminous-particle,
+        .saturn-ring {
+            transform-origin: center;
+        }
+
+        @keyframes orbitRotate {
+            from { transform: rotateX(72deg) rotateZ(0deg); }
+            to { transform: rotateX(72deg) rotateZ(360deg); }
+        }
+
+        .hero-image .saturn-ring { animation: orbitRotate 36s linear infinite; }
+        .hero-image .saturn-ring.ring-2 { animation-duration: 32s; }
+        .hero-image .saturn-ring.ring-3 { animation-duration: 28s; }
+
+        @keyframes twinkle {
+            from { opacity: 0.7; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
 
         /* ============================================
@@ -1490,6 +1785,16 @@
             font-weight: 700;
         }
 
+        .service-status {
+            margin-bottom: 18px;
+            color: #f87171;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-shadow: 0 0 12px rgba(248, 113, 113, 0.5);
+        }
+
         .service-card h2,
         .business-service-card h2 {
             font-size: 30px;
@@ -1520,12 +1825,141 @@
             text-align: center;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
         }
 
         .learn-more-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
             background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .premium-modal-overlay {
+            pointer-events: none;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+
+        .premium-modal-overlay.open {
+            pointer-events: auto;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .modal-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .modal-row.single {
+            grid-template-columns: 1fr;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 23, 42, 0.88);
+            color: #e2e8f0;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-select {
+            background: rgba(15, 23, 42, 0.88);
+            color: #e2e8f0;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath fill='%23e2e8f0' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 10px 6px;
+            padding-right: 40px;
+        }
+
+        .form-select option {
+            background: rgba(15, 23, 42, 0.98);
+            color: #e2e8f0;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.14);
+        }
+
+        .form-textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            margin-top: 10px;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(96, 165, 250, 0.24);
+        }
+
+        .modal-error {
+            display: none;
+            color: #fb7185;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-input.invalid,
+        .form-select.invalid,
+        .form-textarea.invalid {
+            border-color: #fda4af;
+            box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.16);
+        }
+
+        .success-message {
+            display: none;
+            padding: 24px 22px;
+            border-radius: 20px;
+            background: rgba(30, 58, 138, 0.16);
+            border: 1px solid rgba(96, 165, 250, 0.18);
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .success-message.open {
+            display: block;
         }
 
         /* Why Choose Section */
@@ -1610,6 +2044,32 @@
             line-height: 1.8;
             color: #dbeafe;
             font-size: 16px;
+        }
+
+        .business-cta-form {
+            margin-top: 40px;
+            display: grid;
+            gap: 20px;
+            max-width: 1040px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .consultation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        @media (max-width: 900px) {
+            .consultation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .business-cta .success-message {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.12);
         }
 
         .selection-box,
@@ -2346,7 +2806,33 @@
             </div>
         </div>
         <div class="hero-image">
-            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Career Growth">
+            <div class="space-haze"></div>
+            <div class="planet-holder">
+                <div class="saturn-ring ring-1"></div>
+                <div class="saturn-ring ring-2"></div>
+                <div class="saturn-ring ring-3"></div>
+                <div class="ring-shadow"></div>
+                <div class="glass-planet">
+                    <div class="planet-shell"></div>
+                    <div class="planet-core"></div>
+                    <div class="glass-layer layer-1"></div>
+                    <div class="glass-layer layer-2"></div>
+                    <div class="glass-reflection reflection-1"></div>
+                    <div class="glass-reflection reflection-2"></div>
+                    <div class="glass-reflection reflection-3"></div>
+                    <div class="luminous-particle particle-1"></div>
+                    <div class="luminous-particle particle-2"></div>
+                    <div class="luminous-particle particle-3"></div>
+                </div>
+                <div class="saturn-ring ring-1 ring-front"></div>
+                <div class="saturn-ring ring-2 ring-front"></div>
+                <div class="saturn-ring ring-3 ring-front"></div>
+                <div class="orbit-point point-1"></div>
+                <div class="orbit-point point-2"></div>
+                <div class="orbit-point point-3"></div>
+                <div class="orbit-point point-4"></div>
+                <div class="orbit-point point-5"></div>
+            </div>
         </div>
     </section>
 
@@ -2390,7 +2876,7 @@
                     <li>Portfolio Websites</li>
                 </ul>
                 <div class="service-price">Starting Price: Rs. 4,999+</div>
-                <a href="service-website.html" class="learn-more-btn" target="_blank">Learn More</a>
+                <a href="service-website.html" target="_blank" rel="noopener noreferrer" class="learn-more-btn queue-btn" data-service="Website Development">Get Queue</a>
             </div>
 
             <!-- Custom Software Development -->
@@ -2405,13 +2891,14 @@
                     <li>Business Applications</li>
                 </ul>
                 <div class="service-price">Starting Price: Rs. 5,999+</div>
-                <a href="service-software.html" class="learn-more-btn" target="_blank">Learn More</a>
+                <a href="service-software.html" target="_blank" rel="noopener noreferrer" class="learn-more-btn queue-btn" data-service="Custom Software Development">Get Queue</a>
             </div>
 
             <!-- Mobile App Development -->
             <div class="business-service-card">
                 <div class="service-icon">📱</div>
                 <h3>Mobile App Development</h3>
+                <div class="service-status">Currently unavailable</div>
                 <ul class="service-list">
                     <li>Android Apps</li>
                     <li>Customer Apps</li>
@@ -2419,13 +2906,14 @@
                     <li>Startup Applications</li>
                 </ul>
                 <div class="service-price">Starting Price: Rs. 11,999+</div>
-                <a href="service-mobile.html" class="learn-more-btn" target="_blank">Learn More</a>
+                <a href="service-mobile.html" target="_blank" rel="noopener noreferrer" class="learn-more-btn queue-btn" data-service="Mobile App Development">Get Queue</a>
             </div>
 
             <!-- AI Solutions -->
             <div class="business-service-card">
                 <div class="service-icon">🤖</div>
                 <h3>AI Solutions</h3>
+                <div class="service-status">Currently unavailable</div>
                 <ul class="service-list">
                     <li>AI Chatbots</li>
                     <li>Intelligent Automation</li>
@@ -2433,7 +2921,7 @@
                     <li>AI Assistants</li>
                 </ul>
                 <div class="service-price">Starting Price: Rs. 4,999+</div>
-                <a href="service-ai.html" class="learn-more-btn" target="_blank">Learn More</a>
+                <a href="service-ai.html" target="_blank" rel="noopener noreferrer" class="learn-more-btn queue-btn" data-service="AI Solutions">Get Queue</a>
             </div>
 
             <!-- Data Analytics & Dashboards -->
@@ -2447,41 +2935,11 @@
                     <li>Data Visualization</li>
                     <li>Reporting Systems</li>
                 </ul>
-                <div class="service-price">Starting Price: Rs. 3,999+</div>
-                <a href="service-analytics.html" class="learn-more-btn" target="_blank">Learn More</a>
+                <div class="service-price">Starting Price: Rs. 999+</div>
+                <a href="service-analytics.html" target="_blank" rel="noopener noreferrer" class="learn-more-btn queue-btn" data-service="Data Analytics & Dashboards">Get Queue</a>
             </div>
 
-            <!-- New Business Card: Premium Website -->
-            <div class="service-card" id="premiumWebsitePlanCard"
-                style="border:1px solid rgba(96,165,250,0.45); background: rgba(30, 41, 59, 0.82); box-shadow: 0 45px 140px rgba(96,165,250,0.20); position: relative; overflow: hidden; transform: scale(1.05);">
-                <div
-                    style="position:absolute; inset:-2px; background: radial-gradient(circle at 20% 0%, rgba(96,165,250,0.28), transparent 45%), radial-gradient(circle at 100% 40%, rgba(59,130,246,0.22), transparent 40%); pointer-events:none;">
-                </div>
-                <div style="position:relative; z-index:1;">
-                    <i class="fas fa-globe" style="filter: drop-shadow(0 10px 20px rgba(96,165,250,0.22));"></i>
-                    <h3>Premium Website</h3>
-                    <h2 style="margin: 15px 0; color:#60a5fa;">₹6,999</h2>
-                    <p style="position:relative; z-index:1;">
-                        ✔ Elite Landing Pages<br><br>
-                        ✔ Fast Speed Optimization<br><br>
-                        ✔ SEO Ready Structure<br><br>
-                        ✔ Custom Design & Sections<br><br>
-                        ✔ Mobile Responsive UI
-                    </p>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:14px; position:relative; z-index:1;">
-                        <a href="Premium_web/premium.html" target="_blank" class="btn primary-btn"
-                            style="box-shadow: 0 14px 35px rgba(96, 165, 250, 0.24); animation: glow 3.6s ease-in-out infinite; border: 1px solid rgba(96, 165, 250, 0.25);">
-                            Live Demo
-                        </a>
 
-                        <a href="Premium_web/premium.html" target="_blank" class="btn secondary-btn premium-btn"
-                            id="buyPremiumWebsitePlan"
-                            style="font-weight:900; background: linear-gradient(180deg, #ffffff, #f8f9ff); color: #0f172a; border-color: rgba(255,255,255,0.8); box-shadow: 0 18px 42px rgba(96, 165, 250, 0.18);">
-                            Buy Plan
-                        </a>
-                    </div>
-                </div>
-            </div>
 
             <!-- Business Automation -->
             <div class="business-service-card">
@@ -2493,8 +2951,56 @@
                     <li>Email Automation</li>
                     <li>Process Optimization</li>
                 </ul>
-                <div class="service-price">Starting Price: Rs. 4,999+</div>
-                <a href="service-automation.html" class="learn-more-btn" target="_blank">Learn More</a>
+                <div class="service-price">Starting Price: Rs. 1,999+</div>
+                <a href="service-automation.html" target="_blank" rel="noopener noreferrer" class="learn-more-btn queue-btn" data-service="Business Automation">Get Queue</a>
+            </div>
+        </div>
+
+        <div id="serviceQueueModal" class="premium-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="serviceQueueTitle" aria-describedby="serviceQueueDesc">
+            <div class="premium-modal-card">
+                <button type="button" id="serviceQueueClose" class="premium-modal-close" aria-label="Close form">×</button>
+                <div class="premium-modal-hero">
+                    <div class="premium-modal-tag" id="serviceQueueTag">Queue Request</div>
+                    <h2 class="premium-modal-title" id="serviceQueueTitle">Request Service Quote</h2>
+                    <p class="premium-modal-copy" id="serviceQueueDesc">Share your details and we will contact you about the requested service.</p>
+                </div>
+
+                <div id="serviceQueueSuccess" class="success-message">
+                    <h3>Thank you!</h3>
+                    <p>Your submission has been received. We will contact you shortly.</p>
+                </div>
+
+                <form id="serviceQueueForm" class="modal-form" novalidate>
+                    <input type="hidden" id="queueServiceType" name="serviceType" value="">
+                    <div class="modal-row">
+                        <div>
+                            <label class="form-label">Full Name <span class="required">*</span></label>
+                            <input type="text" name="fullName" class="form-input" placeholder="Your name" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Email Address <span class="required">*</span></label>
+                            <input type="email" name="email" class="form-input" placeholder="you@example.com" required>
+                        </div>
+                    </div>
+                    <div class="modal-row">
+                        <div>
+                            <label class="form-label">Phone Number <span class="required">*</span></label>
+                            <input type="tel" name="phone" class="form-input" placeholder="+91 98765 43210" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Company Name</label>
+                            <input type="text" name="company" class="form-input" placeholder="Company or brand name">
+                        </div>
+                    </div>
+                    <div class="modal-row single">
+                        <div>
+                            <label class="form-label">Project / Service Details</label>
+                            <textarea name="details" class="form-textarea" placeholder="Describe what you need"></textarea>
+                        </div>
+                    </div>
+                    <p id="serviceQueueError" class="modal-error">Please complete all required fields.</p>
+                    <button type="submit" class="form-submit">Submit Request</button>
+                </form>
             </div>
         </div>
 
@@ -2533,7 +3039,52 @@
             <h2>Ready to Transform Your Business?</h2>
             <p>From websites and software systems to AI solutions and analytics platforms, Elevixor helps businesses
                 build smarter digital solutions for long-term growth.</p>
-            <a href="#contact" class="btn primary-btn">Book a Free Consultation</a>
+            <form id="businessConsultationForm" class="business-cta-form" novalidate>
+                <div class="consultation-grid">
+                    <div>
+                        <label class="form-label" for="consultName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="consultName" name="fullName" class="form-input" placeholder="Your full name" required>
+                    </div>
+                    <div>
+                        <label class="form-label" for="consultEmail">Email Address <span class="required">*</span></label>
+                        <input type="email" id="consultEmail" name="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div>
+                        <label class="form-label" for="consultPhone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="consultPhone" name="phone" class="form-input" placeholder="+91 98765 43210" required>
+                    </div>
+                    <div>
+                        <label class="form-label" for="consultCompany">Company / Brand</label>
+                        <input type="text" id="consultCompany" name="company" class="form-input" placeholder="Company name">
+                    </div>
+                    <div>
+                        <label class="form-label" for="consultWebsite">Website or Product URL</label>
+                        <input type="url" id="consultWebsite" name="website" class="form-input" placeholder="https://">
+                    </div>
+                    <div>
+                        <label class="form-label" for="consultTimeline">Preferred Start Timeline</label>
+                        <select id="consultTimeline" name="timeline" class="form-select">
+                            <option value="">Choose timeline</option>
+                            <option value="Within 2 weeks">Within 2 weeks</option>
+                            <option value="1-2 months">1-2 months</option>
+                            <option value="3+ months">3+ months</option>
+                            <option value="Flexible">Flexible</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-row single">
+                    <div>
+                        <label class="form-label" for="consultDetails">Describe Your Growth Goal</label>
+                        <textarea id="consultDetails" name="details" class="form-textarea" placeholder="Tell us about your business goals, challenges, or the consulting help you need" required></textarea>
+                    </div>
+                </div>
+                <p id="businessConsultationError" class="modal-error">Please complete all required fields before submitting.</p>
+                <div id="businessConsultationSuccess" class="success-message">
+                    <h3>Request received</h3>
+                    <p>Thanks! Your consultation request has been sent. Expect a response within one business day.</p>
+                </div>
+                <button type="submit" class="form-submit">Request Free Consultation</button>
+            </form>
         </section>
     </section>
 
@@ -2559,7 +3110,7 @@
                     Analysts, and AI professionals.</p>
             </div>
 
-            <a href="login.html?reason=plans" data-target="linkedin-optimization.html" target="_blank"
+            <a href="login.html?reason=plans&target=linkedin-optimization.html" data-target="linkedin-optimization.html" target="_blank"
                 class="service-card requires-auth">
                 <i class="fab fa-linkedin"></i>
                 <h3>LinkedIn Optimization</h3>
@@ -2567,12 +3118,12 @@
                     recruiter attraction.</p>
             </a>
 
-            <div class="service-card">
+            <a href="interview-preparation.html" target="_blank" class="service-card">
                 <i class="fas fa-user-tie"></i>
                 <h3>Interview Preparation</h3>
                 <p>Prepare with domain-wise interview questions, answers, HR preparation PDFs, and career guidance
                     resources.</p>
-            </div>
+            </a>
         </div>
     </section>
 
@@ -2772,8 +3323,8 @@
                     ✔ Recruiter Friendly Formatting
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="ats_resume_plans.html"
-                    class="btn primary-btn requires-auth" target="_blank">
+                <a href="login.html?reason=plans&target=ats_resume_plans.html" data-target="ats_resume_plans.html"
+                    class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
             </div>
@@ -2790,7 +3341,7 @@
                     ✔ Deployment Support
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="Portfolio_Websites.html"
+                <a href="login.html?reason=plans&target=Portfolio_Websites.html" data-target="Portfolio_Websites.html"
                     class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
@@ -2799,7 +3350,7 @@
             <div class="service-card">
                 <i class="fab fa-linkedin"></i>
                 <h3>LinkedIn Optimization</h3>
-                <h2 style="margin: 15px 0; color:#60a5fa;">₹999</h2>
+                <h2 style="margin: 15px 0; color:#60a5fa;">₹799</h2>
                 <p>
                     ✔ Professional Headline<br><br>
                     ✔ About Section Optimization<br><br>
@@ -2808,7 +3359,7 @@
                     ✔ Profile Improvement Suggestions
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="linkedin-optimization.html"
+                <a href="login.html?reason=plans&target=linkedin-optimization.html" data-target="linkedin-optimization.html"
                     class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
@@ -2826,7 +3377,7 @@
                     ✔ Fresher Interview Guidance
                 </p>
                 <br>
-                <a href="login.html?reason=plans" data-target="#" class="btn primary-btn requires-auth">
+                <a href="interview-preparation.html" target="_blank" class="btn primary-btn">
                     Choose Plan
                 </a>
             </div>
@@ -2843,7 +3394,7 @@
                     ✔ Priority Support
                 </p>
                 <br>
-                <a href="#" class="btn primary-btn">Most Popular</a>
+                <a href="career-starter.html" target="_blank" rel="noopener noreferrer" class="btn primary-btn">Choose Pack</a>
             </div>
 
         </div>
@@ -2915,10 +3466,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>© 2026 Elevixor. All Rights Reserved. | <a href="mailto:elevixor1042@gmail.com"
-                    style="color: #60a5fa; text-decoration: none;">Privacy Policy</a> | <a
-                    href="mailto:elevixor1042@gmail.com" style="color: #60a5fa; text-decoration: none;">Terms of
-                    Service</a></p>
+            <p>© 2026 Elevixor. All Rights Reserved. | <a href="/privacy-policy.html" style="color: #60a5fa; text-decoration: none;">Privacy Policy</a> | <a href="/terms-and-conditions.html" style="color: #60a5fa; text-decoration: none;">Terms of Service</a></p>
         </div>
     </footer>
 
@@ -2926,8 +3474,14 @@
         // Auth and navigation functionality
         (function () {
             try {
-                const logged = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
+                    const logged = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
                 const authLink = document.getElementById('authLink');
+
+                // Open these pages correctly even when target contains fragment (#)
+                const openTarget = (url) => {
+                    if (!url || url === '#') return;
+                    window.open(url, '_blank');
+                };
                 if (!authLink) return;
 
                 if (logged) {
@@ -2953,15 +3507,34 @@
                 }
 
                 var authButtons = document.querySelectorAll('a.requires-auth');
-                authButtons.forEach(function (a) {
-                    var target = a.getAttribute('data-target');
-                    if (logged) {
-                        if (target && target !== '#') a.href = target;
-                        else a.href = '#';
-                    } else {
-                        a.href = 'login.html?reason=plans' + (target && target !== '#' ? '&redirect=' + encodeURIComponent(target) : '');
+                const loginRedirectBase = 'login.html?reason=plans';
+                const getLoginRedirect = (targetPage) => {
+                    let redirect = loginRedirectBase;
+                    if (targetPage && targetPage !== '#') {
+                        redirect += '&target=' + encodeURIComponent(targetPage);
                     }
-                    a.target = '_blank';
+                    return redirect;
+                };
+
+                authButtons.forEach(link => {
+                    const targetPage = link.dataset.target;
+                    const loginRedirect = getLoginRedirect(targetPage);
+
+                    if (logged) {
+                        if (targetPage && targetPage !== '#') {
+                            link.href = targetPage;
+                            link.target = '_blank';
+                            link.rel = 'noopener';
+                        }
+                    } else {
+                        link.href = loginRedirect;
+                        link.target = '_self';
+                        link.removeAttribute('rel');
+                        link.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            window.location = loginRedirect;
+                        });
+                    }
                 });
 
         }catch (e) { console.warn(e) }
@@ -3074,12 +3647,213 @@
                 card.addEventListener('click', () => activateTab(card.dataset.tab));
             });
 
+            const queueModal = document.getElementById('serviceQueueModal');
+            const queueForm = document.getElementById('serviceQueueForm');
+            const queueClose = document.getElementById('serviceQueueClose');
+            const queueTitle = document.getElementById('serviceQueueTitle');
+            const queueDesc = document.getElementById('serviceQueueDesc');
+            const queueServiceInput = document.getElementById('queueServiceType');
+            const queueSuccess = document.getElementById('serviceQueueSuccess');
+            const queueError = document.getElementById('serviceQueueError');
+
+            function openQueueModal(serviceName) {
+                if (!queueModal) return;
+                queueServiceInput.value = serviceName || 'Business Service';
+                queueTitle.textContent = serviceName ? `Get Queue for ${serviceName}` : 'Request Service Quote';
+                queueDesc.textContent = serviceName ? `Share your details and we will contact you about ${serviceName}.` : 'Share your details and we will contact you about the requested service.';
+                queueModal.classList.add('open');
+                queueError.style.display = 'none';
+                queueSuccess.classList.remove('open');
+                queueForm.style.display = 'grid';
+                queueForm.reset();
+            }
+
+            function closeQueueModal() {
+                if (!queueModal) return;
+                queueModal.classList.remove('open');
+            }
+
+            const queueButtons = document.querySelectorAll('.queue-btn');
+            queueButtons.forEach(btn => {
+                if (btn.getAttribute('href') === '#') {
+                    btn.addEventListener('click', function (event) {
+                        event.preventDefault();
+                        openQueueModal(btn.dataset.service);
+                    });
+                }
+            });
+
+            const businessCards = document.querySelectorAll('.business-service-card');
+            businessCards.forEach(card => {
+                const button = card.querySelector('.queue-btn');
+                if (!button) return;
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.queue-btn')) return;
+                    openQueueModal(button.dataset.service);
+                });
+            });
+
+            if (queueClose) {
+                queueClose.addEventListener('click', closeQueueModal);
+            }
+            if (queueModal) {
+                queueModal.addEventListener('click', function (event) {
+                    if (event.target === queueModal) {
+                        closeQueueModal();
+                    }
+                });
+            }
+
+            if (queueForm) {
+                queueForm.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    let valid = true;
+                    Array.from(queueForm.querySelectorAll('[required]')).forEach(function (field) {
+                        if (!field.value.trim()) {
+                            valid = false;
+                            field.classList.add('invalid');
+                        } else {
+                            field.classList.remove('invalid');
+                        }
+                    });
+                    if (!valid) {
+                        queueError.style.display = 'block';
+                        return;
+                    }
+                    queueError.style.display = 'none';
+
+                    const formData = {};
+                    queueForm.querySelectorAll('input, select, textarea').forEach(function (input) {
+                        if (input.name) {
+                            formData[input.name] = input.value;
+                        }
+                    });
+
+                    const submitData = {
+                        fullName: formData.fullName || '',
+                        email: formData.email || '',
+                        phone: formData.phone || '',
+                        company: formData.company || '',
+                        serviceType: formData.serviceType || '',
+                        formData: formData
+                    };
+
+                    try {
+                        const backendHost = 'http://localhost:3000';
+                        const endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000')
+                            ? '/submit-service-inquiry'
+                            : backendHost + '/submit-service-inquiry';
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(submitData)
+                        });
+                        const contentType = response.headers.get('content-type') || '';
+                        let result;
+                        if (contentType.includes('application/json')) {
+                            result = await response.json();
+                        } else {
+                            const text = await response.text();
+                            result = { success: false, error: text || `Server returned ${response.status}` };
+                        }
+                        if (response.ok && result.success) {
+                            queueForm.style.display = 'none';
+                            queueSuccess.classList.add('open');
+                        } else {
+                            queueError.textContent = result.error || `Unable to submit inquiry. Server responded with ${response.status}.`;
+                            queueError.style.display = 'block';
+                        }
+                    } catch (err) {
+                        console.error('Error submitting queue request:', err);
+                        queueError.textContent = 'Network error: ' + (err.message || 'Please check your connection and try again.');
+                        queueError.style.display = 'block';
+                    }
+                });
+            }
+
             // Ensure initial visibility even if scripts/styles load out of order
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', () => activateTab('student'));
             } else {
                 activateTab('student');
             }
+        })();
+
+        (function () {
+            const businessForm = document.getElementById('businessConsultationForm');
+            const businessError = document.getElementById('businessConsultationError');
+            const businessSuccess = document.getElementById('businessConsultationSuccess');
+            if (!businessForm) return;
+
+            businessForm.addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                let valid = true;
+                businessForm.querySelectorAll('[required]').forEach(function (field) {
+                    if (!field.value.trim()) {
+                        valid = false;
+                        field.classList.add('invalid');
+                    } else {
+                        field.classList.remove('invalid');
+                    }
+                });
+
+                if (!valid) {
+                    businessError.style.display = 'block';
+                    return;
+                }
+
+                businessError.style.display = 'none';
+
+                const requestData = {
+                    fullName: businessForm.fullName.value.trim(),
+                    email: businessForm.email.value.trim(),
+                    phone: businessForm.phone.value.trim(),
+                    company: businessForm.company.value.trim(),
+                    serviceType: 'Free Business Consultation',
+                    formData: {
+                        website: businessForm.website.value.trim(),
+                        timeline: businessForm.timeline.value,
+                        details: businessForm.details.value.trim(),
+                        submittedAt: new Date().toISOString()
+                    }
+                };
+
+                try {
+                    const backendHost = 'http://localhost:3000';
+                    const endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000')
+                        ? '/submit-service-inquiry'
+                        : backendHost + '/submit-service-inquiry';
+
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+
+                    const contentType = response.headers.get('content-type') || '';
+                    const result = contentType.includes('application/json')
+                        ? await response.json()
+                        : { success: false, error: await response.text() };
+
+                    if (response.ok && result.success) {
+                        businessSuccess.classList.add('open');
+                        businessForm.reset();
+                    } else {
+                        businessError.textContent = result.error || `Unable to submit request. Server responded with ${response.status}.`;
+                        businessError.style.display = 'block';
+                    }
+                } catch (err) {
+                    console.error('Error submitting consultation request:', err);
+                    businessError.textContent = 'Network error: ' + (err.message || 'Please check your connection and try again.');
+                    businessError.style.display = 'block';
+                }
+            });
         })();
 
         // Pricing plan "Buy Plan" message modal for Premium Website

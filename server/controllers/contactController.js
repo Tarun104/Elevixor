@@ -21,7 +21,8 @@ exports.submitContact = async (req, res, next) => {
     try {
       await sendMail({
         from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_RECIPIENT || process.env.EMAIL_USER,
+        to: 'elevixor1042@gmail.com',
+        replyTo: email,
         subject: `New ${serviceType} inquiry from ${name}`,
         html: `<h3>New Inquiry</h3>
                <p><strong>Name:</strong> ${name}</p>

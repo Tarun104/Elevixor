@@ -201,8 +201,8 @@ class CosmicEffects {
 document.addEventListener('DOMContentLoaded', () => {
   new CosmicEffects();
 
-  // Apply page-loaded state
-  document.body.classList.add('cosmic-loaded');
+  // Apply page-loaded state for both cosmic and premium styles
+  document.body.classList.add('cosmic-loaded', 'loaded');
 });
 
 // Additional mouse-reactive glow effect

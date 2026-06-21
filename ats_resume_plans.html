@@ -133,11 +133,156 @@
             background: linear-gradient(135deg, #3b82f6, #2563eb);
         }
 
-        .note {
+        .details-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 240px;
+            margin: 36px auto 0;
+            padding: 16px 24px;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .details-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .form-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(1, 10, 25, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 36px 24px;
+            z-index: 50;
+        }
+
+        .form-overlay.active {
+            display: flex;
+        }
+
+        .form-card {
+            width: min(640px, 100%);
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .form-card h2 {
+            margin: 0 0 20px;
+            font-size: 1.9rem;
+            color: #f8fafc;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(15, 23, 42, 0.9) !important;
+            color: #e2e8f0 !important;
+            padding: 14px 16px;
+            font-size: 1rem;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(15, 23, 42, 0.9) !important;
+            color: #e2e8f0 !important;
+            padding: 14px 16px 14px 16px;
+            padding-right: 48px;
+            font-size: 1rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .select-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 18px;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            transform: translateY(-50%) rotate(45deg);
+            pointer-events: none;
+        }
+
+        .form-group select option {
+            color: #e2e8f0;
+            background: #0f172a;
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 999px;
+            border: none;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.14);
+        }
+
+        .form-close {
+            background: transparent;
+            border: none;
             color: #94a3b8;
-            margin-top: 14px;
-            text-align: center;
-            font-size: 0.98rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: auto;
+            display: block;
+        }
+
+        .form-caption {
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.6;
         }
 
         footer {
@@ -168,11 +313,11 @@
     <div class="container">
         <section class="hero">
             <h1>ATS Resume Plans</h1>
-            <p>Choose the perfect resume domain and connect with us on WhatsApp to get your optimized resume delivered
-                fast.</p>
+            <p>Choose the perfect resume domain and review the available plans below. Use the button to share your details
+                and selected plan in one form.</p>
         </section>
 
-        <p class="note">Prices shown in INR (Rs.). Click any plan to start a WhatsApp conversation with our team.</p>
+        <p class="note">Prices shown in INR (Rs.). Select a plan and open the details form with the button below.</p>
 
         <div class="plans-grid">
             <div class="plan-card">
@@ -180,11 +325,6 @@
                 <div class="price">Rs. 269</div>
                 <div class="plan-desc">Resume optimized for full-stack developers with React, Node.js, and DevOps-ready
                     formatting.</div>
-                <a class="btn primary-btn"
-                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Full%20Stack%20Resume%20(Rs.269).%20Please%20assist."
-                    target="_blank">
-                    <i class="fab fa-whatsapp"></i> Chat On WhatsApp
-                </a>
             </div>
 
             <div class="plan-card">
@@ -192,11 +332,6 @@
                 <div class="price">Rs. 269</div>
                 <div class="plan-desc">Professional resume tailored for software developers and engineers to showcase
                     coding impact.</div>
-                <a class="btn primary-btn"
-                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Software%20Development%20Resume%20(Rs.269).%20Please%20assist."
-                    target="_blank">
-                    <i class="fab fa-whatsapp"></i> Chat On WhatsApp
-                </a>
             </div>
 
             <div class="plan-card">
@@ -204,11 +339,6 @@
                 <div class="price">Rs. 219</div>
                 <div class="plan-desc">Analytics resume highlighting SQL, Excel, visualization, and business insights
                     for hiring managers.</div>
-                <a class="btn primary-btn"
-                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Data%20Analytics%20Resume%20(Rs.219).%20Please%20assist."
-                    target="_blank">
-                    <i class="fab fa-whatsapp"></i> Chat On WhatsApp
-                </a>
             </div>
 
             <div class="plan-card">
@@ -216,11 +346,6 @@
                 <div class="price">Rs. 219</div>
                 <div class="plan-desc">Resume and template built for data science roles, including projects, modeling,
                     and publication highlights.</div>
-                <a class="btn primary-btn"
-                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Data%20Science%20Template%20(Rs.219).%20Please%20assist."
-                    target="_blank">
-                    <i class="fab fa-whatsapp"></i> Chat On WhatsApp
-                </a>
             </div>
 
             <div class="plan-card">
@@ -228,11 +353,6 @@
                 <div class="price">Rs. 259</div>
                 <div class="plan-desc">Resume designed for AI/ML roles with model descriptions, project outcomes, and
                     reproducibility details.</div>
-                <a class="btn primary-btn"
-                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20AI%2FML%20Resume%20(Rs.259).%20Please%20assist."
-                    target="_blank">
-                    <i class="fab fa-whatsapp"></i> Chat On WhatsApp
-                </a>
             </div>
 
             <div class="plan-card">
@@ -240,11 +360,49 @@
                 <div class="price">Rs. 269</div>
                 <div class="plan-desc">Resume for Cloud and DevOps roles highlighting CI/CD, IaC, and infrastructure
                     delivery experience.</div>
-                <a class="btn primary-btn"
-                    href="https://wa.me/7249726407?text=Hello,%20I%27m%20interested%20in%20the%20Cloud%20Infrastructure%20%26%20DevOps%20Resume%20(Rs.269).%20Please%20assist."
-                    target="_blank">
-                    <i class="fab fa-whatsapp"></i> Chat On WhatsApp
-                </a>
+            </div>
+        </div>
+
+        <button class="details-btn" id="openFormButton">Give Me Details</button>
+
+        <div class="form-overlay" id="detailFormOverlay" aria-hidden="true">
+            <div class="form-card" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+                <button class="form-close" id="closeFormButton">Close ✕</button>
+                <h2 id="formTitle">Share Your Details</h2>
+                <p class="form-caption">Fill out your contact information and choose the plan you want. Then submit to send the details to our email.</p>
+                <form id="detailsForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email Address</label>
+                        <input type="email" id="userEmail" name="userEmail" placeholder="you@example.com" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 99999 99999" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="selectedPlan">Selected Plan</label>
+                        <div class="select-wrapper">
+                            <select id="selectedPlan" name="selectedPlan" required>
+                                <option value="">Choose a plan</option>
+                                <option value="Full Stack Development Resume">Full Stack Development Resume - Rs. 269</option>
+                                <option value="Software Development Resume">Software Development Resume - Rs. 269</option>
+                                <option value="Data Analytics Resume">Data Analytics Resume - Rs. 219</option>
+                                <option value="Data Science Template">Data Science Template - Rs. 219</option>
+                                <option value="AI/ML Resume">AI/ML Resume - Rs. 259</option>
+                                <option value="Cloud Infrastructure & DevOps">Cloud Infrastructure & DevOps - Rs. 269</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="requirements">Your Requirements</label>
+                        <textarea id="requirements" name="requirements" placeholder="Tell us about your experience, goals, and resume needs." required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Submit Details</button>
+                </form>
             </div>
         </div>
 
@@ -252,10 +410,91 @@
             <p>If you'd prefer email, contact us at <a href="mailto:elevixor1042@gmail.com"
                     style="color:#60a5fa; text-decoration:none;">elevixor1042@gmail.com</a> with the selected plan and
                 your requirements.</p>
+            <div style="margin-top:12px; font-size:0.95rem; color:#94a3b8;">
+                <a href="/privacy-policy.html" style="color:#60a5fa; text-decoration:none; margin-right:8px;">Privacy Policy</a> |
+                <a href="/terms-and-conditions.html" style="color:#60a5fa; text-decoration:none; margin-left:8px;">Terms &amp; Conditions</a>
+            </div>
         </footer>
     </div>
     <script src="/premium-animations.js"></script>
-    <script src="/cosmic-effects.js"></script>`n
+    <script src="/cosmic-effects.js"></script>
+    <script>
+        const openFormButton = document.getElementById('openFormButton');
+        const detailFormOverlay = document.getElementById('detailFormOverlay');
+        const closeFormButton = document.getElementById('closeFormButton');
+        const detailsForm = document.getElementById('detailsForm');
+
+        function openForm() {
+            detailFormOverlay.classList.add('active');
+            detailFormOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeForm() {
+            detailFormOverlay.classList.remove('active');
+            detailFormOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        openFormButton.addEventListener('click', openForm);
+        closeFormButton.addEventListener('click', closeForm);
+        detailFormOverlay.addEventListener('click', (event) => {
+            if (event.target === detailFormOverlay) {
+                closeForm();
+            }
+        });
+
+        detailsForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const submitButton = detailsForm.querySelector('.form-submit');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const selectedPlan = document.getElementById('selectedPlan').value;
+            const requirements = document.getElementById('requirements').value.trim();
+
+            const payload = {
+                name: fullName,
+                email: userEmail,
+                phone,
+                serviceType: selectedPlan || 'ATS Resume Plan',
+                message: `Selected Plan: ${selectedPlan}\n\nRequirements:\n${requirements}`
+            };
+
+            try {
+                // If this page is served from a static server (Live Server on :5500)
+                // we need to target the backend explicitly. Default to same-origin
+                // otherwise (when served by the backend on :3000) use relative path.
+                const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
+                    ? 'http://localhost:3000/api/contact'
+                    : '/api/contact';
+
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.message || 'Failed to send details');
+                }
+
+                // success
+                alert('Details sent — we will contact you shortly.');
+                detailsForm.reset();
+                closeForm();
+            } catch (err) {
+                console.error('Submit error', err);
+                alert('Unable to send details right now. Please try again later.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Details';
+            }
+        });
+    </script>
 </body>
 
 </html>

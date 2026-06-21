@@ -14,13 +14,13 @@ exports.submitQuote = async (req, res, next) => {
     try {
       await sendMail({
         from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_RECIPIENT || process.env.EMAIL_USER,
+        to: 'elevixor1042@gmail.com',
+        replyTo: email,
         subject: `Quote request: ${projectType || 'Project'} from ${clientName}`,
         html: `<h3>Quote Request</h3>
                <p><strong>Client:</strong> ${clientName}</p>
                <p><strong>Email:</strong> ${email}</p>
                <p><strong>Phone:</strong> ${phone}</p>
-               <p><strong>Company:</strong> ${company || 'N/A'}</p>
                <p><strong>Project Type:</strong> ${projectType || 'N/A'}</p>
                <p><strong>Budget:</strong> ${budget || 'N/A'}</p>
                <p><strong>Timeline:</strong> ${timeline || 'N/A'}</p>
