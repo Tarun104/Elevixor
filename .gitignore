@@ -1,12 +1,13 @@
 node_modules/
 .env
+env
 uploads/
 logs/
 dist/
 npm-debug.log*
 /*.log
 .vscode/
-/.idea/
+.idea/
 coverage/
 *.local
-users.jsonenv
+users.json
