@@ -596,7 +596,14 @@
     // Regex patterns
     const emailRegex = /^[^\s@]+@gmail\.com$/i;
     const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-    const apiBase = 'http://127.0.0.1:3000';
+    // Use local API during development, otherwise use same origin for deployed site
+    const apiBase = (function(){
+      try {
+        const host = window.location.hostname;
+        if (host === '127.0.0.1' || host === 'localhost') return 'http://127.0.0.1:3000';
+      } catch (e) {}
+      return '';
+    })();
     const urlParams = new URLSearchParams(window.location.search);
     const loginTarget = urlParams.get('target');
 
@@ -733,10 +740,21 @@
         }
 
         try {
+          // persist auth state and token so deployed frontend can call protected APIs
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('userEmail', email);
           sessionStorage.setItem('loggedIn', 'true');
           sessionStorage.setItem('userEmail', email);
+          if (data && data.token) {
+            localStorage.setItem('authToken', data.token);
+            sessionStorage.setItem('authToken', data.token);
+          }
+          // also persist name if provided by backend
+          if (data && data.user && data.user.name) {
+            const parts = String(data.user.name).split(' ');
+            localStorage.setItem('userFirstName', parts[0] || 'User');
+            localStorage.setItem('userLastName', parts.slice(1).join(' ') || '');
+          }
         } catch (e) { }
 
         showToast('Login successful!');
