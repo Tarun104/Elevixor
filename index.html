@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Elevixor - Your Career, Upgraded</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    
+    <!-- ZeroThreat Verification Tag -->
+    <meta name="zero-threat-verification" content="zeroThreat=MTA2NjY=TVRBMk5qWT0=TVRBMk5qWT">
 
     <style>
         * {
@@ -84,7 +87,7 @@
         }
 
         .page-ambient::before,
-        .page-ambient::after {
+         .page-ambient::after {
             content: '';
             position: absolute;
             border-radius: 50%;
@@ -4004,7 +4007,8 @@
                 });
 
                 const openEmailBtn = overlay.querySelector('button[data-open-email="true"]');
-                if (openEmailBtn) {
+                if (openEmailBt) 
+                {
                     openEmailBtn.addEventListener('click', () => {
                         openEmailBtn.classList.add('loading');
                         openEmailBtn.disabled = true;
