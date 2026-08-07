@@ -3505,10 +3505,18 @@
                     });
                 };
 
+                const apiBase = (function () {
+                    try {
+                        const host = window.location.hostname;
+                        if (host === '127.0.0.1' || host === 'localhost') return 'http://127.0.0.1:3000';
+                    } catch (e) { }
+                    return '';
+                })();
+
                 if (logged) {
                     // If we have a token, try to fetch authoritative profile data from the backend
                     if (token) {
-                        fetch('/api/dashboard/profile', { headers: { 'Authorization': 'Bearer ' + token } }).then(r => r.json()).then(data => {
+                        fetch(apiBase + '/api/dashboard/profile', { headers: { 'Authorization': 'Bearer ' + token } }).then(r => r.json()).then(data => {
                             const avatarData = localStorage.getItem('userAvatarData');
                             const name = (data && data.user && (data.user.name || (data.user.email || '')) ) || localStorage.getItem('userFirstName') || 'User';
                             const parts = String(name).split(' ');
