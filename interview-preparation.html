@@ -539,9 +539,7 @@
                 message
             };
 
-            const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
-                ? 'http://localhost:3000/api/contact'
-                : '/api/contact';
+            const apiUrl = window.API_BASE ? `${window.API_BASE}/api/contact` : '/api/contact';
 
             const submitBtn = interviewForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;

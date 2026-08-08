@@ -15,13 +15,30 @@ const newsletterRoutes = require('./routes/newsletter');
 const dashboardRoutes = require('./routes/dashboard');
 const placeholderRoutes = require('./routes/placeholders');
 const serviceInquiryRoutes = require('./routes/serviceInquiry');
+const accountRoutes = require('./routes/account');
 
 const app = express();
 
 connectDB();
 
 app.use(helmet());
-app.use(cors());
+
+const allowedOrigins = [process.env.FRONTEND_URL].filter(Boolean);
+app.use((req, res, next) => {
+	const requestOrigin = `${req.protocol}://${req.get('host')}`;
+	const corsOptions = {
+		origin: function (origin, callback) {
+			if (!origin) return callback(null, true);
+			if (allowedOrigins.includes(origin)) return callback(null, true);
+			if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return callback(null, true);
+			if (origin === requestOrigin) return callback(null, true);
+			return callback(new Error('CORS policy does not allow access from the specified Origin.'));
+		},
+		credentials: true
+	};
+	cors(corsOptions)(req, res, next);
+});
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,6 +57,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/quote', quoteRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/account', accountRoutes);
 app.use('/api/placeholder', placeholderRoutes);
 app.use('/submit-service-inquiry', serviceInquiryRoutes);
 
@@ -60,4 +78,4 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Backend listening on http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Backend listening on http://0.0.0.0:${PORT}`));

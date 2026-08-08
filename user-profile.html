@@ -119,52 +119,95 @@
             </div>
         </div>
     </div>
+    <script src="/api-config.js"></script>
     <script>
         (function(){
-            const fields = {
-                firstName: localStorage.getItem('userFirstName') || '',
-                lastName: localStorage.getItem('userLastName') || '',
-                age: localStorage.getItem('userAge') || '',
-                gender: localStorage.getItem('userGender') || '',
-                email: localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail') || '',
-                contact: localStorage.getItem('userContact') || '',
-                whatsapp: localStorage.getItem('userWhatsApp') || '',
-                avatar: localStorage.getItem('userAvatarData') || ''
+            const fill = (id, value, fallback = 'Not available') => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value || fallback;
             };
-            const savedAvatar = fields.avatar;
-            const profileAvatarInner = document.getElementById('profileAvatarInner');
-            const initials = (fields.firstName.charAt(0) || 'U').toUpperCase() + (fields.lastName.charAt(0) || '').toUpperCase();
-            if(savedAvatar){ profileAvatarInner.innerHTML = '<img src="'+savedAvatar+'" alt="avatar"/>'; }
-            else { profileAvatarInner.innerHTML = '<span>'+(initials.trim() || 'U')+'</span>'; }
-            const nonEmpty = Object.values(fields).filter(value => value && value.toString().trim().length > 0).length;
-            const total = Object.keys(fields).length;
-            const percentage = Math.round((nonEmpty / total) * 100);
-            const complete = percentage === 100;
-            const ring = document.getElementById('profileRing');
-            ring.style.setProperty('--progress', percentage * 3.6 + 'deg');
-            ring.style.setProperty('--ring-color', complete ? '#22c55e' : '#fb7185');
-            document.getElementById('profilePercent').textContent = percentage + '%';
-            const profileCompleteText = document.getElementById('profileCompleteText');
-            profileCompleteText.textContent = 'Profile completion: ' + percentage + '%';
-            profileCompleteText.className = 'profile-status ' + (complete ? 'complete' : 'incomplete');
-            document.getElementById('profileStatusText').textContent = complete ? 'Fully updated' : 'Needs update';
-            document.getElementById('profileEmailShort').textContent = fields.email ? fields.email : 'No email saved';
-            document.getElementById('fieldFirst').textContent = fields.firstName || 'Not available';
-            document.getElementById('fieldLast').textContent = fields.lastName || 'Not available';
-            document.getElementById('fieldAge').textContent = fields.age || 'Not available';
-            document.getElementById('fieldGender').textContent = fields.gender || 'Not available';
-            document.getElementById('fieldEmail').textContent = fields.email || 'Not available';
-            document.getElementById('fieldContact').textContent = fields.contact || 'Not available';
-            document.getElementById('fieldWhatsApp').textContent = fields.whatsapp || 'Not available';
-            const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
-            document.getElementById('fieldLoginStatus').textContent = isLoggedIn ? 'Signed in' : 'Signed out';
-            const nameText = ((fields.firstName || '') + ' ' + (fields.lastName || '')).trim();
-            const emailUser = fields.email ? fields.email.split('@')[0].replace(/[^a-zA-Z]/g, '') : '';
-            const displayName = nameText || emailUser || 'User';
-            const pageTitle = displayName + ' profile';
-            document.title = pageTitle;
-            const titleElement = document.getElementById('pageTitle');
-            if(titleElement) titleElement.textContent = pageTitle;
+
+            const setAvatar = (avatar, firstName, lastName) => {
+                const profileAvatarInner = document.getElementById('profileAvatarInner');
+                if (!profileAvatarInner) return;
+                if (avatar) {
+                    profileAvatarInner.innerHTML = '<img src="' + avatar + '" alt="avatar"/>';
+                    return;
+                }
+                const initials = ((firstName || 'U').charAt(0) || 'U').toUpperCase() + ((lastName || '').charAt(0) || '').toUpperCase();
+                profileAvatarInner.innerHTML = '<span>' + (initials.trim() || 'U') + '</span>';
+            };
+
+            const setProfile = (user) => {
+                const firstName = user.firstName || '';
+                const lastName = user.lastName || '';
+                setAvatar(user.avatarUrl || localStorage.getItem('userAvatarData'), firstName, lastName);
+                localStorage.setItem('userFirstName', firstName);
+                localStorage.setItem('userLastName', lastName);
+                if (user.avatarUrl) localStorage.setItem('userAvatarData', user.avatarUrl);
+                localStorage.setItem('userEmail', user.email || '');
+
+                fill('fieldFirst', user.firstName);
+                fill('fieldLast', user.lastName);
+                fill('fieldAge', user.age || '');
+                fill('fieldGender', user.gender || '');
+                fill('fieldEmail', user.email);
+                fill('fieldContact', user.contact || '');
+                fill('fieldWhatsApp', user.whatsapp || '');
+                fill('profileEmailShort', user.email || 'No email saved', 'No email saved');
+
+                const nonEmpty = [user.firstName, user.lastName, user.age, user.gender, user.email, user.contact, user.whatsapp, user.avatarUrl].filter(value => value && value.toString().trim().length > 0).length;
+                const total = 8;
+                const percentage = Math.round((nonEmpty / total) * 100);
+                const complete = percentage === 100;
+                const ring = document.getElementById('profileRing');
+                if (ring) {
+                    ring.style.setProperty('--progress', percentage * 3.6 + 'deg');
+                    ring.style.setProperty('--ring-color', complete ? '#22c55e' : '#fb7185');
+                }
+                const profileCompleteText = document.getElementById('profileCompleteText');
+                if (profileCompleteText) {
+                    profileCompleteText.textContent = 'Profile completion: ' + percentage + '%';
+                    profileCompleteText.className = 'profile-status ' + (complete ? 'complete' : 'incomplete');
+                }
+                const statusText = document.getElementById('profileStatusText');
+                if (statusText) statusText.textContent = complete ? 'Fully updated' : 'Needs update';
+                const loginStatus = document.getElementById('fieldLoginStatus');
+                if (loginStatus) loginStatus.textContent = window.isAuthenticated() ? 'Signed in' : 'Signed out';
+                const displayName = (user.firstName || user.lastName) ? (user.firstName + ' ' + user.lastName).trim() : (user.email ? user.email.split('@')[0] : 'User');
+                document.title = displayName + ' profile';
+            };
+
+            async function loadProfile() {
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    window.location = 'login.html';
+                    return;
+                }
+                try {
+                    const res = await window.authFetch('/api/dashboard/profile');
+                    const data = await res.json();
+                    if (!res.ok) {
+                        if (res.status === 401) {
+                            window.clearAuth();
+                            window.location = 'login.html';
+                            return;
+                        }
+                        throw new Error(data?.error || 'Unable to load profile');
+                    }
+                    setProfile(data.user || {});
+                } catch (err) {
+                    console.error(err);
+                    setProfile({
+                        firstName: localStorage.getItem('userFirstName') || '',
+                        lastName: localStorage.getItem('userLastName') || '',
+                        email: localStorage.getItem('userEmail') || '',
+                        avatarUrl: localStorage.getItem('userAvatarData') || ''
+                    });
+                }
+            }
+
+            loadProfile();
         })();
     </script>
     <script src="/premium-animations.js"></script>

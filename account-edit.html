@@ -57,61 +57,128 @@
         </div>
     </div>
 
+    <script src="/api-config.js"></script>
     <script>
         (function(){
             const accountForm = document.getElementById('accountForm');
             const accountMessage = document.getElementById('accountMessage');
             const loginEmail = document.getElementById('loginEmail');
-            const isLoggedIn = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
-
-            if(!isLoggedIn) {
-                accountForm.style.display = 'none';
-                accountMessage.style.display = 'block';
-            } else {
-                accountMessage.style.display = 'none';
-                accountForm.style.display = 'block';
-                loginEmail.value = sessionStorage.getItem('userEmail') || localStorage.getItem('userEmail') || '';
-            }
-
             const accountAvatar = document.getElementById('accountAvatar');
             const accountAvatarInitial = document.getElementById('accountAvatarInitial');
             const changePhotoBtn = document.getElementById('changePhotoBtn');
             const accountAvatarInput = document.getElementById('accountAvatarInput');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const saveBtn = document.getElementById('saveBtn');
+
+            const accountApi = '/api/account';
+            const profileApi = '/api/dashboard/profile';
+
+            const setSignedOut = () => {
+                accountForm.style.display = 'none';
+                accountMessage.style.display = 'block';
+            };
+
+            const setSignedIn = () => {
+                accountMessage.style.display = 'none';
+                accountForm.style.display = 'block';
+            };
+
+            const displayAvatar = (avatar) => {
+                if (!avatar) return;
+                accountAvatar.innerHTML = '<img src="' + avatar + '" alt="avatar">';
+                accountAvatarInitial.style.display = 'none';
+            };
             const savedAvatar = localStorage.getItem('userAvatarData');
-            if(savedAvatar){ accountAvatar.innerHTML = '<img src="'+savedAvatar+'" alt="avatar">'; accountAvatarInitial.style.display='none'; }
+            if (savedAvatar) { displayAvatar(savedAvatar); }
+
             changePhotoBtn && changePhotoBtn.addEventListener('click', function(){ accountAvatarInput.click(); });
             accountAvatar && accountAvatar.addEventListener('click', function(){ accountAvatarInput.click(); });
             accountAvatarInput && accountAvatarInput.addEventListener('change', function(e){
-                const file = e.target.files && e.target.files[0]; if(!file) return;
+                const file = e.target.files && e.target.files[0]; if (!file) return;
                 const reader = new FileReader();
                 reader.onload = function(ev){
                     const url = ev.target.result;
                     localStorage.setItem('userAvatarData', url);
-                    accountAvatar.innerHTML = '<img src="'+url+'" alt="avatar">';
-                    accountAvatarInitial.style.display = 'none';
+                    displayAvatar(url);
                 };
                 reader.readAsDataURL(file);
             });
 
-            document.getElementById('saveBtn').addEventListener('click', function(){
-                if(!isLoggedIn) return;
-                localStorage.setItem('userEmail', loginEmail.value || '');
-                alert('Account settings saved');
-                window.location = 'index.html';
+            const loadAccount = async () => {
+                if (!window.isAuthenticated()) {
+                    setSignedOut();
+                    return;
+                }
+
+                try {
+                    const res = await window.authFetch(profileApi);
+                    const data = await res.json();
+                    if (!res.ok) {
+                        if (res.status === 401) {
+                            window.clearAuth();
+                            setSignedOut();
+                            return;
+                        }
+                        throw new Error(data?.error || 'Could not load account data');
+                    }
+                    setSignedIn();
+                    loginEmail.value = data.user?.email || localStorage.getItem('userEmail') || '';
+                    if (data.user?.avatarUrl) {
+                        displayAvatar(data.user.avatarUrl);
+                    }
+                } catch (err) {
+                    console.warn('Failed to load account profile:', err);
+                    if (window.isAuthenticated()) {
+                        setSignedIn();
+                        loginEmail.value = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail') || '';
+                    } else {
+                        setSignedOut();
+                    }
+                }
+            };
+
+            saveBtn.addEventListener('click', async function(){
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    setSignedOut();
+                    return;
+                }
+
+                const payload = {};
+                const emailValue = loginEmail.value.trim();
+                const passwordValue = loginPass.value;
+                if (emailValue) payload.email = emailValue;
+                if (passwordValue) payload.password = passwordValue;
+                if (!payload.email && !payload.password) {
+                    alert('Enter a new email or password to save.');
+                    return;
+                }
+
+                try {
+                    const res = await window.authFetch(accountApi, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (!res.ok) {
+                        throw new Error(data?.error || 'Unable to save account');
+                    }
+                    if (data.user?.email) {
+                        localStorage.setItem('userEmail', data.user.email);
+                    }
+                    loginPass.value = '';
+                    alert('Account saved successfully');
+                    window.location = 'index.html';
+                } catch (err) {
+                    alert(err.message || 'Failed to save account settings');
+                }
             });
 
-            const logoutBtn = document.getElementById('logoutBtn');
             logoutBtn && logoutBtn.addEventListener('click', function(){
-                sessionStorage.removeItem('loggedIn');
-                localStorage.removeItem('loggedIn');
-                sessionStorage.removeItem('userEmail');
-                localStorage.removeItem('userEmail');
+                if(window.clearAuth) window.clearAuth();
                 if(window.opener && !window.opener.closed){
                     try{
-                        window.opener.localStorage.removeItem('loggedIn');
-                        window.opener.localStorage.removeItem('userEmail');
-                        window.opener.sessionStorage.removeItem('loggedIn');
-                        window.opener.sessionStorage.removeItem('userEmail');
                         window.opener.location.reload();
                         window.opener.focus();
                     }catch(err){}

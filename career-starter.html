@@ -576,9 +576,7 @@
                 message: `Career Starter Pack Request:\n\nName: ${careerStarterForm.name.value.trim()}\nEmail: ${careerStarterForm.email.value.trim()}\nPhone: ${careerStarterForm.phone.value.trim()}\nCurrent Status: ${careerStarterForm.currentStatus.value}\nCareer Goal: ${careerStarterForm.careerGoal.value.trim()}`
             };
 
-            const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
-                ? 'http://localhost:3000/api/contact'
-                : '/api/contact';
+            const apiUrl = window.API_BASE ? `${window.API_BASE}/api/contact` : '/api/contact';
 
             const submitBtn = careerStarterForm.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;

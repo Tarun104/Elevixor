@@ -12,29 +12,26 @@ module.exports = async function (req, res, next) {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET || 'dev-secret');
 
-    // First try to load from MongoDB (expecting ObjectId)
     let user = null;
     if (/^[0-9a-fA-F]{24}$/.test(String(payload.id))) {
-      user = await User.findById(payload.id).select('-password');
+      user = await User.findById(payload.id).select('-passwordHash');
     }
 
-    // If not found by id, try to find by email in the DB
     if (!user) {
       try {
-        user = await User.findOne({ email: payload.id }).select('-password');
+        user = await User.findOne({ email: payload.id }).select('-passwordHash');
       } catch (e) {
         user = null;
       }
     }
 
-    // If still not found, fall back to file-backed users.json (dev fallback)
-    if (!user) {
+    if (!user && process.env.NODE_ENV !== 'production') {
       try {
         const raw = await fs.readFile(USERS_FILE_PATH, 'utf8');
         const users = JSON.parse(raw || '[]');
         const fileUser = users.find(u => u.email && String(u.email).toLowerCase() === String(payload.id).toLowerCase());
         if (fileUser) {
-          req.user = { email: fileUser.email, name: fileUser.name || '', _id: fileUser.email };
+          req.user = { email: fileUser.email, name: fileUser.name || '', avatarUrl: '', _id: fileUser.email };
           return next();
         }
       } catch (e) {

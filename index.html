@@ -3471,13 +3471,14 @@
         </div>
     </footer>
 
+    <script src="/api-config.js"></script>
     <script>
         // Auth and navigation functionality
         (function () {
             try {
                 // determine login state and token
                 const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || '';
-                const logged = sessionStorage.getItem('loggedIn') === 'true' || localStorage.getItem('loggedIn') === 'true';
+                const logged = !!token;
                 const authLink = document.getElementById('authLink');
 
                 // Open these pages correctly even when target contains fragment (#)
@@ -3493,50 +3494,52 @@
                     const btn = document.getElementById('signOutBtn');
                     btn && btn.addEventListener('click', function (e) {
                         e.preventDefault();
-                        try {
-                            sessionStorage.removeItem('loggedIn');
-                            localStorage.removeItem('loggedIn');
-                            sessionStorage.removeItem('userEmail');
-                            localStorage.removeItem('userEmail');
-                            sessionStorage.removeItem('authToken');
-                            localStorage.removeItem('authToken');
-                        } catch (e) { }
+                        window.clearAuth();
                         window.location = 'index.html';
                     });
                 };
 
-                const apiBase = (function () {
-                    try {
-                        const host = window.location.hostname;
-                        if (host === '127.0.0.1' || host === 'localhost') return 'http://127.0.0.1:3000';
-                    } catch (e) { }
-                    return '';
-                })();
+                const apiBase = window.API_BASE || '';
 
                 if (logged) {
-                    // If we have a token, try to fetch authoritative profile data from the backend
                     if (token) {
-                        fetch(apiBase + '/api/dashboard/profile', { headers: { 'Authorization': 'Bearer ' + token } }).then(r => r.json()).then(data => {
-                            const avatarData = localStorage.getItem('userAvatarData');
-                            const name = (data && data.user && (data.user.name || (data.user.email || '')) ) || localStorage.getItem('userFirstName') || 'User';
-                            const parts = String(name).split(' ');
-                            const firstName = parts[0] || 'User';
-                            const lastName = parts.slice(1).join(' ') || '';
-                            try { localStorage.setItem('userFirstName', firstName); localStorage.setItem('userLastName', lastName); localStorage.setItem('userEmail', data.user.email || localStorage.getItem('userEmail') || ''); } catch (e) {}
-                            const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
-                            const avatarHtml = avatarData ? '<img src="' + avatarData + '" alt="avatar"/>' : '<span>' + initials + '</span>';
-                            renderAuth(avatarHtml);
-                        }).catch(err => {
-                            // fetch failed — fall back to localStorage values
-                            const avatarData = localStorage.getItem('userAvatarData');
-                            const firstName = localStorage.getItem('userFirstName') || 'User';
-                            const lastName = localStorage.getItem('userLastName') || '';
-                            const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
-                            const avatarHtml = avatarData ? '<img src="' + avatarData + '" alt="avatar"/>' : '<span>' + initials + '</span>';
-                            renderAuth(avatarHtml);
-                        });
+                        window.authFetch('/api/dashboard/profile')
+                            .then(async (r) => {
+                                if (!r.ok) throw r;
+                                return r.json();
+                            })
+                            .then(data => {
+                                const avatarData = data.user.avatarUrl || localStorage.getItem('userAvatarData');
+                                const name = (data && data.user && (data.user.name || data.user.email)) || localStorage.getItem('userFirstName') || 'User';
+                                const parts = String(name).split(' ');
+                                const firstName = parts[0] || 'User';
+                                const lastName = parts.slice(1).join(' ') || '';
+                                try {
+                                    localStorage.setItem('userFirstName', firstName);
+                                    localStorage.setItem('userLastName', lastName);
+                                    localStorage.setItem('userEmail', data.user.email || localStorage.getItem('userEmail') || '');
+                                    if (data.user.avatarUrl) {
+                                        localStorage.setItem('userAvatarData', data.user.avatarUrl);
+                                    }
+                                } catch (e) {}
+                                const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
+                                const avatarHtml = avatarData ? '<img src="' + avatarData + '" alt="avatar"/>' : '<span>' + initials + '</span>';
+                                renderAuth(avatarHtml);
+                            })
+                            .catch(async err => {
+                                if (err && err.status === 401) {
+                                    window.clearAuth();
+                                    authLink.innerHTML = '<a href="login.html">Sign In</a>';
+                                    return;
+                                }
+                                const avatarData = localStorage.getItem('userAvatarData');
+                                const firstName = localStorage.getItem('userFirstName') || 'User';
+                                const lastName = localStorage.getItem('userLastName') || '';
+                                const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
+                                const avatarHtml = avatarData ? '<img src="' + avatarData + '" alt="avatar"/>' : '<span>' + initials + '</span>';
+                                renderAuth(avatarHtml);
+                            });
                     } else {
-                        // no token — render from localStorage only
                         const avatarData = localStorage.getItem('userAvatarData');
                         const firstName = localStorage.getItem('userFirstName') || 'User';
                         const lastName = localStorage.getItem('userLastName') || '';
@@ -3782,10 +3785,7 @@
                     };
 
                     try {
-                        const backendHost = 'http://localhost:3000';
-                        const endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000')
-                            ? '/submit-service-inquiry'
-                            : backendHost + '/submit-service-inquiry';
+                        const endpoint = window.API_BASE ? `${window.API_BASE}/submit-service-inquiry` : '/submit-service-inquiry';
                         const response = await fetch(endpoint, {
                             method: 'POST',
                             headers: {
@@ -3865,10 +3865,7 @@
                 };
 
                 try {
-                    const backendHost = 'http://localhost:3000';
-                    const endpoint = (window.location.hostname === 'localhost' && window.location.port === '3000')
-                        ? '/submit-service-inquiry'
-                        : backendHost + '/submit-service-inquiry';
+                    const endpoint = window.API_BASE ? `${window.API_BASE}/submit-service-inquiry` : '/submit-service-inquiry';
 
                     const response = await fetch(endpoint, {
                         method: 'POST',
