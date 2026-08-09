@@ -23,7 +23,10 @@ connectDB();
 
 app.use(helmet());
 
-const allowedOrigins = [process.env.FRONTEND_URL].filter(Boolean);
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'https://elevixor.netlify.app'
+].filter(Boolean);
 app.use((req, res, next) => {
 	const requestOrigin = `${req.protocol}://${req.get('host')}`;
 	const corsOptions = {
