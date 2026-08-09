@@ -464,12 +464,7 @@
             };
 
             try {
-                // If this page is served from a static server (Live Server on :5500)
-                // we need to target the backend explicitly. Default to same-origin
-                // otherwise (when served by the backend on :3000) use relative path.
-                const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
-                    ? 'http://localhost:3000/api/contact'
-                    : '/api/contact';
+                const apiUrl = window.API_BASE ? `${window.API_BASE}/api/contact` : '/api/contact';
 
                 const res = await fetch(apiUrl, {
                     method: 'POST',

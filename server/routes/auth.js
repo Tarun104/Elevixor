@@ -13,4 +13,19 @@ router.post('/login', [
   body('password').exists()
 ], auth.login);
 
+router.post('/send-otp', [
+  body('email').isEmail().withMessage('Valid email required')
+], auth.sendOtp);
+
+router.post('/verify-otp', [
+  body('email').isEmail().withMessage('Valid email required'),
+  body('otp').isLength({ min: 6, max: 6 }).withMessage('Valid OTP required')
+], auth.verifyOtp);
+
+router.post('/reset-password', [
+  body('email').isEmail().withMessage('Valid email required'),
+  body('otp').isLength({ min: 6, max: 6 }).withMessage('Valid reset code required'),
+  body('newPassword').isLength({ min: 6 }).withMessage('New password too short')
+], auth.resetPassword);
+
 module.exports = router;

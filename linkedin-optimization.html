@@ -1172,10 +1172,7 @@
                     message: messageText
                 };
 
-                // choose backend URL when using Live Server
-                const apiUrl = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port !== '3000'
-                    ? 'http://localhost:3000/api/contact'
-                    : '/api/contact';
+                const apiUrl = window.API_BASE ? `${window.API_BASE}/api/contact` : '/api/contact';
 
                 const submitBtn = form.querySelector('button[type="submit"]');
                 const originalLabel = submitBtn.textContent;

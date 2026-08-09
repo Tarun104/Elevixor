@@ -64,6 +64,7 @@
         </div>
     </div>
 
+    <script src="/api-config.js"></script>
     <script>
         (function(){
             const first = document.getElementById('first');
@@ -74,39 +75,118 @@
             const choose = document.getElementById('chooseAvatar');
             const editAvatar = document.getElementById('editAvatar');
             const editAvatarInitial = document.getElementById('editAvatarInitial');
+            const saveBtn = document.getElementById('saveBtn');
 
-            first.value = localStorage.getItem('userFirstName') || '';
-            last.value = localStorage.getItem('userLastName') || '';
-            age.value = localStorage.getItem('userAge') || '';
-            gender.value = localStorage.getItem('userGender') || '';
+            const setAvatar = (avatar) => {
+                if (!avatar) return;
+                editAvatar.innerHTML = '<img src="' + avatar + '" alt="avatar"/>';
+                editAvatarInitial.style.display = 'none';
+                localStorage.setItem('userAvatarData', avatar);
+            };
 
-            const saved = localStorage.getItem('userAvatarData');
-            if(saved){ editAvatar.innerHTML = '<img src="'+saved+'" alt="avatar"/>'; editAvatarInitial.style.display='none'; }
+            const loadProfile = async () => {
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    window.location = 'login.html';
+                    return;
+                }
+                try {
+                    const res = await window.authFetch('/api/dashboard/profile');
+                    const data = await res.json();
+                    if (!res.ok) {
+                        if (res.status === 401) {
+                            window.clearAuth();
+                            window.location = 'login.html';
+                            return;
+                        }
+                        throw new Error(data?.error || 'Unable to load profile');
+                    }
+                    const user = data.user || {};
+                    first.value = user.firstName || '';
+                    last.value = user.lastName || '';
+                    age.value = user.age || '';
+                    gender.value = user.gender || '';
+                    if (user.avatarUrl) {
+                        setAvatar(user.avatarUrl);
+                    } else if (localStorage.getItem('userAvatarData')) {
+                        setAvatar(localStorage.getItem('userAvatarData'));
+                    }
+                } catch (err) {
+                    console.warn(err);
+                    first.value = localStorage.getItem('userFirstName') || '';
+                    last.value = localStorage.getItem('userLastName') || '';
+                    age.value = localStorage.getItem('userAge') || '';
+                    gender.value = localStorage.getItem('userGender') || '';
+                    if (localStorage.getItem('userAvatarData')) {
+                        setAvatar(localStorage.getItem('userAvatarData'));
+                    }
+                }
+            };
 
             choose.addEventListener('click', ()=> avatarInput.click());
             editAvatar.addEventListener('click', ()=> avatarInput.click());
-            avatarInput.addEventListener('change', (e)=>{
+            avatarInput.addEventListener('change', async (e)=>{
                 const file = e.target.files && e.target.files[0]; if(!file) return;
-                const r = new FileReader(); r.onload = function(ev){ localStorage.setItem('userAvatarData', ev.target.result); editAvatar.innerHTML = '<img src="'+ev.target.result+'"/>' };
-                r.readAsDataURL(file);
+                const formData = new FormData();
+                formData.append('avatar', file);
+                try {
+                    const res = await window.authFetch('/api/dashboard/profile/avatar', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data?.error || 'Avatar upload failed');
+                    if (data.user && data.user.avatarUrl) {
+                        setAvatar(data.user.avatarUrl);
+                    }
+                } catch (err) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev){
+                        setAvatar(ev.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
             });
 
-            document.getElementById('saveBtn').addEventListener('click', function(){
-                localStorage.setItem('userFirstName', first.value || '');
-                localStorage.setItem('userLastName', last.value || '');
-                localStorage.setItem('userAge', age.value || '');
-                localStorage.setItem('userGender', gender.value || '');
-                alert('Profile saved');
-                window.location = 'index.html';
+            saveBtn.addEventListener('click', async function(){
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    window.location = 'login.html';
+                    return;
+                }
+                try {
+                    const payload = {
+                        firstName: first.value || '',
+                        lastName: last.value || '',
+                        age: age.value || '',
+                        gender: gender.value || ''
+                    };
+                    const res = await window.authFetch('/api/dashboard/profile', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data?.error || 'Unable to save profile');
+                    localStorage.setItem('userFirstName', payload.firstName);
+                    localStorage.setItem('userLastName', payload.lastName);
+                    localStorage.setItem('userAge', payload.age);
+                    localStorage.setItem('userGender', payload.gender);
+                    alert('Profile saved');
+                    window.location = 'user-profile.html';
+                } catch (err) {
+                    alert(err.message || 'Failed to save profile');
+                }
             });
 
-            // Back button: focus main page and close this tab when possible
             const backBtn = document.getElementById('backBtn');
             backBtn && backBtn.addEventListener('click', function(e){
                 e.preventDefault();
                 if(window.opener && !window.opener.closed){ try{ window.opener.focus(); }catch(err){} window.close(); }
                 else { window.location = 'index.html'; }
             });
+
+            loadProfile();
         })();
     </script>
     <script src="/premium-animations.js"></script>

@@ -561,6 +561,7 @@
     <a class="small-link" href="index.html" style="margin-top:24px;">Back to site</a>
   </div>
 
+  <script src="/api-config.js"></script>
   <script>
     // Parallax blobs
     (function () {
@@ -596,14 +597,7 @@
     // Regex patterns
     const emailRegex = /^[^\s@]+@gmail\.com$/i;
     const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
-    // Use local API during development, otherwise use same origin for deployed site
-    const apiBase = (function(){
-      try {
-        const host = window.location.hostname;
-        if (host === '127.0.0.1' || host === 'localhost') return 'http://127.0.0.1:3000';
-      } catch (e) {}
-      return '';
-    })();
+    const apiBase = window.API_BASE || '';
     const urlParams = new URLSearchParams(window.location.search);
     const loginTarget = urlParams.get('target');
 
@@ -689,7 +683,7 @@
 
     async function sendOtp(email) {
       try {
-        const response = await fetch(apiBase + '/send-otp', {
+        const response = await fetch(apiBase + '/api/auth/send-otp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email })
@@ -727,7 +721,7 @@
       }
 
       try {
-        const response = await fetch(apiBase + '/login', {
+        const response = await fetch(apiBase + '/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -773,7 +767,7 @@
       }
 
       try {
-        const response = await fetch(apiBase + '/verify-otp', {
+        const response = await fetch(apiBase + '/api/auth/verify-otp', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: signinCurrentEmail, otp })
@@ -837,7 +831,7 @@
       }
 
       try {
-        const response = await fetch(apiBase + '/register', {
+        const response = await fetch(apiBase + '/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password })
@@ -905,7 +899,7 @@
       }
 
       try {
-        const response = await fetch(apiBase + '/reset-password', {
+        const response = await fetch(apiBase + '/api/auth/reset-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword })
