@@ -17,7 +17,9 @@ function createTransport() {
 async function sendMail(opts) {
   const transporter = createTransport();
   if (!transporter) throw new Error('Email credentials not configured');
-  return transporter.sendMail(opts);
+  // Send from the brand address when EMAIL_FROM is set; otherwise fall back to the SMTP login.
+  const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
+  return transporter.sendMail(Object.assign({}, opts, { from }));
 }
 
 module.exports = { sendMail };
