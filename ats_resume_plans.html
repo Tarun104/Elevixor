@@ -510,7 +510,7 @@
             try {
                 var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
                 var controller = new AbortController();
-                var timeoutId = setTimeout(function() { controller.abort(); }, 60000);
+                var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
 
                 var res = await fetch(apiUrl, {
                     method: 'POST',

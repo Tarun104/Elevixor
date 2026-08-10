@@ -574,7 +574,7 @@
 
             try {
                 var controller = new AbortController();
-                var timeoutId = setTimeout(function() { controller.abort(); }, 60000);
+                var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
