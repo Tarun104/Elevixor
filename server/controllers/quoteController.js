@@ -10,28 +10,25 @@ exports.submitQuote = async (req, res, next) => {
     const { clientName, email, phone, company, projectType, budget, timeline, requirements } = req.body;
     const quote = await Quote.create({ clientName, email, phone, company, projectType, budget, timeline, requirements, user: req.user && req.user._id });
 
-    // send formatted email
-    try {
-      await sendMail({
-        from: process.env.EMAIL_USER,
-        to: 'elevixor1042@gmail.com',
-        replyTo: email,
-        subject: `Quote request: ${projectType || 'Project'} from ${clientName}`,
-        html: `<h3>Quote Request</h3>
-               <p><strong>Client:</strong> ${clientName}</p>
-               <p><strong>Email:</strong> ${email}</p>
-               <p><strong>Phone:</strong> ${phone}</p>
-               <p><strong>Project Type:</strong> ${projectType || 'N/A'}</p>
-               <p><strong>Budget:</strong> ${budget || 'N/A'}</p>
-               <p><strong>Timeline:</strong> ${timeline || 'N/A'}</p>
-               <h4>Requirements</h4>
-               <pre>${requirements || ''}</pre>`
-      });
-    } catch (mailErr) {
-      console.warn('Failed to send quote email:', mailErr.message);
-    }
-
+    // Respond immediately — send email in background
     res.json({ success: true, quoteId: quote._id });
+
+    // Fire-and-forget email
+    sendMail({
+      from: process.env.EMAIL_USER,
+      to: 'elevixor1042@gmail.com',
+      replyTo: email,
+      subject: `Quote request: ${projectType || 'Project'} from ${clientName}`,
+      html: `<h3>Quote Request</h3>
+             <p><strong>Client:</strong> ${clientName}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Phone:</strong> ${phone}</p>
+             <p><strong>Project Type:</strong> ${projectType || 'N/A'}</p>
+             <p><strong>Budget:</strong> ${budget || 'N/A'}</p>
+             <p><strong>Timeline:</strong> ${timeline || 'N/A'}</p>
+             <h4>Requirements</h4>
+             <pre>${requirements || ''}</pre>`
+    }).catch(mailErr => console.warn('Failed to send quote email:', mailErr.message));
   } catch (err) {
     next(err);
   }

@@ -20,26 +20,24 @@ exports.submitInquiry = async (req, res, next) => {
 
     const inquiry = await ServiceInquiry.create({ fullName, email, phone, company, serviceType, formData });
 
-    try {
-      await sendMail({
-        from: process.env.EMAIL_USER,
-        to: 'elevixor1042@gmail.com',
-        replyTo: email,
-        subject: `New ${serviceType} quote request from ${fullName}`,
-        html: `<h3>New Quote Request</h3>
-               <p><strong>Name:</strong> ${fullName}</p>
-               <p><strong>Email:</strong> ${email}</p>
-               <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
-               <p><strong>Service Type:</strong> ${serviceType}</p>
-               <h4>Details</h4>
-               <pre>${JSON.stringify(formData || {}, null, 2)}</pre>`,
-        text: `Name: ${fullName}\nEmail: ${email}\nPhone: ${phone || 'N/A'}\nService Type: ${serviceType}\n\nDetails:\n${JSON.stringify(formData || {}, null, 2)}`
-      });
-    } catch (mailErr) {
-      console.warn('Failed to send service inquiry email:', mailErr.message);
-    }
-
+    // Respond immediately — send email in background
     res.json({ success: true, inquiryId: inquiry._id });
+
+    // Fire-and-forget email
+    sendMail({
+      from: process.env.EMAIL_USER,
+      to: 'elevixor1042@gmail.com',
+      replyTo: email,
+      subject: `New ${serviceType} quote request from ${fullName}`,
+      html: `<h3>New Quote Request</h3>
+             <p><strong>Name:</strong> ${fullName}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Phone:</strong> ${phone || 'N/A'}</p>
+             <p><strong>Service Type:</strong> ${serviceType}</p>
+             <h4>Details</h4>
+             <pre>${JSON.stringify(formData || {}, null, 2)}</pre>`,
+      text: `Name: ${fullName}\nEmail: ${email}\nPhone: ${phone || 'N/A'}\nService Type: ${serviceType}\n\nDetails:\n${JSON.stringify(formData || {}, null, 2)}`
+    }).catch(mailErr => console.warn('Failed to send service inquiry email:', mailErr.message));
   } catch (err) {
     next(err);
   }

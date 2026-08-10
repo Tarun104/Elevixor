@@ -17,26 +17,23 @@ exports.submitContact = async (req, res, next) => {
 
     const contact = await Contact.create({ name, email, phone, message });
 
-    // send notification email
-    try {
-      await sendMail({
-        from: process.env.EMAIL_USER,
-        to: 'elevixor1042@gmail.com',
-        replyTo: email,
-        subject: `New ${serviceType} inquiry from ${name}`,
-        html: `<h3>New Inquiry</h3>
-               <p><strong>Name:</strong> ${name}</p>
-               <p><strong>Email:</strong> ${email}</p>
-               <p><strong>Phone:</strong> ${phone}</p>
-               <p><strong>Service:</strong> ${serviceType}</p>
-               <pre>${message}</pre>`,
-        text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${serviceType}\n\n${message}`
-      });
-    } catch (mailErr) {
-      console.warn('Failed to send contact email:', mailErr.message);
-    }
-
+    // Respond immediately — send email in background
     res.json({ success: true, contactId: contact._id });
+
+    // Fire-and-forget email (don't block the response)
+    sendMail({
+      from: process.env.EMAIL_USER,
+      to: 'elevixor1042@gmail.com',
+      replyTo: email,
+      subject: `New ${serviceType} inquiry from ${name}`,
+      html: `<h3>New Inquiry</h3>
+             <p><strong>Name:</strong> ${name}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Phone:</strong> ${phone}</p>
+             <p><strong>Service:</strong> ${serviceType}</p>
+             <pre>${message}</pre>`,
+      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${serviceType}\n\n${message}`
+    }).catch(mailErr => console.warn('Failed to send contact email:', mailErr.message));
   } catch (err) {
     next(err);
   }
