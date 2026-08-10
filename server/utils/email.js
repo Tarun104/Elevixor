@@ -10,7 +10,10 @@ function createTransport() {
     port: process.env.EMAIL_PORT ? Number(process.env.EMAIL_PORT) : 587,
     secure: process.env.EMAIL_SECURE === 'true' || false,
     auth: { user, pass },
-    tls: { rejectUnauthorized: false }
+    tls: { rejectUnauthorized: false },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000
   });
 }
 
