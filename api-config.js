@@ -3,13 +3,15 @@
   var base = window.CUSTOM_API_BASE || (isLocal ? 'http://localhost:3000' : 'https://elevixor.onrender.com');
   window.API_BASE = base;
 
-  // Keep Render backend awake — ping every 10 minutes
+  // Keep Render backend awake — ping immediately + every 5 minutes
   if (!isLocal && base.indexOf('onrender.com') !== -1) {
     try {
       fetch(base + '/api/health').catch(function() {});
+      setTimeout(function() { fetch(base + '/api/health').catch(function() {}); }, 3000);
+      setTimeout(function() { fetch(base + '/api/health').catch(function() {}); }, 8000);
       setInterval(function() {
         fetch(base + '/api/health').catch(function() {});
-      }, 600000);
+      }, 300000);
     } catch (e) {}
   }
   window.getAuthToken = function () {
