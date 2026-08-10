@@ -2,6 +2,16 @@
   var isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(window.location.origin);
   var base = window.CUSTOM_API_BASE || (isLocal ? 'http://localhost:3000' : 'https://elevixor.onrender.com');
   window.API_BASE = base;
+
+  // Keep Render backend awake — ping every 10 minutes
+  if (!isLocal && base.indexOf('onrender.com') !== -1) {
+    try {
+      fetch(base + '/api/health').catch(function() {});
+      setInterval(function() {
+        fetch(base + '/api/health').catch(function() {});
+      }, 600000);
+    } catch (e) {}
+  }
   window.getAuthToken = function () {
     return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || '';
   };
