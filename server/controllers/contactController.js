@@ -33,7 +33,11 @@ exports.submitContact = async (req, res, next) => {
              <p><strong>Service:</strong> ${serviceType}</p>
              <pre>${message}</pre>`,
       text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${serviceType}\n\n${message}`
-    }).catch(mailErr => console.warn('Failed to send contact email:', mailErr.message));
+    }).then(() => {
+      console.info('Contact email sent successfully to elevixor1042@gmail.com');
+    }).catch(mailErr => {
+      console.error('FAILED to send contact email:', mailErr.message);
+    });
   } catch (err) {
     next(err);
   }
