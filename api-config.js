@@ -1,5 +1,6 @@
 (function () {
-  const base = window.CUSTOM_API_BASE || 'https://elevixor.onrender.com';
+  var isLocal = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(window.location.origin);
+  var base = window.CUSTOM_API_BASE || (isLocal ? 'http://localhost:3000' : 'https://elevixor.onrender.com');
   window.API_BASE = base;
   window.getAuthToken = function () {
     return localStorage.getItem('authToken') || sessionStorage.getItem('authToken') || '';
