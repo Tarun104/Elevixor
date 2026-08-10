@@ -44,32 +44,100 @@
         </div>
     </div>
 
+    <script src="/api-config.js"></script>
     <script>
         (function(){
             const email = document.getElementById('email');
             const contact = document.getElementById('contact');
             const whatsapp = document.getElementById('whatsapp');
+            const saveBtn = document.getElementById('saveBtn');
 
-            email.value = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail') || '';
-            contact.value = localStorage.getItem('userContact') || '';
-            whatsapp.value = localStorage.getItem('userWhatsApp') || '';
+            let loadedEmail = '';
 
-            document.getElementById('saveBtn').addEventListener('click', function(){
-                localStorage.setItem('userEmail', email.value || '');
-                localStorage.setItem('userContact', contact.value || '');
-                localStorage.setItem('userWhatsApp', whatsapp.value || '');
-                alert('Contact saved');
-                window.location = 'index.html';
+            const loadContact = async () => {
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    window.location = 'login.html';
+                    return;
+                }
+                try {
+                    const res = await window.authFetch('/api/dashboard/profile');
+                    const data = await res.json();
+                    if (!res.ok) {
+                        if (res.status === 401) {
+                            window.clearAuth();
+                            window.location = 'login.html';
+                            return;
+                        }
+                        throw new Error(data?.error || 'Unable to load contact');
+                    }
+                    const user = data.user || {};
+                    loadedEmail = user.email || '';
+                    email.value = loadedEmail;
+                    contact.value = user.contact || '';
+                    whatsapp.value = user.whatsapp || '';
+                } catch (err) {
+                    console.warn(err);
+                    email.value = localStorage.getItem('userEmail') || sessionStorage.getItem('userEmail') || '';
+                    contact.value = localStorage.getItem('userContact') || '';
+                    whatsapp.value = localStorage.getItem('userWhatsApp') || '';
+                    loadedEmail = email.value;
+                }
+            };
+
+            saveBtn.addEventListener('click', async function(){
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    window.location = 'login.html';
+                    return;
+                }
+                const newEmail = (email.value || '').trim();
+                try {
+                    const res = await window.authFetch('/api/dashboard/profile', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contact: contact.value || '',
+                            whatsapp: whatsapp.value || ''
+                        })
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data?.error || 'Unable to save contact');
+
+                    // Persist a changed Gmail on the account too
+                    if (newEmail && newEmail.toLowerCase() !== loadedEmail.toLowerCase()) {
+                        const acctRes = await window.authFetch('/api/account', {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: newEmail })
+                        });
+                        const acctData = await acctRes.json();
+                        if (!acctRes.ok) throw new Error(acctData?.error || 'Unable to update email');
+                        loadedEmail = newEmail;
+                        localStorage.setItem('userEmail', newEmail);
+                        sessionStorage.setItem('userEmail', newEmail);
+                    }
+
+                    localStorage.setItem('userContact', contact.value || '');
+                    localStorage.setItem('userWhatsApp', whatsapp.value || '');
+                    alert('Contact saved');
+                    window.location = 'user-profile.html';
+                } catch (err) {
+                    alert(err.message || 'Failed to save contact');
+                }
             });
 
             const backBtn = document.getElementById('backBtn');
             backBtn && backBtn.addEventListener('click', function(e){
                 e.preventDefault();
                 if(window.opener && !window.opener.closed){ try{ window.opener.focus(); }catch(err){} window.close(); }
-                else { window.location = 'index.html'; }
+                else { window.location = 'user-profile.html'; }
             });
+
+            loadContact();
         })();
     </script>
     <script src="/premium-animations.js"></script>
-    <script src="/cosmic-effects.js"></script>`n</body>
+    <script src="/cosmic-effects.js"></script>
+</body>
 </html>

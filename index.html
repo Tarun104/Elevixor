@@ -1175,7 +1175,17 @@
 
         .section-item .title {
             font-weight: 800;
-            color: #ffffff
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .section-item .title i {
+            font-size: 14px;
+            color: var(--brand);
+            width: 18px;
+            text-align: center
         }
 
         .section-item .chev {
@@ -1184,6 +1194,36 @@
 
         .section-item:hover {
             background: rgba(96, 165, 250, 0.06)
+        }
+
+        /* Compact sidebar mode */
+        #profileSidebar.compact {
+            padding: 10px;
+            width: 280px
+        }
+
+        #profileSidebar.compact .profile-top {
+            gap: 8px
+        }
+
+        #profileSidebar.compact .avatar {
+            width: 48px;
+            height: 48px;
+            font-size: 15px
+        }
+
+        #profileSidebar.compact .section-list {
+            gap: 4px;
+            margin-top: 8px
+        }
+
+        #profileSidebar.compact .section-item {
+            padding: 8px 8px;
+            border-radius: 8px
+        }
+
+        #profileSidebar.compact .section-item .title {
+            font-size: 13px
         }
 
         /* ============================================
@@ -2782,11 +2822,17 @@
         </div>
 
         <div class="section-list">
-            <div class="section-item" data-target="profile-edit.html"><span class="title">Profile</span><span
+            <div class="section-item" data-target="profile-edit.html"><span class="title"><i class="fas fa-user-edit"></i> Profile</span><span
                     class="chev"><i class="fas fa-chevron-right"></i></span></div>
-            <div class="section-item" data-target="contact-edit.html"><span class="title">Contact</span><span
+            <div class="section-item" data-target="contact-edit.html"><span class="title"><i class="fas fa-address-book"></i> Contact</span><span
                     class="chev"><i class="fas fa-chevron-right"></i></span></div>
-            <div class="section-item" data-target="account-edit.html"><span class="title">Account</span><span
+            <div class="section-item" data-target="account-edit.html"><span class="title"><i class="fas fa-user-circle"></i> Account</span><span
+                    class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="quotes.html"><span class="title"><i class="fas fa-file-invoice-dollar"></i> Quotes</span><span
+                    class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="payment.html"><span class="title"><i class="fas fa-credit-card"></i> Subscriptions</span><span
+                    class="chev"><i class="fas fa-chevron-right"></i></span></div>
+            <div class="section-item" data-target="settings.html"><span class="title"><i class="fas fa-sliders-h"></i> Settings</span><span
                     class="chev"><i class="fas fa-chevron-right"></i></span></div>
         </div>
     </aside>
@@ -3623,6 +3669,15 @@
                 } else {
                     avatarInitial.textContent = (firstName.charAt(0) || 'U').toUpperCase();
                 }
+
+                // Apply user settings from Settings page
+                if (localStorage.getItem('setting_showEmail') === 'false') {
+                    const emailEl = document.getElementById('sidebarEmail');
+                    if (emailEl) emailEl.style.display = 'none';
+                }
+                if (localStorage.getItem('setting_compactSidebar') === 'true') {
+                    sidebar.classList.add('compact');
+                }
             } else {
                 // Not signed in: show a neutral guest state (no personal details)
                 set('sidebarName', 'Guest');
@@ -4048,6 +4103,7 @@
                         openEmailBtn.classList.add('loading');
                         openEmailBtn.disabled = true;
                         const oldText = openEmailBtn.textContent;
+                        
                         openEmailBtn.textContent = 'Opening...';
                         const mailtoSubject = encodeURIComponent('Premium Website Plan - Purchase Request');
                         const mailtoBody = encodeURIComponent(message);

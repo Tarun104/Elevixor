@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>My Quotes - Elevixor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root{--brand:#60a5fa;--bg:#071029;--card:rgba(15,23,42,0.95)}
+        *{box-sizing:border-box}
+        body{background:var(--bg);color:#e6eef8;font-family:Poppins,sans-serif;margin:0;padding:0}
+        .page-header{padding:24px 28px 0;display:flex;justify-content:space-between;align-items:center}
+        .page-header .logo{display:flex;align-items:center;gap:10px;color:var(--brand);font-weight:700}
+        .page-header .logo img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+        .container{max-width:720px;margin:28px auto;padding:0 24px 40px}
+        h1{color:#ffffff;font-size:24px;margin:0}
+        .muted{color:#94a3b8;font-size:14px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;font-weight:700;border:none;cursor:pointer;text-decoration:none;font-size:14px;transition:background 0.2s}
+        .btn.secondary{background:rgba(255,255,255,0.06);color:#cbd5e1;border:1px solid rgba(255,255,255,0.08)}
+        .btn:hover{transform:translateY(-1px)}
+
+        /* Daily Quote Cards */
+        #dailyQuote{display:flex;flex-direction:column;gap:14px}
+        .dq-card{background:rgba(15,23,42,0.85);border:1px solid rgba(96,165,250,0.06);border-radius:14px;padding:22px 24px;position:relative;transition:border-color 0.3s}
+        .dq-card.dq-today{background:linear-gradient(135deg,rgba(96,165,250,0.12),rgba(59,130,246,0.08));border:1px solid rgba(96,165,250,0.2)}
+        .dq-card .dq-date{font-size:12px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+        .dq-card .dq-date .today-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);display:inline-block;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+        .dq-card .dq-text{font-size:18px;line-height:1.6;color:#f1f5f9;font-style:italic;margin:0 0 12px}
+        .dq-card .dq-author{font-size:14px;color:#94a3b8;font-weight:600}
+        .dq-card .dq-author::before{content:'— '}
+        @media(max-width:600px){.page-header{flex-direction:column;align-items:flex-start;gap:12px}.dq-card{padding:18px 16px}.dq-card .dq-text{font-size:16px}}
+    </style>
+    <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
+</head>
+<body>
+    <div class="page-header">
+        <div class="logo"><img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo"/><span>Elevixor</span></div>
+        <div><a href="user-profile.html" class="btn secondary"><i class="fas fa-arrow-left"></i> Back to profile</a></div>
+    </div>
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <div><h1>Daily Quotes</h1><p class="muted" style="margin-top:4px">Motivation for your career journey — a new quote every day.</p></div>
+        </div>
+        <div id="dailyQuote"></div>
+    </div>
+
+    <script src="/api-config.js"></script>
+    <script>
+        (function(){
+            // Auth check — only logged-in users see quotes
+            if (!window.isAuthenticated()) {
+                window.clearAuth();
+                window.location = 'login.html';
+                return;
+            }
+
+            // Close tab back to parent Elevixor window
+            var closePage = function(){
+                if(window.opener && !window.opener.closed){
+                    try{ window.opener.focus(); }catch(err){}
+                    window.close();
+                } else {
+                    window.location = 'index.html';
+                }
+            };
+
+            // Back button closes tab
+            var backLink = document.querySelector('a[href="user-profile.html"]');
+            if(backLink){ backLink.addEventListener('click', function(e){ e.preventDefault(); closePage(); }); }
+        })();
+    </script>
+    <script src="/daily-quotes.js"></script>
+    <script src="/premium-animations.js"></script>
+    <script src="/cosmic-effects.js"></script>
+</body>
+</html>

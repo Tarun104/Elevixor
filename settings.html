@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Settings - Elevixor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        :root{--brand:#60a5fa;--bg:#071029;--card:rgba(15,23,42,0.95)}
+        *{box-sizing:border-box}
+        body{background:var(--bg);color:#e6eef8;font-family:Poppins,sans-serif;margin:0;padding:0}
+        .page-header{padding:24px 28px 0;display:flex;justify-content:space-between;align-items:center}
+        .page-header .logo{display:flex;align-items:center;gap:10px;color:var(--brand);font-weight:700}
+        .page-header .logo img{width:36px;height:36px;border-radius:50%;object-fit:cover}
+        .container{max-width:720px;margin:28px auto;padding:0 24px 40px}
+        .card{background:var(--card);padding:24px;border-radius:18px;border:1px solid rgba(96,165,250,0.08);box-shadow:0 25px 60px rgba(2,6,23,0.5);margin-bottom:16px}
+        h1{color:#ffffff;font-size:24px;margin:0 0 4px}
+        h2{color:#ffffff;font-size:18px;margin:0 0 16px;display:flex;align-items:center;gap:10px}
+        h2 i{color:var(--brand);font-size:16px}
+        .muted{color:#94a3b8;font-size:14px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:12px;font-weight:700;border:none;cursor:pointer;text-decoration:none;font-size:14px;transition:background 0.2s,transform 0.15s}
+        .btn.primary{background:linear-gradient(135deg,#60a5fa,#3b82f6);color:#fff}
+        .btn.secondary{background:rgba(255,255,255,0.06);color:#cbd5e1;border:1px solid rgba(255,255,255,0.08)}
+        .btn.danger{background:rgba(239,68,68,0.12);color:#f87171;border:1px solid rgba(239,68,68,0.2)}
+        .btn:hover{transform:translateY(-1px)}
+        .setting-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+        .setting-row:last-child{border-bottom:none}
+        .setting-info .label{font-size:15px;color:#e6eef8;font-weight:600}
+        .setting-info .desc{font-size:12px;color:#64748b;margin-top:2px}
+        .toggle{position:relative;width:44px;height:24px;cursor:pointer;flex-shrink:0}
+        .toggle input{opacity:0;width:0;height:0}
+        .toggle .slider{position:absolute;inset:0;background:rgba(255,255,255,0.1);border-radius:24px;transition:background 0.3s}
+        .toggle .slider::before{content:'';position:absolute;left:3px;top:3px;width:18px;height:18px;background:#94a3b8;border-radius:50%;transition:transform 0.3s,background 0.3s}
+        .toggle input:checked + .slider{background:rgba(96,165,250,0.35)}
+        .toggle input:checked + .slider::before{transform:translateX(20px);background:var(--brand)}
+        .danger-zone{border:1px solid rgba(239,68,68,0.15)}
+        .danger-zone h2 i{color:#ef4444}
+        @media(max-width:600px){.page-header{flex-direction:column;align-items:flex-start;gap:12px}.setting-row{flex-direction:column;align-items:flex-start;gap:10px}}
+    </style>
+    <link rel="stylesheet" href="/premium-style.css" />
+    <link rel="stylesheet" href="/cosmic-system.css" />
+</head>
+<body>
+    <div class="page-header">
+        <div class="logo"><img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo"/><span>Elevixor</span></div>
+        <div><a href="user-profile.html" class="btn secondary"><i class="fas fa-arrow-left"></i> Back to profile</a></div>
+    </div>
+    <div class="container">
+        <h1>Settings</h1>
+        <p class="muted" style="margin-bottom:24px">Manage your preferences and account settings.</p>
+
+        <!-- Display Preferences -->
+        <div class="card">
+            <h2><i class="fas fa-palette"></i> Display</h2>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Show email in sidebar</div>
+                    <div class="desc">Display your email address in the profile sidebar on the home page.</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="showEmail" checked />
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Compact sidebar</div>
+                    <div class="desc">Use a smaller sidebar with less padding.</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="compactSidebar" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Notification Preferences -->
+        <div class="card">
+            <h2><i class="fas fa-bell"></i> Notifications</h2>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Email notifications</div>
+                    <div class="desc">Receive email updates about your quotes and service status.</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="emailNotif" checked />
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Service announcements</div>
+                    <div class="desc">Get notified about new features and service updates.</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="serviceAnnounce" checked />
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Account Management -->
+        <div class="card">
+            <h2><i class="fas fa-shield-alt"></i> Account</h2>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Change password</div>
+                    <div class="desc">Update your account password for better security.</div>
+                </div>
+                <a href="account-edit.html" class="btn secondary" style="font-size:13px"><i class="fas fa-key"></i> Manage</a>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Sign out everywhere</div>
+                    <div class="desc">End your session on all devices.</div>
+                </div>
+                <button id="signOutAll" class="btn secondary" style="font-size:13px"><i class="fas fa-sign-out-alt"></i> Sign out</button>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="card danger-zone">
+            <h2><i class="fas fa-exclamation-triangle"></i> Danger Zone</h2>
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="label">Delete account</div>
+                    <div class="desc">Permanently delete your account and all associated data. This action cannot be undone.</div>
+                </div>
+                <button id="deleteAccount" class="btn danger" style="font-size:13px"><i class="fas fa-trash-alt"></i> Delete</button>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin-top:12px">
+            <button id="saveSettings" class="btn primary"><i class="fas fa-check"></i> Save Preferences</button>
+        </div>
+    </div>
+
+    <script src="/api-config.js"></script>
+    <script>
+        (function(){
+            const settings = {
+                showEmail: document.getElementById('showEmail'),
+                compactSidebar: document.getElementById('compactSidebar'),
+                emailNotif: document.getElementById('emailNotif'),
+                serviceAnnounce: document.getElementById('serviceAnnounce')
+            };
+
+            // Load saved preferences
+            Object.keys(settings).forEach(key => {
+                const saved = localStorage.getItem('setting_' + key);
+                if (saved !== null) {
+                    settings[key].checked = saved === 'true';
+                }
+            });
+
+            // Close tab back to the parent Elevixor window
+            const closePage = function(){
+                if(window.opener && !window.opener.closed){
+                    try{ window.opener.focus(); }catch(err){}
+                    window.close();
+                } else {
+                    window.location = 'index.html';
+                }
+            };
+
+            // Back button closes tab
+            var backLink = document.querySelector('a[href="user-profile.html"]');
+            if(backLink){ backLink.addEventListener('click', function(e){ e.preventDefault(); closePage(); }); }
+
+            // Save preferences — applied on index.html load
+            document.getElementById('saveSettings').addEventListener('click', function(){
+                Object.keys(settings).forEach(key => {
+                    localStorage.setItem('setting_' + key, settings[key].checked);
+                });
+                alert('Preferences saved');
+                closePage();
+            });
+
+            // Sign out everywhere
+            document.getElementById('signOutAll').addEventListener('click', function(){
+                if (confirm('Sign out from all devices? You will need to log in again.')) {
+                    if (window.clearAuth) window.clearAuth();
+                    alert('Signed out successfully');
+                    closePage();
+                }
+            });
+
+            // Delete account
+            document.getElementById('deleteAccount').addEventListener('click', async function(){
+                const confirmed = prompt('Type DELETE to permanently remove your account and all data. This cannot be undone.');
+                if (confirmed !== 'DELETE') return;
+                if (!window.isAuthenticated()) {
+                    window.clearAuth();
+                    window.location = 'login.html';
+                    return;
+                }
+                try {
+                    const res = await window.authFetch('/api/account', { method: 'DELETE' });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data?.error || 'Unable to delete account');
+                    if (window.clearAuth) window.clearAuth();
+                    alert('Account deleted successfully');
+                    closePage();
+                } catch (err) {
+                    alert(err.message || 'Failed to delete account. Please contact support.');
+                }
+            });
+        })();
+    </script>
+    <script src="/premium-animations.js"></script>
+    <script src="/cosmic-effects.js"></script>
+</body>
+</html>

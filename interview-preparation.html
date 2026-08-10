@@ -374,6 +374,31 @@
                 font-size: 1.5rem;
             }
         }
+        /* QR Payment Modal */
+        .qr-overlay {
+            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+            padding: 24px; background: rgba(1, 11, 31, 0.85); backdrop-filter: blur(14px);
+            z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+        }
+        .qr-overlay.open { opacity: 1; pointer-events: auto; }
+        .qr-modal {
+            position: relative; width: min(92vw, 400px); background: rgba(6, 17, 37, 0.97);
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px 28px;
+            text-align: center; box-shadow: 0 40px 120px rgba(0,0,0,0.5);
+            transform: translateY(24px) scale(0.96); opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .qr-overlay.open .qr-modal { transform: translateY(0) scale(1); opacity: 1; }
+        .qr-modal h3 { color: #fff; font-size: 20px; margin: 0 0 6px; }
+        .qr-modal .qr-service-name { color: #94a3b8; font-size: 14px; margin: 0 0 4px; }
+        .qr-modal .qr-amount { color: #a855f7; font-size: 28px; font-weight: 800; margin: 0 0 18px; }
+        .qr-modal img { width: 260px; max-width: 100%; border-radius: 14px; border: 2px solid rgba(168,85,247,0.25); }
+        .qr-modal .qr-hint { color: #64748b; font-size: 12px; margin-top: 14px; }
+        .qr-close {
+            position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06);
+            color: #f8fafc; font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
+        }
+        .qr-close:hover { background: rgba(255,255,255,0.12); }
     </style>
     <link rel="stylesheet" href="/premium-style.css" />
     <link rel="stylesheet" href="/cosmic-system.css" />
@@ -473,6 +498,7 @@
             </div>
         </footer>
     </div>
+    <script src="/api-config.js"></script>
     <script src="/premium-animations.js"></script>
     <script src="/cosmic-effects.js"></script>
     <script>
@@ -547,22 +573,33 @@
             submitBtn.textContent = 'Sending...';
 
             try {
+                var controller = new AbortController();
+                var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
                 });
+                clearTimeout(timeoutId);
 
                 if (!response.ok) {
                     const err = await response.json().catch(() => ({}));
-                    throw new Error(err.message || 'Unable to send request');
+                    throw new Error(err.message || err.errors?.[0]?.msg || 'Unable to send request');
                 }
 
                 interviewFormSuccess.classList.remove('hidden');
                 interviewForm.reset();
+                document.getElementById('qrServiceName').textContent = 'Interview Preparation';
+                document.getElementById('qrAmount').textContent = '₹499';
+                document.getElementById('qrModal').classList.add('open');
             } catch (err) {
                 console.error('Form submit error', err);
-                interviewFormError.querySelector('p').textContent = 'Unable to send details right now. Please try again later.';
+                if (err.name === 'AbortError') {
+                    interviewFormError.querySelector('p').textContent = 'Request timed out. The server may be waking up — please try again in a minute.';
+                } else {
+                    interviewFormError.querySelector('p').textContent = 'Error: ' + (err.message || 'Unable to send details. Please try again.');
+                }
                 interviewFormError.classList.remove('hidden');
             } finally {
                 submitBtn.disabled = false;
@@ -570,6 +607,17 @@
             }
         });
     </script>
+    <!-- QR Payment Modal -->
+    <div id="qrModal" class="qr-overlay">
+        <div class="qr-modal">
+            <button class="qr-close" onclick="document.getElementById('qrModal').classList.remove('open')">×</button>
+            <h3>Scan & Pay via PhonePe</h3>
+            <p class="qr-service-name" id="qrServiceName"></p>
+            <p class="qr-amount" id="qrAmount"></p>
+            <img src="business_QR.jpeg" alt="PhonePe QR Code" />
+            <p class="qr-hint">Scan this QR code using PhonePe app to complete payment</p>
+        </div>
+    </div>
 </body>
 
 </html>

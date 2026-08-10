@@ -42,7 +42,8 @@
         .profile-metadata { width: 100%; display: grid; gap: 12px; margin-top: 8px; }
         .profile-summary { padding: 16px 18px; border-radius: 16px; background: rgba(15,23,42,0.84); border: 1px solid rgba(96,165,250,0.08); }
         .summary-item { display: flex; justify-content: space-between; gap: 16px; font-size: 14px; color: #cbd5e1; }
-        .summary-item strong { color: #ffffff; }
+        .summary-item span { white-space: nowrap; flex-shrink: 0; }
+        .summary-item strong { color: #ffffff; min-width: 0; word-break: break-all; }
         .details { display: grid; gap: 20px; }
         .section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
         .section-title h2 { margin: 0; font-size: 20px; color: #ffffff; }
@@ -146,6 +147,8 @@
                 localStorage.setItem('userLastName', lastName);
                 if (user.avatarUrl) localStorage.setItem('userAvatarData', user.avatarUrl);
                 localStorage.setItem('userEmail', user.email || '');
+                localStorage.setItem('userContact', user.contact || '');
+                localStorage.setItem('userWhatsApp', user.whatsapp || '');
 
                 fill('fieldFirst', user.firstName);
                 fill('fieldLast', user.lastName);
@@ -156,7 +159,16 @@
                 fill('fieldWhatsApp', user.whatsapp || '');
                 fill('profileEmailShort', user.email || 'No email saved', 'No email saved');
 
-                const nonEmpty = [user.firstName, user.lastName, user.age, user.gender, user.email, user.contact, user.whatsapp, user.avatarUrl].filter(value => value && value.toString().trim().length > 0).length;
+                const nonEmpty = [
+                    user.firstName || localStorage.getItem('userFirstName'),
+                    user.lastName || localStorage.getItem('userLastName'),
+                    user.age || localStorage.getItem('userAge'),
+                    user.gender || localStorage.getItem('userGender'),
+                    user.email || localStorage.getItem('userEmail'),
+                    user.contact || localStorage.getItem('userContact'),
+                    user.whatsapp || localStorage.getItem('userWhatsApp'),
+                    user.avatarUrl || localStorage.getItem('userAvatarData')
+                ].filter(value => value && value.toString().trim().length > 0).length;
                 const total = 8;
                 const percentage = Math.round((nonEmpty / total) * 100);
                 const complete = percentage === 100;
@@ -172,6 +184,8 @@
                 }
                 const statusText = document.getElementById('profileStatusText');
                 if (statusText) statusText.textContent = complete ? 'Fully updated' : 'Needs update';
+                const profilePercent = document.getElementById('profilePercent');
+                if (profilePercent) profilePercent.textContent = percentage + '%';
                 const loginStatus = document.getElementById('fieldLoginStatus');
                 if (loginStatus) loginStatus.textContent = window.isAuthenticated() ? 'Signed in' : 'Signed out';
                 const displayName = (user.firstName || user.lastName) ? (user.firstName + ' ' + user.lastName).trim() : (user.email ? user.email.split('@')[0] : 'User');
@@ -202,12 +216,22 @@
                         firstName: localStorage.getItem('userFirstName') || '',
                         lastName: localStorage.getItem('userLastName') || '',
                         email: localStorage.getItem('userEmail') || '',
-                        avatarUrl: localStorage.getItem('userAvatarData') || ''
+                        avatarUrl: localStorage.getItem('userAvatarData') || '',
+                        contact: localStorage.getItem('userContact') || '',
+                        whatsapp: localStorage.getItem('userWhatsApp') || ''
                     });
                 }
             }
 
             loadProfile();
+
+            // Close tab back to parent Elevixor window
+            var backLink = document.querySelector('a[href="index.html"]');
+            if(backLink){ backLink.addEventListener('click', function(e){
+                e.preventDefault();
+                if(window.opener && !window.opener.closed){ try{ window.opener.focus(); }catch(err){} window.close(); }
+                else { window.location = 'index.html'; }
+            }); }
         })();
     </script>
     <script src="/premium-animations.js"></script>

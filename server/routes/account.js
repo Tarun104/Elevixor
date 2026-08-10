@@ -9,4 +9,6 @@ router.put('/', auth, [
   body('password').optional().isLength({ min: 6 }).withMessage('Password too short')
 ], controller.updateAccount);
 
+router.delete('/', auth, controller.deleteAccount);
+
 module.exports = router;

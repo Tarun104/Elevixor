@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Quote = require('../models/QuoteRequest');
+const ServiceInquiry = require('../models/ServiceInquiry');
 
 exports.updateAccount = async (req, res, next) => {
   try {
@@ -38,6 +40,30 @@ exports.updateAccount = async (req, res, next) => {
       contact: user.contact || '',
       whatsapp: user.whatsapp || ''
     }});
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteAccount = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user || typeof user.deleteOne !== 'function') {
+      return res.status(400).json({ error: 'Account deletion not supported for this account' });
+    }
+
+    // Remove associated data
+    try {
+      await Quote.deleteMany({ user: user._id });
+    } catch (e) { /* continue even if quote cleanup fails */ }
+
+    try {
+      await ServiceInquiry.deleteMany({ email: user.email });
+    } catch (e) { /* continue even if inquiry cleanup fails */ }
+
+    await user.deleteOne();
+
+    res.json({ success: true, message: 'Account deleted successfully' });
   } catch (err) {
     next(err);
   }
