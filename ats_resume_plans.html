@@ -525,15 +525,31 @@
                     throw new Error(err.message || err.errors?.[0]?.msg || 'Failed to send details');
                 }
 
-                // success — show QR modal
+                // success — show green message + QR modal
                 detailsForm.reset();
                 closeForm();
-                var planText = selectedPlan || 'ATS Resume Plan';
-                var priceMatch = planText.match(/Rs\.\s*(\d+)/);
+
+                // Get plan name and price from the selected option's display text
+                var planSelect = document.getElementById('selectedPlan');
+                var selectedOpt = planSelect.options[planSelect.selectedIndex];
+                var optionText = selectedOpt ? selectedOpt.textContent : 'ATS Resume Plan';
+                var priceMatch = optionText.match(/Rs\.\s*(\d+)/);
+                var planName = optionText.split(' - ')[0].trim() || 'ATS Resume Plan';
                 var price = priceMatch ? priceMatch[1] : '269';
-                document.getElementById('qrServiceName').textContent = planText;
-                document.getElementById('qrAmount').textContent = '₹' + price;
-                document.getElementById('qrModal').classList.add('open');
+
+                // Show success message on page
+                var successDiv = document.createElement('div');
+                successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
+                successDiv.textContent = '✓ Successfully submitted! Please scan the QR below to pay.';
+                document.body.appendChild(successDiv);
+                setTimeout(function() { successDiv.remove(); }, 5000);
+
+                // Show QR modal after a short delay
+                setTimeout(function() {
+                    document.getElementById('qrServiceName').textContent = planName;
+                    document.getElementById('qrAmount').textContent = '₹' + price;
+                    document.getElementById('qrModal').classList.add('open');
+                }, 500);
             } catch (err) {
                 console.error('Submit error', err);
                 if (err.name === 'AbortError') {

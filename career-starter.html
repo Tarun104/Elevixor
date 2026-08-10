@@ -628,14 +628,24 @@
                 careerStarterFormSuccess.classList.remove('hidden');
                 careerStarterFormError.classList.add('hidden');
                 careerStarterForm.reset();
-                document.getElementById('qrServiceName').textContent = 'Career Starter Pack';
-                document.getElementById('qrAmount').textContent = '₹2,999';
-                document.getElementById('qrModal').classList.add('open');
 
-                setTimeout(() => {
-                    careerStarterFormSuccess.classList.add('hidden');
-                    closeForm();
-                }, 3200);
+                // Show success message
+                var successDiv = document.createElement('div');
+                successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
+                successDiv.textContent = '✓ Successfully submitted! Please scan the QR below to pay.';
+                document.body.appendChild(successDiv);
+                setTimeout(function() { successDiv.remove(); }, 5000);
+
+                // Show QR modal
+                setTimeout(function() {
+                    document.getElementById('qrServiceName').textContent = 'Career Starter Pack';
+                    document.getElementById('qrAmount').textContent = '₹2,999';
+                    document.getElementById('qrModal').classList.add('open');
+                    setTimeout(function() {
+                        careerStarterFormSuccess.classList.add('hidden');
+                        closeForm();
+                    }, 3200);
+                }, 500);
             } catch (err) {
                 console.error('Career Starter Pack submit error', err);
                 if (err.name === 'AbortError') {

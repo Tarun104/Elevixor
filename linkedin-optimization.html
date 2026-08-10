@@ -1222,9 +1222,20 @@
 
                     setHidden(success, false);
                     form.reset();
-                    document.getElementById('qrServiceName').textContent = 'LinkedIn Optimization';
-                    document.getElementById('qrAmount').textContent = '₹799';
-                    document.getElementById('qrModal').classList.add('open');
+
+                    // Show success message
+                    var successDiv = document.createElement('div');
+                    successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
+                    successDiv.textContent = '✓ Successfully submitted! Please scan the QR below to pay.';
+                    document.body.appendChild(successDiv);
+                    setTimeout(function() { successDiv.remove(); }, 5000);
+
+                    // Show QR modal
+                    setTimeout(function() {
+                        document.getElementById('qrServiceName').textContent = 'LinkedIn Optimization';
+                        document.getElementById('qrAmount').textContent = '₹799';
+                        document.getElementById('qrModal').classList.add('open');
+                    }, 500);
                 } catch (e) {
                     console.error('LinkedIn request send error', e);
                     if (e.name === 'AbortError') {
