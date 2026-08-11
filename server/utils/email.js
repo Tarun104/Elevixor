@@ -1,6 +1,30 @@
 const nodemailer = require('nodemailer');
 
 async function sendMail(opts) {
+  // Brevo HTTP API (works on Render — SMTP is blocked)
+  const apiKey = process.env.BREVO_API_KEY;
+  if (apiKey) {
+    const from = process.env.EMAIL_FROM || 'elevixor1042@gmail.com';
+    const to = opts.to || process.env.EMAIL_RECIPIENT || 'elevixor1042@gmail.com';
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sender: { email: from, name: 'Elevixor' },
+        to: [{ email: to }],
+        subject: opts.subject || 'No subject',
+        htmlContent: opts.html || opts.text || '',
+        textContent: opts.text || ''
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.message || 'Brevo API error ' + res.status);
+    }
+    return { success: true };
+  }
+
+  // SMTP fallback (for local development)
   const user = process.env.EMAIL_USER;
   const pass = process.env.EMAIL_PASS;
   if (!user || !pass) throw new Error('Email credentials not configured');
@@ -11,9 +35,9 @@ async function sendMail(opts) {
     secure: process.env.EMAIL_SECURE === 'true' || false,
     auth: { user, pass },
     tls: { rejectUnauthorized: false },
-    connectionTimeout: 15000,
-    greetingTimeout: 15000,
-    socketTimeout: 15000
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000
   });
 
   const from = process.env.EMAIL_FROM || process.env.EMAIL_USER;
