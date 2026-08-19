@@ -199,45 +199,6 @@
             border-color: rgba(96, 165, 250, 0.5);
         }
 
-        /* Payment button styling - make it green and glowing to match theme */
-        .payment-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #021025;
-            box-shadow: 0 10px 30px rgba(16,185,129,0.15);
-            border: 1px solid rgba(6,95,70,0.12);
-        }
-
-        .payment-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 18px 50px rgba(16,185,129,0.22);
-            background: linear-gradient(135deg, #34d399, #10b981);
-        }
-
-        /* Modal confirm button: green glow */
-        #paymentConfirmBtn {
-            background: linear-gradient(135deg,#10b981,#059669) !important;
-            color: #021025 !important;
-            box-shadow: 0 14px 40px rgba(16,185,129,0.22) !important;
-            border-radius: 10px;
-            padding: 12px 20px;
-            font-weight: 700;
-        }
-
-        #paymentConfirmBtn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 22px 60px rgba(16,185,129,0.28) !important;
-        }
-        /* Pulsing glow animation for confirm button */
-        @keyframes pulseGreen {
-            0% { box-shadow: 0 12px 30px rgba(16,185,129,0.14); }
-            50% { box-shadow: 0 22px 60px rgba(16,185,129,0.30); }
-            100% { box-shadow: 0 12px 30px rgba(16,185,129,0.14); }
-        }
-
-        #paymentConfirmBtn.pulse {
-            animation: pulseGreen 2.5s ease-in-out infinite;
-        }
-
         #detailsToggle,
         #detailsToggle2,
         #detailsToggle3,
@@ -584,6 +545,188 @@
                 align-items: flex-start;
             }
         }
+
+        /* Form Overlay Styles (matching ATS Resume Plans) */
+        .form-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(1, 10, 25, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 36px 24px;
+            z-index: 50;
+        }
+
+        .form-overlay.active {
+            display: flex;
+        }
+
+        .form-card {
+            width: min(640px, 100%);
+            max-height: calc(100vh - 96px);
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .form-card h2 {
+            margin: 0 0 20px;
+            font-size: 1.9rem;
+            color: #f8fafc;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(15, 23, 42, 0.9) !important;
+            color: #e2e8f0 !important;
+            padding: 14px 16px;
+            font-size: 1rem;
+        }
+
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper select {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            background: rgba(15, 23, 42, 0.9) !important;
+            color: #e2e8f0 !important;
+            padding: 14px 16px 14px 16px;
+            padding-right: 48px;
+            font-size: 1rem;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .select-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 18px;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #ffffff;
+            border-bottom: 2px solid #ffffff;
+            transform: translateY(-50%) rotate(45deg);
+            pointer-events: none;
+        }
+
+        .form-group select option {
+            color: #e2e8f0;
+            background: #0f172a;
+        }
+
+        .form-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        /* Resume Upload Styles */
+        .resume-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .resume-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 999px;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .resume-upload-btn:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .resume-upload-btn:active {
+            transform: scale(0.98);
+        }
+
+        .resume-file-name {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 999px;
+            border: none;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.14);
+        }
+
+        .form-close {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: auto;
+            display: block;
+        }
+
+        .form-caption {
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 640px) {
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-overlay {
+                padding: 16px;
+            }
+        }
     </style>
     <!-- QR code generation library -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
@@ -622,23 +765,13 @@
                 </ul>
 
                 <div class="buttons">
-                    <button class="btn secondary-btn" id="detailsToggle">
+                    <button class="btn secondary-btn details-btn" id="openFormButton">
                         <i class="fas fa-info-circle"></i>
                         Give Me Details
                     </button>
-                    <button class="btn secondary-btn payment-btn" data-amount="1699" data-template="data-business-analyst">
-                        <i class="fas fa-wallet"></i>
-                        Make Payment
-                    </button>
                 </div>
 
-        <div class="details-panel" id="detailsPanel">
-            <p>Tell us what you want to add to your website, then share your name and phone number. We’ll respond from our new company email at <strong>elevixor1042@gmail.com</strong>.</p>
-            <p>For example: “I want a portfolio with a projects section, analytics highlights, resume download button, and a professional contact area.”</p>
-            <p class="note">Email your request details to <strong>elevixor1042@gmail.com</strong> and we’ll help you build the right website experience.</p>
-        </div>
-
-        <p class="note">This page gives access to the Data/Business Analyst portfolio template. Use Watch Preview to see the template, Give Me Details to send your request, or Make Payment to continue.</p>
+        <p class="note">This page gives access to the Data/Business Analyst portfolio template. Use Give Me Details to send your request.</p>
     </div>
 
     <!-- Software Developer Template Card (duplicate) -->
@@ -665,23 +798,13 @@
         </ul>
 
         <div class="buttons">
-            <button class="btn secondary-btn" id="detailsToggle2">
+            <button class="btn secondary-btn details-btn" id="openFormButton">
                 <i class="fas fa-info-circle"></i>
                 Give Me Details
             </button>
-            <button class="btn secondary-btn payment-btn" data-amount="1899" data-template="software-developer">
-                <i class="fas fa-wallet"></i>
-                Make Payment
-            </button>
         </div>
 
-        <div class="details-panel" id="detailsPanel2">
-            <p>Tell us what you want to add to your developer website, then share your name and phone number. We’ll respond from our company email at <strong>elevixor1042@gmail.com</strong>.</p>
-            <p>For example: “I want a portfolio with live project demos, GitHub links, resume download, and a contact form.”</p>
-            <p class="note">Email your request details to <strong>elevixor1042@gmail.com</strong> and we’ll help you build the right website experience.</p>
-        </div>
-
-        <p class="note">This page gives access to the Software Developer portfolio template. Use Watch Preview to see the template, Give Me Details to send your request, or Make Payment to continue.</p>
+        <p class="note">This page gives access to the Software Developer portfolio template. Use Give Me Details to send your request.</p>
     </div>
     
     <!-- AI/ML Template Card -->
@@ -708,23 +831,13 @@
         </ul>
 
         <div class="buttons">
-            <button class="btn secondary-btn" id="detailsToggle3">
+            <button class="btn secondary-btn details-btn" id="openFormButton">
                 <i class="fas fa-info-circle"></i>
                 Give Me Details
             </button>
-            <button class="btn secondary-btn payment-btn" data-amount="1899" data-template="ai-ml">
-                <i class="fas fa-wallet"></i>
-                Make Payment
-            </button>
         </div>
 
-        <div class="details-panel" id="detailsPanel3">
-            <p>Tell us what you want to add to your AI/ML portfolio website, then share your name and phone number. We'll respond from our new company email at <strong>elevixor1042@gmail.com</strong>.</p>
-            <p>For example: "I want a portfolio with AI projects, model showcases, research papers, GitHub links, and a professional contact area."</p>
-            <p class="note">Email your request details to <strong>elevixor1042@gmail.com</strong> and we'll help you build the right website experience.</p>
-        </div>
-
-        <p class="note">This page gives access to the AI/ML portfolio template. Use Watch Preview to see the template, Give Me Details to send your request, or Make Payment to continue.</p>
+        <p class="note">This page gives access to the AI/ML portfolio template. Use Give Me Details to send your request.</p>
     </div>
 
     <div class="card">
@@ -750,23 +863,13 @@
         </ul>
 
         <div class="buttons">
-            <button class="btn secondary-btn" id="detailsToggle4">
+            <button class="btn secondary-btn details-btn" id="openFormButton">
                 <i class="fas fa-info-circle"></i>
                 Give Me Details
             </button>
-            <button class="btn secondary-btn payment-btn" data-amount="1699" data-template="data-science">
-                <i class="fas fa-wallet"></i>
-                Make Payment
-            </button>
         </div>
 
-        <div class="details-panel" id="detailsPanel4">
-            <p>Tell us what you want to add to your data science portfolio website, then share your name and phone number. We'll respond from our new company email at <strong>elevixor1042@gmail.com</strong>.</p>
-            <p>For example: "I want a portfolio with data projects, model showcases, research papers, GitHub links, and a professional contact area."</p>
-            <p class="note">Email your request details to <strong>elevixor1042@gmail.com</strong> and we'll help you build the right website experience.</p>
-        </div>
-
-        <p class="note">This page gives access to the Data Science portfolio template. Use Watch Preview to see the template, Give Me Details to send your request, or Make Payment to continue.</p>
+        <p class="note">This page gives access to the Data Science portfolio template. Use Give Me Details to send your request.</p>
     </div>
 
     <div class="card">
@@ -792,190 +895,223 @@
         </ul>
 
         <div class="buttons">
-            <button class="btn secondary-btn" id="detailsToggle5">
+            <button class="btn secondary-btn details-btn" id="openFormButton">
                 <i class="fas fa-info-circle"></i>
                 Give Me Details
             </button>
-            <button class="btn secondary-btn payment-btn" data-amount="1999" data-template="cloud-infrastructure-devops">
-                <i class="fas fa-wallet"></i>
-                Make Payment
-            </button>
         </div>
 
-        <div class="details-panel" id="detailsPanel5">
-            <p>Tell us what you want to add to your cloud infrastructure and DevOps portfolio website, then share your name and phone number. We'll respond from our new company email at <strong>elevixor1042@gmail.com</strong>.</p>
-            <p>For example: "I want a portfolio with infrastructure architecture, CI/CD pipelines, IaC examples, cloud deployments, and a professional contact area."</p>
-            <p class="note">Email your request details to <strong>elevixor1042@gmail.com</strong> and we'll help you build the right website experience.</p>
-        </div>
-
-        <p class="note">This page gives access to the Cloud Infrastructure & DevOps portfolio template. Use Watch Preview to see the template, Give Me Details to send your request, or Make Payment to continue.</p>
+        <p class="note">This page gives access to the Cloud Infrastructure & DevOps portfolio template. Use Give Me Details to send your request.</p>
     </div>
         </div>
-
-    <!-- Payment modal (opens when clicking Make Payment) -->
-    <div id="paymentModal" style="display:none; position:fixed; inset:0; z-index:9999; align-items:center; justify-content:center; overflow-y:auto;">
-        <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,0.65), rgba(2,6,23,0.85)); backdrop-filter:blur(4px);"></div>
-        <div style="position:relative; width:min(240px,92vw); max-width:96%; max-height:96vh; overflow-y:auto; background:linear-gradient(180deg,#06122b, #041229); color:#e6eef8; border-radius:14px; padding:20px; box-shadow:0 20px 60px rgba(2,6,23,0.7); z-index:2; text-align:center; border:1px solid rgba(96,165,250,0.08);">
-            <button id="paymentClose" style="position:absolute; right:12px; top:12px; background:none; border:none; color:#93c5fd; font-weight:800; font-size:18px; cursor:pointer; min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center;">✕</button>
-            <h3 style="margin-top:6px; color:var(--brand); margin-bottom:6px;">Scan & Pay</h3>
-            <p style="color:#cbd5e1; margin:8px 0 14px;">Open your UPI or payments app, scan the QR code below, and confirm payment of <strong id="paymentAmount">₹0</strong>.</p>
-            <div style="background:rgba(255,255,255,0.03); padding:14px; border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-                <div id="paymentQrWrapper" style="display:flex;flex-direction:column;align-items:center;gap:12px; width:100%;">
-                    <div id="qrContainer" style="width:100%; max-width:240px; min-height:240px; display:flex; align-items:center; justify-content:center; padding:14px; background:#ffffff; border-radius:18px; box-shadow:0 16px 40px rgba(0,0,0,0.18);">
-                        <img id="paymentQrImage" src="" alt="Payment QR code" style="display:none; width:220px; max-width:100%; height:220px; border-radius:14px; object-fit:contain; background:#fff;" />
-                    </div>
-                    <div id="qrLoading" style="color:#94a3b8;font-size:13px;">Generating QR…</div>
-                    <div id="qrError" style="color:#fda4af;display:none;font-size:13px;">Unable to generate QR code. Please refresh and try again.</div>
-                </div>
-                <div style="font-size:13px; color:#94a3b8;">Tip: If your camera scanner doesn't open, long-press to save the QR and scan it from your payments app.</div>
-            </div>
-            <button id="paymentConfirmBtn" class="btn" style="margin-top:16px; background:var(--brand); color:#021025;">I've Paid — Confirm</button>
-            <div id="paymentNote" style="margin-top:10px; font-size:13px; color:#94a3b8;">After you confirm, we'll verify the payment and provide access within 24 hours.</div>
-        </div>
-    </div>
 
         <footer>
             <p>&copy; 2026 Elevixor. All rights reserved. | <a href="/index.html" style="color:#60a5fa; text-decoration:none;">Back to Home</a> | <a href="/privacy-policy.html" style="color:#60a5fa; text-decoration:none;">Privacy Policy</a> | <a href="/terms-and-conditions.html" style="color:#60a5fa; text-decoration:none;">Terms &amp; Conditions</a></p>
         </footer>
     </div>
-    <script>
-        const detailsToggle = document.getElementById('detailsToggle');
-        const detailsPanel = document.getElementById('detailsPanel');
-        const detailsToggle2 = document.getElementById('detailsToggle2');
-        const detailsPanel2 = document.getElementById('detailsPanel2');
-        const detailsToggle3 = document.getElementById('detailsToggle3');
-        const detailsPanel3 = document.getElementById('detailsPanel3');
-        const detailsToggle4 = document.getElementById('detailsToggle4');
-        const detailsPanel4 = document.getElementById('detailsPanel4');
-        const detailsToggle5 = document.getElementById('detailsToggle5');
-        const detailsPanel5 = document.getElementById('detailsPanel5');
 
-        if(detailsToggle && detailsPanel) {
-            detailsToggle.addEventListener('click', () => {
-                detailsPanel.classList.toggle('visible');
-                detailsToggle.innerHTML = detailsPanel.classList.contains('visible')
-                    ? '<i class="fas fa-info-circle"></i> Hide Details'
-                    : '<i class="fas fa-info-circle"></i> Give Me Details';
-            });
-        }
+    <!-- Form Modal Overlay (like ATS Resume Plans) -->
+    <div class="form-overlay" id="detailFormOverlay" aria-hidden="true">
+        <div class="form-card" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+            <button class="form-close" id="closeFormButton">Close ✕</button>
+            <h2 id="formTitle">Share Your Details</h2>
+            <p class="form-caption">Fill out your contact information and choose the portfolio template you want. Then submit to send the details to our email.</p>
+            <form id="detailsForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" placeholder="Your full name" required autocomplete="name" />
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email Address</label>
+                    <input type="email" id="userEmail" name="userEmail" placeholder="you@example.com" required autocomplete="email" />
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+91 99999 99999" required autocomplete="tel" />
+                </div>
+                <div class="form-group">
+                    <label for="selectedPlan">Selected Template</label>
+                    <div class="select-wrapper">
+                        <select id="selectedPlan" name="selectedPlan" required>
+                            <option value="">Choose a template</option>
+                            <option value="Data/Business Analyst Portfolio">Data/Business Analyst Portfolio - ₹1,699</option>
+                            <option value="Software Developer Portfolio">Software Developer Portfolio - ₹1,899</option>
+                            <option value="AI/ML Portfolio">AI/ML Portfolio - ₹1,899</option>
+                            <option value="Data Science Portfolio">Data Science Portfolio - ₹1,699</option>
+                            <option value="Cloud Infrastructure & DevOps Portfolio">Cloud Infrastructure & DevOps Portfolio - ₹1,999</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="requirements">Your Requirements</label>
+                    <textarea id="requirements" name="requirements" placeholder="Tell us about your experience, goals, and what you'd like in your portfolio website." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="resumeUpload">Upload Your Current Resume (Optional)</label>
+                    <div class="resume-upload-wrapper">
+                        <input type="file" id="resumeUpload" name="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;" />
+                        <button type="button" class="resume-upload-btn" id="resumeUploadBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            <span id="resumeUploadText">Choose File</span>
+                        </button>
+                        <span id="resumeFileName" class="resume-file-name"></span>
+                    </div>
+                </div>
+                <button type="submit" class="form-submit">Submit Details</button>
+            </form>
+        </div>
+    </div>
 
-        if(detailsToggle2 && detailsPanel2) {
-            detailsToggle2.addEventListener('click', () => {
-                detailsPanel2.classList.toggle('visible');
-                detailsToggle2.innerHTML = detailsPanel2.classList.contains('visible')
-                    ? '<i class="fas fa-info-circle"></i> Hide Details'
-                    : '<i class="fas fa-info-circle"></i> Give Me Details';
-            });
-        }
-
-        if(detailsToggle3 && detailsPanel3) {
-            detailsToggle3.addEventListener('click', () => {
-                detailsPanel3.classList.toggle('visible');
-                detailsToggle3.innerHTML = detailsPanel3.classList.contains('visible')
-                    ? '<i class="fas fa-info-circle"></i> Hide Details'
-                    : '<i class="fas fa-info-circle"></i> Give Me Details';
-            });
-        }
-
-        if(detailsToggle4 && detailsPanel4) {
-            detailsToggle4.addEventListener('click', () => {
-                detailsPanel4.classList.toggle('visible');
-                detailsToggle4.innerHTML = detailsPanel4.classList.contains('visible')
-                    ? '<i class="fas fa-info-circle"></i> Hide Details'
-                    : '<i class="fas fa-info-circle"></i> Give Me Details';
-            });
-        }
-
-        if(detailsToggle5 && detailsPanel5) {
-            detailsToggle5.addEventListener('click', () => {
-                detailsPanel5.classList.toggle('visible');
-                detailsToggle5.innerHTML = detailsPanel5.classList.contains('visible')
-                    ? '<i class="fas fa-info-circle"></i> Hide Details'
-                    : '<i class="fas fa-info-circle"></i> Give Me Details';
-            });
-        }
-    </script>
-    <script>
-        // Payment modal interactions
-        (function(){
-            const modal = document.getElementById('paymentModal');
-            const amountEl = document.getElementById('paymentAmount');
-            const qrImage = document.getElementById('paymentQrImage');
-            const qrLoading = document.getElementById('qrLoading');
-            const qrError = document.getElementById('qrError');
-            const closeBtn = document.getElementById('paymentClose');
-            const confirmBtn = document.getElementById('paymentConfirmBtn');
-
-            function showLoading(){
-                if(qrLoading) qrLoading.style.display = 'block';
-                if(qrError) qrError.style.display = 'none';
-                if(qrImage) qrImage.style.display = 'none';
-            }
-
-            function hideLoading(){
-                if(qrLoading) qrLoading.style.display = 'none';
-            }
-
-            function showError(){
-                if(qrLoading) qrLoading.style.display = 'none';
-                if(qrError) qrError.style.display = 'block';
-                if(qrImage) qrImage.style.display = 'none';
-            }
-
-            function generateUpiString(amount){
-                const pa = 'elevixor1042@upi';
-                const pn = 'Elevixor';
-                const tn = 'Portfolio payment';
-                return 'upi://pay?pa=' + encodeURIComponent(pa) + '&pn=' + encodeURIComponent(pn) + '&am=' + encodeURIComponent(amount) + '&cu=INR&tn=' + encodeURIComponent(tn);
-            }
-
-            function renderQr(amount){
-                if(!qrImage || typeof QRCode === 'undefined') return showError();
-                showLoading();
-                QRCode.toDataURL(generateUpiString(amount), {
-                    width: 500,
-                    margin: 1,
-                    color: { dark: '#000000', light: '#ffffff' }
-                }, (err, url) => {
-                    if(err){
-                        console.error('QR generation failed', err);
-                        return showError();
-                    }
-                    hideLoading();
-                    qrImage.src = url;
-                    qrImage.style.display = 'block';
-                });
-            }
-
-            document.querySelectorAll('.payment-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const amount = btn.dataset.amount || '0';
-                    amountEl.textContent = '₹' + amount;
-                    modal.style.display = 'flex';
-                    modal.style.alignItems = 'center';
-                    modal.style.justifyContent = 'center';
-                    if(confirmBtn) confirmBtn.classList.add('pulse');
-                    renderQr(amount);
-                });
-            });
-
-            closeBtn && closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-                if(confirmBtn) confirmBtn.classList.remove('pulse');
-            });
-
-            confirmBtn && confirmBtn.addEventListener('click', () => {
-                try{ alert('Thank you! We will verify your payment and grant access shortly.'); }catch(e){}
-                modal.style.display = 'none';
-                if(confirmBtn) confirmBtn.classList.remove('pulse');
-            });
-
-            modal && modal.addEventListener('click', e => {
-                if(e.target === modal) modal.style.display = 'none';
-            });
-        })();
-    </script>
+    <script src="/api-config.js"></script>
     <script src="/premium-animations.js"></script>
-    <script src="/cosmic-effects.js"></script>`n</body>
+    <script src="/cosmic-effects.js"></script>
+    <script>
+        // Form modal interactions - EXACTLY like ATS Resume Plans
+        const openFormButton = document.querySelectorAll('.details-btn');
+        const detailFormOverlay = document.getElementById('detailFormOverlay');
+        const closeFormButton = document.getElementById('closeFormButton');
+        const detailsForm = document.getElementById('detailsForm');
+
+        function openForm() {
+            detailFormOverlay.classList.add('active');
+            detailFormOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeForm() {
+            detailFormOverlay.classList.remove('active');
+            detailFormOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        // Add click event to all detail buttons
+        openFormButton.forEach(btn => {
+            btn.addEventListener('click', openForm);
+        });
+
+        closeFormButton.addEventListener('click', closeForm);
+        detailFormOverlay.addEventListener('click', (event) => {
+            if (event.target === detailFormOverlay) {
+                closeForm();
+            }
+        });
+
+        // Resume upload handling
+        const resumeUploadBtn = document.getElementById('resumeUploadBtn');
+        const resumeUpload = document.getElementById('resumeUpload');
+        const resumeUploadText = document.getElementById('resumeUploadText');
+        const resumeFileName = document.getElementById('resumeFileName');
+
+        resumeUploadBtn.addEventListener('click', () => resumeUpload.click());
+
+        resumeUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                // Validate file type
+                const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please upload a PDF, DOC, or DOCX file.');
+                    resumeUpload.value = '';
+                    return;
+                }
+                // Validate file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB.');
+                    resumeUpload.value = '';
+                    return;
+                }
+                resumeUploadText.textContent = 'File Selected';
+                resumeFileName.textContent = file.name;
+                resumeFileName.style.color = '#4ade80';
+                resumeUploadBtn.style.borderColor = '#4ade80';
+                resumeUploadBtn.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+        });
+
+        detailsForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const submitButton = detailsForm.querySelector('.form-submit');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending...';
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const userEmail = document.getElementById('userEmail').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const selectedPlan = document.getElementById('selectedPlan').value;
+            const requirements = document.getElementById('requirements').value.trim();
+            const resumeFile = document.getElementById('resumeUpload').files[0];
+
+            const payload = {
+                name: fullName,
+                email: userEmail,
+                phone,
+                serviceType: selectedPlan || 'Portfolio Website',
+                message: `Selected Template: ${selectedPlan}\n\nRequirements:\n${requirements}`
+            };
+
+            // If resume file is attached, convert to base64 and include in payload
+            if (resumeFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    payload.resumeFile = {
+                        name: resumeFile.name,
+                        type: resumeFile.type,
+                        size: resumeFile.size,
+                        data: e.target.result.split(',')[1] // base64 data
+                    };
+                    submitForm(payload, submitButton);
+                };
+                reader.readAsDataURL(resumeFile);
+                return; // Wait for file to load
+            }
+
+            submitForm(payload, submitButton);
+        });
+
+        async function submitForm(payload, submitButton) {
+            try {
+                var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
+                var controller = new AbortController();
+                var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
+
+                var res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (!res.ok) {
+                    var err = await res.json().catch(function() { return {}; });
+                    throw new Error(err.message || err.errors?.[0]?.msg || 'Failed to send details');
+                }
+
+                // success — show green confirmation message
+                detailsForm.reset();
+                resumeUploadText.textContent = 'Choose File';
+                resumeFileName.textContent = '';
+                resumeUploadBtn.style.borderColor = '';
+                resumeUploadBtn.style.background = '';
+                closeForm();
+
+                // Show success message on page
+                var successDiv = document.createElement('div');
+                successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
+                successDiv.textContent = '✓ Successfully submitted! We will contact you shortly.';
+                document.body.appendChild(successDiv);
+                setTimeout(function() { successDiv.remove(); }, 5000);
+            } catch (err) {
+                console.error('Submit error', err);
+                if (err.name === 'AbortError') {
+                    alert('Request timed out. The server may be waking up — please try again in a minute.');
+                } else {
+                    alert('Error: ' + (err.message || 'Unable to send details. Please try again.'));
+                }
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Details';
+            }
+        }
+    </script></body>
 
 </html>
