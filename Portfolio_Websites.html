@@ -764,14 +764,7 @@
                     <li><i class="fas fa-check"></i>Easy GitHub and LinkedIn integration for recruiters</li>
                 </ul>
 
-                <div class="buttons">
-                    <button class="btn secondary-btn details-btn" id="openFormButton">
-                        <i class="fas fa-info-circle"></i>
-                        Give Me Details
-                    </button>
-                </div>
-
-        <p class="note">This page gives access to the Data/Business Analyst portfolio template. Use Give Me Details to send your request.</p>
+                <p class="note">This page gives access to the Data/Business Analyst portfolio template.</p>
     </div>
 
     <!-- Software Developer Template Card (duplicate) -->
@@ -797,16 +790,9 @@
             <li><i class="fas fa-check"></i>GitHub and live demo integration for recruiters</li>
         </ul>
 
-        <div class="buttons">
-            <button class="btn secondary-btn details-btn" id="openFormButton">
-                <i class="fas fa-info-circle"></i>
-                Give Me Details
-            </button>
-        </div>
-
-        <p class="note">This page gives access to the Software Developer portfolio template. Use Give Me Details to send your request.</p>
+        <p class="note">This page gives access to the Software Developer portfolio template.</p>
     </div>
-    
+
     <!-- AI/ML Template Card -->
     <div class="card">
         <div class="card-header">
@@ -837,7 +823,7 @@
             </button>
         </div>
 
-        <p class="note">This page gives access to the AI/ML portfolio template. Use Give Me Details to send your request.</p>
+        <p class="note">This page gives access to the AI/ML portfolio template.</p>
     </div>
 
     <div class="card">
@@ -862,14 +848,7 @@
             <li><i class="fas fa-check"></i>GitHub and notebook integration for recruiters</li>
         </ul>
 
-        <div class="buttons">
-            <button class="btn secondary-btn details-btn" id="openFormButton">
-                <i class="fas fa-info-circle"></i>
-                Give Me Details
-            </button>
-        </div>
-
-        <p class="note">This page gives access to the Data Science portfolio template. Use Give Me Details to send your request.</p>
+        <p class="note">This page gives access to the Data Science portfolio template.</p>
     </div>
 
     <div class="card">
@@ -894,16 +873,17 @@
             <li><i class="fas fa-check"></i>GitHub, Docker, and cloud profile integration for recruiters</li>
         </ul>
 
-        <div class="buttons">
-            <button class="btn secondary-btn details-btn" id="openFormButton">
-                <i class="fas fa-info-circle"></i>
-                Give Me Details
-            </button>
-        </div>
-
-        <p class="note">This page gives access to the Cloud Infrastructure & DevOps portfolio template. Use Give Me Details to send your request.</p>
+        <p class="note">This page gives access to the Cloud Infrastructure & DevOps portfolio template.</p>
     </div>
         </div>
+
+    <!-- Single Give Me Details button at bottom (like ATS Resume Plans) -->
+    <div style="text-align: center; margin: 40px 0 20px;">
+        <button class="details-btn" id="openFormButton" style="max-width: 300px; background: #ffffff; color: #000000; border: 1px solid rgba(0,0,0,0.12);">
+            <i class="fas fa-info-circle"></i>
+            Give Me Details
+        </button>
+    </div>
 
         <footer>
             <p>&copy; 2026 Elevixor. All rights reserved. | <a href="/index.html" style="color:#60a5fa; text-decoration:none;">Back to Home</a> | <a href="/privacy-policy.html" style="color:#60a5fa; text-decoration:none;">Privacy Policy</a> | <a href="/terms-and-conditions.html" style="color:#60a5fa; text-decoration:none;">Terms &amp; Conditions</a></p>
@@ -967,7 +947,7 @@
     <script src="/cosmic-effects.js"></script>
     <script>
         // Form modal interactions - EXACTLY like ATS Resume Plans
-        const openFormButton = document.querySelectorAll('.details-btn');
+        const openFormButton = document.getElementById('openFormButton');
         const detailFormOverlay = document.getElementById('detailFormOverlay');
         const closeFormButton = document.getElementById('closeFormButton');
         const detailsForm = document.getElementById('detailsForm');
@@ -982,11 +962,7 @@
             detailFormOverlay.setAttribute('aria-hidden', 'true');
         }
 
-        // Add click event to all detail buttons
-        openFormButton.forEach(btn => {
-            btn.addEventListener('click', openForm);
-        });
-
+        openFormButton.addEventListener('click', openForm);
         closeFormButton.addEventListener('click', closeForm);
         detailFormOverlay.addEventListener('click', (event) => {
             if (event.target === detailFormOverlay) {
