@@ -18,6 +18,13 @@
         .photo-button{display:inline-block;padding:10px 16px;border-radius:12px;border:1px solid rgba(96,165,250,0.4);background:transparent;color:var(--brand);cursor:pointer;text-decoration:none;margin-bottom:16px}
         .btn{display:inline-block;padding:12px 18px;border-radius:12px;background:var(--brand);color:#021025;font-weight:800;text-decoration:none;border:none;cursor:pointer}
         .muted{color:#94a3b8}
+        @media (max-width:600px){
+            body{padding:16px}
+            .wrap>div:first-child{flex-wrap:wrap;gap:8px}
+            #backBtn{min-height:44px;display:inline-flex;align-items:center;padding:0 4px}
+            .photo-button{min-height:44px;display:inline-flex;align-items:center}
+            .btn{min-height:44px;display:inline-flex;align-items:center}
+        }
     </style>
     <link rel="stylesheet" href="/premium-style.css" />
     <link rel="stylesheet" href="/cosmic-system.css" />
@@ -45,9 +52,9 @@
                 <input id="accountAvatarInput" type="file" accept="image/*" style="display:none" />
             </div>
             <label>Login Email</label>
-            <input id="loginEmail" type="email" />
+            <input id="loginEmail" type="email" autocomplete="email" />
             <label>Change Password (optional)</label>
-            <input id="loginPass" type="password" />
+            <input id="loginPass" type="password" autocomplete="new-password" />
 
             <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:center">
                 <button id="saveBtn" class="btn">Save Account</button>

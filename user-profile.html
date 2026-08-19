@@ -64,6 +64,14 @@
             .grid { grid-template-columns: 1fr; }
             .page-header { flex-direction: column; align-items: flex-start; }
         }
+
+        @media (max-width: 480px) {
+            /* Info pairs get ~67px of text at 2 columns on phones — stack them */
+            .info-grid { grid-template-columns: 1fr; }
+            .card { padding: 20px; }
+            .info-card { padding: 16px; }
+            .section-title a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 4px; }
+        }
     </style>
     <link rel="stylesheet" href="/premium-style.css" />
     <link rel="stylesheet" href="/cosmic-system.css" />

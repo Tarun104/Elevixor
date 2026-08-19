@@ -662,6 +662,8 @@
 
             .premium-modal-card {
                 border-radius: 24px;
+                /* 320px min-width would force horizontal scroll inside the modal on small phones */
+                min-width: 0;
             }
 
             .premium-modal-hero {
@@ -683,6 +685,11 @@
 
             .premium-modal-action {
                 width: 100%;
+            }
+
+            /* Stack form rows so inputs aren't squeezed side-by-side on phones */
+            .modal-row {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1059,6 +1066,28 @@
         nav ul li#authLink .profile-avatar:hover {
             transform: translateY(-50%) scale(1.05);
             border-color: rgba(255, 255, 255, 0.55);
+        }
+
+        /* Site-nav hamburger — shown only on mobile (nav ul collapses to a dropdown) */
+        .nav-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 10px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            color: #ffffff;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1201;
+            flex-shrink: 0;
+        }
+
+        .nav-toggle:active {
+            transform: scale(0.96);
         }
 
         /* Profile sidebar toggle (compact, non-disruptive) — white boundary with dark bars */
@@ -1781,8 +1810,9 @@
         }
 
         .business-service-card {
+            position: relative;
             background: rgba(30, 41, 59, 0.6);
-            padding: 35px;
+            padding: 24px;
             border-radius: 20px;
             border: 1px solid rgba(96, 165, 250, 0.15);
             backdrop-filter: blur(10px);
@@ -2019,7 +2049,7 @@
 
         .why-choose-card {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(17, 24, 39, 0.6));
-            padding: 35px;
+            padding: 24px;
             border-radius: 16px;
             border: 1px solid rgba(96, 165, 250, 0.15);
             transition: all 0.3s ease;
@@ -2124,7 +2154,7 @@
             justify-content: center;
             align-items: center;
             min-height: 320px;
-            padding: 40px;
+            padding: 28px;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.55));
             border-radius: 24px;
             border: 1px solid rgba(96, 165, 250, 0.18);
@@ -2165,8 +2195,9 @@
         }
 
         .service-card {
+            position: relative;
             background: rgba(30, 41, 59, 0.6);
-            padding: 40px;
+            padding: 28px 28px 70px;
             border-radius: 20px;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
             border: 1px solid rgba(96, 165, 250, 0.15);
@@ -2201,6 +2232,87 @@
             color: #cbd5e1;
             line-height: 1.8;
             font-size: 15px;
+        }
+
+        .service-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .service-card-header h3 {
+            margin: 0;
+        }
+
+        .share-btn {
+            position: absolute;
+            bottom: 40px;
+            left: 230px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #60a5fa;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .business-service-card .share-btn {
+            top: -90px;
+            left: 310px;
+            bottom: auto;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 4px 12px rgba(96, 165, 250, 0.5));
+        }
+
+        .share-btn:active {
+            transform: scale(0.95);
+        }
+
+        .share-btn img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .share-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #4ade80;
+            padding: 14px 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.2);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .share-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .share-toast svg {
+            width: 20px;
+            height: 20px;
         }
 
         .nested-card {
@@ -2352,7 +2464,7 @@
 
         .testimonial-card {
             background: rgba(30, 41, 59, 0.6);
-            padding: 35px;
+            padding: 24px;
             border-radius: 16px;
             border: 1px solid rgba(96, 165, 250, 0.15);
             backdrop-filter: blur(10px);
@@ -2481,7 +2593,7 @@
 
         .feature-box {
             background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(17, 24, 39, 0.6));
-            padding: 40px;
+            padding: 28px;
             border-radius: 16px;
             border: 1px solid rgba(96, 165, 250, 0.15);
             transition: all 0.3s ease;
@@ -2650,8 +2762,53 @@
                 font-size: 22px;
             }
 
+            .nav-toggle {
+                display: inline-flex;
+            }
+
+            /* Nav links become a full-width dropdown below the bar; toggled by .nav-toggle */
             nav ul {
                 display: none;
+                position: fixed;
+                top: 72px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                margin: 0;
+                padding: 8px 5% 14px;
+                background: rgba(10, 14, 39, 0.97);
+                backdrop-filter: blur(18px) saturate(160%);
+                -webkit-backdrop-filter: blur(18px) saturate(160%);
+                border-bottom: 1px solid rgba(96, 165, 250, 0.15);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+                z-index: 1200;
+            }
+
+            nav.open ul {
+                display: flex;
+            }
+
+            nav ul li {
+                width: 100%;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 14px 0;
+                font-size: 16px;
+                border-bottom: 1px solid rgba(96, 165, 250, 0.08);
+            }
+
+            nav ul li:last-child a {
+                border-bottom: none;
+            }
+
+            /* Dashboard hamburger moves to the right so it stops overlapping the logo */
+            #profileToggle {
+                left: auto;
+                right: 14px;
             }
 
             .hero {
@@ -2676,6 +2833,16 @@
 
             .hero-image img {
                 max-width: 100%;
+            }
+
+            /* The saturn-ring art is 600–680px wide inside a 300px holder — scale it
+               down on phones so it stops getting clipped by .hero's overflow */
+            .hero-image {
+                min-height: 240px;
+            }
+
+            .planet-holder {
+                transform: scale(0.6);
             }
 
             section {
@@ -2733,6 +2900,24 @@
                 font-size: 32px;
             }
 
+            /* Student/Business switcher: two 350px-wide pills overflow a 320px screen;
+               grid them 50/50 so the Business tab stays reachable. */
+            .section-card-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .section-card {
+                flex: 1 1 auto;
+                padding: 12px 8px;
+            }
+
+            .section-card h3 {
+                font-size: 14px;
+                letter-spacing: 0.08em;
+            }
+
             .hero-text p {
                 font-size: 16px;
             }
@@ -2740,6 +2925,16 @@
             .btn {
                 padding: 14px 24px;
                 font-size: 14px;
+            }
+
+            /* Long button labels (e.g. "Request Free Consultation") overflow tiny screens */
+            .form-submit {
+                width: 100%;
+            }
+
+            .footer-social a {
+                width: 44px;
+                height: 44px;
             }
 
             .section-title h2 {
@@ -2789,6 +2984,9 @@
 
     <!-- NAVBAR -->
     <nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+            <i class="fas fa-bars"></i>
+        </button>
         <div class="logo">
             <div class="logo-label">Elevixor</div>
             <img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo" />
@@ -2913,7 +3111,12 @@
         <div class="business-services-grid">
             <!-- Website Development -->
             <div class="business-service-card">
-                <div class="service-icon">🌐</div>
+                <div class="service-card-header">
+                    <div class="service-icon">🌐</div>
+                </div>
+                <button class="share-btn" onclick="shareService('Website Development', 'service-website.html')" aria-label="Share Website Development">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
                 <h3>Website Development</h3>
                 <ul class="service-list">
                     <li>Business Websites</li>
@@ -2928,7 +3131,12 @@
 
             <!-- Custom Software Development -->
             <div class="business-service-card">
-                <div class="service-icon">💻</div>
+                <div class="service-card-header">
+                    <div class="service-icon">💻</div>
+                </div>
+                <button class="share-btn" onclick="shareService('Custom Software Development', 'service-software.html')" aria-label="Share Custom Software Development">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
                 <h3>Custom Software Development</h3>
                 <ul class="service-list">
                     <li>CRM Systems</li>
@@ -2943,7 +3151,12 @@
 
             <!-- Mobile App Development -->
             <div class="business-service-card">
-                <div class="service-icon">📱</div>
+                <div class="service-card-header">
+                    <div class="service-icon">📱</div>
+                </div>
+                <button class="share-btn" onclick="shareService('Mobile App Development', 'service-mobile.html')" aria-label="Share Mobile App Development">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
                 <h3>Mobile App Development</h3>
                 <div class="service-status">Currently unavailable</div>
                 <ul class="service-list">
@@ -2958,7 +3171,12 @@
 
             <!-- AI Solutions -->
             <div class="business-service-card">
-                <div class="service-icon">🤖</div>
+                <div class="service-card-header">
+                    <div class="service-icon">🤖</div>
+                </div>
+                <button class="share-btn" onclick="shareService('AI Solutions', 'service-ai.html')" aria-label="Share AI Solutions">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
                 <h3>AI Solutions</h3>
                 <div class="service-status">Currently unavailable</div>
                 <ul class="service-list">
@@ -2974,6 +3192,9 @@
             <!-- Data Analytics & Dashboards -->
             <div class="business-service-card">
                 <div class="service-icon">📊</div>
+                <button class="share-btn" onclick="shareService('Data Analytics & Dashboards', 'service-analytics.html')" aria-label="Share Data Analytics & Dashboards">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
                 <h3>Data Analytics & Dashboards</h3>
                 <ul class="service-list">
                     <li>Power BI Dashboards</li>
@@ -2991,6 +3212,9 @@
             <!-- Business Automation -->
             <div class="business-service-card">
                 <div class="service-icon">⚙️</div>
+                <button class="share-btn" onclick="shareService('Business Automation', 'service-automation.html')" aria-label="Share Business Automation">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
                 <h3>Business Automation</h3>
                 <ul class="service-list">
                     <li>Workflow Automation</li>
@@ -3144,28 +3368,36 @@
 
         <div class="services-grid">
             <div class="service-card">
-                <i class="fas fa-file-alt"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-file-alt"></i>
+                </div>
                 <h3>AI Resume Optimization</h3>
                 <p>Upload your resume and get ATS analysis, domain prediction, skill suggestions, and professional
                     resume template recommendations.</p>
             </div>
 
             <div class="service-card">
-                <i class="fas fa-globe"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-globe"></i>
+                </div>
                 <h3>Portfolio Templates</h3>
                 <p>Choose from multiple modern portfolio templates designed for Data Analysts, Developers, Business
                     Analysts, and AI professionals.</p>
             </div>
 
             <div class="service-card">
-                <i class="fab fa-linkedin"></i>
+                <div class="service-card-header">
+                    <i class="fab fa-linkedin"></i>
+                </div>
                 <h3>LinkedIn Optimization</h3>
                 <p>Get LinkedIn profile analysis and professional suggestions to improve visibility, networking, and
                     recruiter attraction.</p>
             </div>
 
             <div class="service-card">
-                <i class="fas fa-user-tie"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-user-tie"></i>
+                </div>
                 <h3>Interview Preparation</h3>
                 <p>Prepare with domain-wise interview questions, answers, HR preparation PDFs, and career guidance
                     resources.</p>
@@ -3358,7 +3590,9 @@
 
         <div class="services-grid">
             <div class="service-card">
-                <i class="fas fa-file-alt"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-file-alt"></i>
+                </div>
                 <h3>ATS Resume Optimization</h3>
                 <h2 style="margin: 15px 0; color:#599ff4;">₹269</h2>
                 <p>
@@ -3373,10 +3607,15 @@
                     class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
+                <button class="share-btn" onclick="shareService('ATS Resume Optimization', 'ats_resume_plans.html')" aria-label="Share ATS Resume Optimization">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
             </div>
 
             <div class="service-card">
-                <i class="fas fa-globe"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-globe"></i>
+                </div>
                 <h3>Portfolio Website</h3>
                 <h2 style="margin: 15px 0; color:#60a5fa;">₹1,999</h2>
                 <p>
@@ -3391,10 +3630,15 @@
                     class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
+                <button class="share-btn" onclick="shareService('Portfolio Website', 'Portfolio_Websites.html')" aria-label="Share Portfolio Website">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
             </div>
 
             <div class="service-card">
-                <i class="fab fa-linkedin"></i>
+                <div class="service-card-header">
+                    <i class="fab fa-linkedin"></i>
+                </div>
                 <h3>LinkedIn Optimization</h3>
                 <h2 style="margin: 15px 0; color:#60a5fa;">₹799</h2>
                 <p>
@@ -3409,10 +3653,15 @@
                     class="btn primary-btn requires-auth">
                     Choose Plan
                 </a>
+                <button class="share-btn" onclick="shareService('LinkedIn Optimization', 'linkedin-optimization.html')" aria-label="Share LinkedIn Optimization">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
             </div>
 
             <div class="service-card">
-                <i class="fas fa-user-tie"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-user-tie"></i>
+                </div>
                 <h3>Interview Preparation</h3>
                 <h2 style="margin: 15px 0; color:#60a5fa;">₹499</h2>
                 <p>
@@ -3426,10 +3675,15 @@
                 <a href="interview-preparation.html" target="_blank" class="btn primary-btn">
                     Choose Plan
                 </a>
+                <button class="share-btn" onclick="shareService('Interview Preparation', 'interview-preparation.html')" aria-label="Share Interview Preparation">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
             </div>
 
             <div class="service-card" style="border:2px solid #60a5fa; transform: scale(1.03);">
-                <i class="fas fa-crown"></i>
+                <div class="service-card-header">
+                    <i class="fas fa-crown"></i>
+                </div>
                 <h3>Career Starter Pack</h3>
                 <h2 style="margin: 15px 0; color:#60a5fa;">₹2,999</h2>
                 <p>
@@ -3441,6 +3695,9 @@
                 </p>
                 <br>
                 <a href="career-starter.html" target="_blank" rel="noopener noreferrer" class="btn primary-btn">Choose Pack</a>
+                <button class="share-btn" onclick="shareService('Career Starter Pack', 'career-starter.html')" aria-label="Share Career Starter Pack">
+                    <img src="share-sign-white-icon-vector-15479295-removebg-preview.png" alt="Share" />
+                </button>
             </div>
 
         </div>
@@ -3623,6 +3880,49 @@
             try {
                 document.body && document.body.classList.add('loaded');
             } catch (e) { }
+        })();
+
+        // Mobile nav dropdown toggle
+        (function navToggle() {
+            const nav = document.querySelector('nav');
+            const toggle = document.getElementById('navToggle');
+            if (!nav || !toggle) return;
+
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const open = nav.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                const icon = toggle.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-bars', !open);
+                    icon.classList.toggle('fa-times', open);
+                }
+            });
+
+            // Close the menu when a link is chosen or the dropdown is tapped outside
+            nav.querySelectorAll('ul a').forEach((link) => {
+                link.addEventListener('click', () => {
+                    nav.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    const icon = toggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (nav.classList.contains('open') && !nav.contains(e.target)) {
+                    nav.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    const icon = toggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-bars');
+                        icon.classList.remove('fa-times');
+                    }
+                }
+            });
         })();
 
 
@@ -4130,6 +4430,47 @@
 
     <script src="/premium-animations.js"></script>
     <script src="/cosmic-effects.js"></script>
+
+    <script>
+        function shareService(title, pagePath) {
+            // Build absolute URL to the page where the service card lives
+            const baseUrl = window.location.origin + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
+            const shareUrl = baseUrl + '/' + pagePath.replace(/^\//, '');
+            const shareText = 'Check out ' + title + ' by Elevixor';
+
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: shareText,
+                    url: shareUrl
+                }).catch(() => {});
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    showShareToast('Link copied to clipboard!');
+                }).catch(() => {
+                    showShareToast('Share: ' + shareUrl);
+                });
+            } else {
+                showShareToast('Share: ' + shareUrl);
+            }
+        }
+
+        function showShareToast(message) {
+            let toast = document.getElementById('shareToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'shareToast';
+                toast.className = 'share-toast';
+                toast.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span></span>';
+                document.body.appendChild(toast);
+            }
+            toast.querySelector('span').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2800);
+        }
+    </script>
 </body>
 
 </html>

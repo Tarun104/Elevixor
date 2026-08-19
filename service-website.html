@@ -7,7 +7,7 @@
     <style>
         body { margin: 0; font-family: 'Poppins', sans-serif; background: #0f172a; color: #e2e8f0; }
         .page-wrap { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 24px 24px 48px 24px; }
-        .form-card { width: 100%; max-width: 720px; background: rgba(15, 23, 42, 0.94); border: 1px solid rgba(96, 165, 250, 0.18); border-radius: 24px; box-shadow: 0 40px 120px rgba(15, 23, 42, 0.45); padding: 36px; }
+        .form-card { width: 100%; max-width: 720px; background: rgba(15, 23, 42, 0.94); border: 1px solid rgba(96, 165, 250, 0.18); border-radius: 24px; box-shadow: 0 40px 120px rgba(15, 23, 42, 0.45); padding: 28px; }
         h1 { margin: 0 0 16px; font-size: 32px; color: #60a5fa; }
         p.description { margin: 0 0 28px; color: #cbd5e1; line-height: 1.7; }
         .form-grid { display: grid; gap: 20px; }
@@ -24,7 +24,13 @@
         .message.success { background: rgba(16, 185, 129, 0.12); color: #a7f3d0; }
         .message.error { background: rgba(239, 68, 68, 0.12); color: #fecaca; }
         .message.show { display: block; }
-        @media (max-width: 640px) { .form-card { padding: 24px; } }
+        @media (max-width: 640px) {
+            .form-card { padding: 24px; }
+            h1 { font-size: 26px; }
+        }
+        @media (max-width: 480px) {
+            .form-submit { width: 100%; }
+        }
     </style>
     <link rel="stylesheet" href="premium-style.css">
     <link rel="stylesheet" href="cosmic-system.css">
@@ -37,15 +43,15 @@
             <form id="serviceInquiryForm" class="form-grid" novalidate>
                 <div class="form-group">
                     <label class="form-label">Full Name</label>
-                    <input type="text" name="fullName" class="form-input" placeholder="Your name" required>
+                    <input type="text" name="fullName" class="form-input" placeholder="Your name" required autocomplete="name">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Email Address</label>
-                    <input type="email" name="email" class="form-input" placeholder="you@example.com" required>
+                    <input type="email" name="email" class="form-input" placeholder="you@example.com" required autocomplete="email">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Phone Number</label>
-                    <input type="tel" name="phone" class="form-input" placeholder="+91 98765 43210" required>
+                    <input type="tel" name="phone" class="form-input" placeholder="+91 98765 43210" required autocomplete="tel">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Company Name</label>

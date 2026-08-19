@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll(selector).forEach(el => revealItems.push(el));
     });
 
+    // Mobile / reduced-motion: content is always visible (see premium-style.css),
+    // so don't even apply the hidden .reveal state — avoids flicker & stuck-hidden sections.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     revealItems.forEach(el => el.classList.add('reveal'));
 
     const observer = new IntersectionObserver((entries) => {
@@ -48,6 +53,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     revealItems.forEach(el => observer.observe(el));
+
+    // Safety net: reveal anything already on screen at setup so no content is
+    // left invisible if the observer never fires for it.
+    revealItems.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) {
+            el.classList.add('animate-in');
+            observer.unobserve(el);
+        }
+    });
 
     document.querySelectorAll('.stat-number').forEach(element => {
         const valueText = element.textContent.trim();

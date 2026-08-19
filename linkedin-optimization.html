@@ -199,7 +199,7 @@
         .hero-visual {
             display: grid;
             gap: 24px;
-            padding: 28px;
+            padding: 20px;
             background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 28px;
@@ -372,7 +372,7 @@
         .form-panel {
             display: grid;
             gap: 20px;
-            padding: 28px;
+            padding: 20px;
             border-radius: 32px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -595,7 +595,13 @@
 
         @media (max-width: 720px) {
             nav {
-                padding: 18px 20px;
+                padding: 12px 16px;
+            }
+
+            .nav-link {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+                letter-spacing: 0;
             }
 
             .page-wrap {
@@ -630,6 +636,9 @@
                 width: 100%;
             }
         }
+
+        /* Desktop-only .linkedin-page overrides (>=1041px) so the 1040px/720px media queries apply on mobile */
+        @media (min-width: 1041px) {
         .linkedin-page .page-wrap {
             max-width: 1220px !important;
             margin: 0 auto !important;
@@ -734,6 +743,7 @@
         .linkedin-page .form-actions .button-secondary {
             min-width: 180px !important;
         }
+        }
 
         .modal-overlay {
             position: fixed;
@@ -749,7 +759,7 @@
             position: relative;
             width: min(760px, 100%);
             max-height: min(85vh, 780px);
-            overflow: hidden;
+            overflow-y: auto;
             background: rgba(12, 24, 47, 0.98);
             border: 1px solid rgba(255, 255, 255, 0.16);
             border-radius: 30px;
@@ -795,8 +805,10 @@
             position: absolute;
             top: 16px;
             right: 16px;
-            width: 38px;
-            height: 38px;
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
             border: none;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.08);
@@ -816,6 +828,8 @@
             display: none;
         }
 
+        /* Desktop-only .linkedin-page overrides (>=1041px) */
+        @media (min-width: 1041px) {
         .linkedin-page .benefit-card,
         .linkedin-page .result-card,
         .linkedin-page .trust-card,
@@ -891,32 +905,8 @@
             justify-content: space-between !important;
             gap: 20px !important;
         }
-        /* QR Payment Modal */
-        .qr-overlay {
-            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-            padding: 24px; background: rgba(1, 11, 31, 0.85); backdrop-filter: blur(14px);
-            z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
         }
-        .qr-overlay.open { opacity: 1; pointer-events: auto; }
-        .qr-modal {
-            position: relative; width: min(92vw, 400px); background: rgba(6, 17, 37, 0.97);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px 28px;
-            text-align: center; box-shadow: 0 40px 120px rgba(0,0,0,0.5);
-            transform: translateY(24px) scale(0.96); opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .qr-overlay.open .qr-modal { transform: translateY(0) scale(1); opacity: 1; }
-        .qr-modal h3 { color: #fff; font-size: 20px; margin: 0 0 6px; }
-        .qr-modal .qr-service-name { color: #94a3b8; font-size: 14px; margin: 0 0 4px; }
-        .qr-modal .qr-amount { color: #a855f7; font-size: 28px; font-weight: 800; margin: 0 0 18px; }
-        .qr-modal img { width: 260px; max-width: 100%; border-radius: 14px; border: 2px solid rgba(168,85,247,0.25); }
-        .qr-modal .qr-hint { color: #64748b; font-size: 12px; margin-top: 14px; }
-        .qr-close {
-            position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06);
-            color: #f8fafc; font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
-        }
-        .qr-close:hover { background: rgba(255,255,255,0.12); }
-    </style>
+        </style>
     <link rel="stylesheet" href="premium-style.css" />
     <link rel="stylesheet" href="cosmic-system.css" />
 </head>
@@ -978,15 +968,15 @@
                 <form id="linkedinForm" class="form-grid" novalidate>
                     <div class="field-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+                        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required autocomplete="name" />
                     </div>
                     <div class="field-group">
                         <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email" />
                     </div>
                     <div class="field-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required />
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required autocomplete="tel" />
                     </div>
                     <div class="field-group">
                         <label for="linkedInUrl">LinkedIn Profile URL</label>
@@ -1226,16 +1216,9 @@
                     // Show success message
                     var successDiv = document.createElement('div');
                     successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
-                    successDiv.textContent = '✓ Successfully submitted! Please scan the QR below to pay.';
+                    successDiv.textContent = '✓ Successfully submitted! We will contact you shortly.';
                     document.body.appendChild(successDiv);
                     setTimeout(function() { successDiv.remove(); }, 5000);
-
-                    // Show QR modal
-                    setTimeout(function() {
-                        document.getElementById('qrServiceName').textContent = 'LinkedIn Optimization';
-                        document.getElementById('qrAmount').textContent = '₹799';
-                        document.getElementById('qrModal').classList.add('open');
-                    }, 500);
                 } catch (e) {
                     console.error('LinkedIn request send error', e);
                     if (e.name === 'AbortError') {
@@ -1253,16 +1236,5 @@
     </script>
     <script src="/api-config.js"></script>
     <script src="cosmic-effects.js"></script>
-    <!-- QR Payment Modal -->
-    <div id="qrModal" class="qr-overlay">
-        <div class="qr-modal">
-            <button class="qr-close" onclick="document.getElementById('qrModal').classList.remove('open')">×</button>
-            <h3>Scan & Pay via PhonePe</h3>
-            <p class="qr-service-name" id="qrServiceName"></p>
-            <p class="qr-amount" id="qrAmount"></p>
-            <img src="business_QR.jpeg" alt="PhonePe QR Code" />
-            <p class="qr-hint">Scan this QR code using PhonePe app to complete payment</p>
-        </div>
-    </div>
 </body>
 </html>

@@ -74,7 +74,7 @@
             background: rgba(30, 41, 59, 0.72);
             border: 1px solid rgba(96, 165, 250, 0.16);
             border-radius: 24px;
-            padding: 34px 28px;
+            padding: 28px 24px;
             box-shadow: 0 24px 60px rgba(2, 6, 23, 0.32);
             backdrop-filter: blur(14px);
             transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -137,7 +137,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 240px;
+            width: 100%;
+            max-width: 240px;
             margin: 36px auto 0;
             padding: 16px 24px;
             border-radius: 999px;
@@ -251,6 +252,48 @@
             resize: vertical;
         }
 
+        /* Resume Upload Styles */
+        .resume-upload-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .resume-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 999px;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .resume-upload-btn:hover {
+            background: rgba(96, 165, 250, 0.2);
+            border-color: rgba(96, 165, 250, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .resume-upload-btn:active {
+            transform: scale(0.98);
+        }
+
+        .resume-file-name {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .form-submit {
             width: 100%;
             padding: 16px 20px;
@@ -299,55 +342,32 @@
                 padding: 40px 16px 60px;
             }
 
+            .hero h1 {
+                font-size: clamp(2rem, 9vw, 3rem);
+                line-height: 1.05;
+                margin-bottom: 8px;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
             .plan-card {
                 padding: 28px 22px;
             }
         }
-        
-        /* QR Payment Modal */
-        .qr-overlay {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-            background: rgba(1, 11, 31, 0.85);
-            backdrop-filter: blur(14px);
-            z-index: 99999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.35s ease;
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-overlay {
+                padding: 16px;
+            }
         }
-        .qr-overlay.open { opacity: 1; pointer-events: auto; }
-        .qr-modal {
-            position: relative;
-            width: min(92vw, 400px);
-            background: rgba(6, 17, 37, 0.97);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 32px 28px;
-            text-align: center;
-            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.5);
-            transform: translateY(24px) scale(0.96);
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .qr-overlay.open .qr-modal { transform: translateY(0) scale(1); opacity: 1; }
-        .qr-modal h3 { color: #fff; font-size: 20px; margin: 0 0 6px; }
-        .qr-modal .qr-service-name { color: #94a3b8; font-size: 14px; margin: 0 0 4px; }
-        .qr-modal .qr-amount { color: #a855f7; font-size: 28px; font-weight: 800; margin: 0 0 18px; }
-        .qr-modal img { width: 260px; max-width: 100%; border-radius: 14px; border: 2px solid rgba(168, 85, 247, 0.25); }
-        .qr-modal .qr-hint { color: #64748b; font-size: 12px; margin-top: 14px; }
-        .qr-close {
-            position: absolute; top: 14px; right: 14px;
-            width: 36px; height: 36px; border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.06); color: #f8fafc;
-            font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
-        }
-        .qr-close:hover { background: rgba(255,255,255,0.12); }
-    </style>
+
+        </style>
     <link rel="stylesheet" href="/premium-style.css" />
     <link rel="stylesheet" href="/cosmic-system.css" />
 </head>
@@ -416,15 +436,15 @@
                 <form id="detailsForm">
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+                        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required autocomplete="name" />
                     </div>
                     <div class="form-group">
                         <label for="userEmail">Email Address</label>
-                        <input type="email" id="userEmail" name="userEmail" placeholder="you@example.com" required />
+                        <input type="email" id="userEmail" name="userEmail" placeholder="you@example.com" required autocomplete="email" />
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="+91 99999 99999" required />
+                        <input type="tel" id="phone" name="phone" placeholder="+91 99999 99999" required autocomplete="tel" />
                     </div>
                     <div class="form-group">
                         <label for="selectedPlan">Selected Plan</label>
@@ -443,6 +463,17 @@
                     <div class="form-group">
                         <label for="requirements">Your Requirements</label>
                         <textarea id="requirements" name="requirements" placeholder="Tell us about your experience, goals, and resume needs." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="resumeUpload">Upload Your Current Resume</label>
+                        <div class="resume-upload-wrapper">
+                            <input type="file" id="resumeUpload" name="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;" />
+                            <button type="button" class="resume-upload-btn" id="resumeUploadBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <span id="resumeUploadText">Choose File</span>
+                            </button>
+                            <span id="resumeFileName" class="resume-file-name"></span>
+                        </div>
                     </div>
                     <button type="submit" class="form-submit">Submit Details</button>
                 </form>
@@ -486,6 +517,38 @@
             }
         });
 
+        // Resume upload handling
+        const resumeUploadBtn = document.getElementById('resumeUploadBtn');
+        const resumeUpload = document.getElementById('resumeUpload');
+        const resumeUploadText = document.getElementById('resumeUploadText');
+        const resumeFileName = document.getElementById('resumeFileName');
+
+        resumeUploadBtn.addEventListener('click', () => resumeUpload.click());
+
+        resumeUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                // Validate file type
+                const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Please upload a PDF, DOC, or DOCX file.');
+                    resumeUpload.value = '';
+                    return;
+                }
+                // Validate file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB.');
+                    resumeUpload.value = '';
+                    return;
+                }
+                resumeUploadText.textContent = 'File Selected';
+                resumeFileName.textContent = file.name;
+                resumeFileName.style.color = '#4ade80';
+                resumeUploadBtn.style.borderColor = '#4ade80';
+                resumeUploadBtn.style.background = 'rgba(16, 185, 129, 0.1)';
+            }
+        });
+
         detailsForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
@@ -498,6 +561,7 @@
             const phone = document.getElementById('phone').value.trim();
             const selectedPlan = document.getElementById('selectedPlan').value;
             const requirements = document.getElementById('requirements').value.trim();
+            const resumeFile = document.getElementById('resumeUpload').files[0];
 
             const payload = {
                 name: fullName,
@@ -506,6 +570,24 @@
                 serviceType: selectedPlan || 'ATS Resume Plan',
                 message: `Selected Plan: ${selectedPlan}\n\nRequirements:\n${requirements}`
             };
+
+            // If resume file is attached, convert to base64 and include in payload
+            if (resumeFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    payload.resumeFile = {
+                        name: resumeFile.name,
+                        type: resumeFile.type,
+                        size: resumeFile.size,
+                        data: e.target.result.split(',')[1] // base64 data
+                    };
+                    submitForm(payload, submitButton);
+                };
+                reader.readAsDataURL(resumeFile);
+                return; // Wait for file to load
+            }
+
+            submitForm(payload, submitButton);
 
             try {
                 var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
@@ -525,31 +607,16 @@
                     throw new Error(err.message || err.errors?.[0]?.msg || 'Failed to send details');
                 }
 
-                // success — show green message + QR modal
+                // success — show green confirmation message
                 detailsForm.reset();
                 closeForm();
-
-                // Get plan name and price from the selected option's display text
-                var planSelect = document.getElementById('selectedPlan');
-                var selectedOpt = planSelect.options[planSelect.selectedIndex];
-                var optionText = selectedOpt ? selectedOpt.textContent : 'ATS Resume Plan';
-                var priceMatch = optionText.match(/Rs\.\s*(\d+)/);
-                var planName = optionText.split(' - ')[0].trim() || 'ATS Resume Plan';
-                var price = priceMatch ? priceMatch[1] : '269';
 
                 // Show success message on page
                 var successDiv = document.createElement('div');
                 successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
-                successDiv.textContent = '✓ Successfully submitted! Please scan the QR below to pay.';
+                successDiv.textContent = '✓ Successfully submitted! We will contact you shortly.';
                 document.body.appendChild(successDiv);
                 setTimeout(function() { successDiv.remove(); }, 5000);
-
-                // Show QR modal after a short delay
-                setTimeout(function() {
-                    document.getElementById('qrServiceName').textContent = planName;
-                    document.getElementById('qrAmount').textContent = '₹' + price;
-                    document.getElementById('qrModal').classList.add('open');
-                }, 500);
             } catch (err) {
                 console.error('Submit error', err);
                 if (err.name === 'AbortError') {
@@ -562,18 +629,53 @@
                 submitButton.textContent = 'Submit Details';
             }
         });
+
+        async function submitForm(payload, submitButton) {
+            try {
+                var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
+                var controller = new AbortController();
+                var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
+
+                var res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (!res.ok) {
+                    var err = await res.json().catch(function() { return {}; });
+                    throw new Error(err.message || err.errors?.[0]?.msg || 'Failed to send details');
+                }
+
+                // success — show green confirmation message
+                detailsForm.reset();
+                resumeUploadText.textContent = 'Choose File';
+                resumeFileName.textContent = '';
+                resumeUploadBtn.style.borderColor = '';
+                resumeUploadBtn.style.background = '';
+                closeForm();
+
+                // Show success message on page
+                var successDiv = document.createElement('div');
+                successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
+                successDiv.textContent = '✓ Successfully submitted! We will contact you shortly.';
+                document.body.appendChild(successDiv);
+                setTimeout(function() { successDiv.remove(); }, 5000);
+            } catch (err) {
+                console.error('Submit error', err);
+                if (err.name === 'AbortError') {
+                    alert('Request timed out. The server may be waking up — please try again in a minute.');
+                } else {
+                    alert('Error: ' + (err.message || 'Unable to send details. Please try again.'));
+                }
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Details';
+            }
+        }
     </script>
-    <!-- QR Payment Modal -->
-    <div id="qrModal" class="qr-overlay">
-        <div class="qr-modal">
-            <button class="qr-close" onclick="document.getElementById('qrModal').classList.remove('open')">×</button>
-            <h3>Scan & Pay via PhonePe</h3>
-            <p class="qr-service-name" id="qrServiceName"></p>
-            <p class="qr-amount" id="qrAmount"></p>
-            <img src="business_QR.jpeg" alt="PhonePe QR Code" />
-            <p class="qr-hint">Scan this QR code using PhonePe app to complete payment</p>
-        </div>
-    </div>
 </body>
 
 </html>

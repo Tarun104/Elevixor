@@ -69,10 +69,14 @@ class CosmicEffects {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    const stars = [];
-    const starCount = Math.floor((window.innerWidth * window.innerHeight) / 4000);
+    // Phones: draw once, no animation loop, fewer stars — fixes jank/flicker.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const starCount = Math.floor(
+      (window.innerWidth * window.innerHeight) / (isMobile ? 14000 : 4000)
+    );
 
     // Generate stars
+    const stars = [];
     for (let i = 0; i < starCount; i++) {
       stars.push({
         x: Math.random() * canvas.width,
@@ -84,6 +88,21 @@ class CosmicEffects {
         vx: (Math.random() - 0.5) * 0.1,
         vy: (Math.random() - 0.5) * 0.1,
       });
+    }
+
+    const drawSimpleStars = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach((star) => {
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    };
+
+    if (isMobile) {
+      drawSimpleStars();
+      return;
     }
 
     const animateStars = () => {
@@ -139,7 +158,9 @@ class CosmicEffects {
     const container = document.querySelector('.particle-container');
     if (!container) return;
 
-    const particleCount = 183;
+    // Phones: far fewer animated blurred particles to keep the GPU light.
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const particleCount = isMobile ? 24 : 183;
 
     for (let i = 0; i < particleCount; i++) {
       const particle = document.createElement('div');
@@ -192,7 +213,7 @@ class CosmicEffects {
       });
     };
 
-    window.addEventListener('scroll', revealElements);
+    window.addEventListener('scroll', revealElements, { passive: true });
     revealElements();
   }
 }

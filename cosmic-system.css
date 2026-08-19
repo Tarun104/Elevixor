@@ -41,6 +41,8 @@
 }
 
 html {
+  /* Dark base so no white flash can ever show through a transparent/loading state */
+  background: #0a0e27;
   scroll-behavior: smooth;
   scroll-padding-top: 90px;
   scrollbar-width: thin;
@@ -352,8 +354,8 @@ small, .text-secondary {
   background: rgba(17, 37, 80, 0.42);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(16, 33, 54, 0.15);
-  border-radius: 24px;
-  padding: 2rem;
+  border-radius: 20px;
+  padding: 1.5rem;
   transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
   will-change: transform, box-shadow;
   overflow: hidden;
@@ -819,6 +821,38 @@ input:focus, textarea:focus, select:focus {
 
   nav {
     padding: 0.75rem 4%;
+  }
+}
+
+/* Mobile performance: lighten the animated background layers so phones
+   don't drop frames or flicker. Keeps the look, removes the compositor cost. */
+@media (max-width: 768px) {
+  .nebula-layer::before,
+  .nebula-layer::after,
+  .aurora-layer::before,
+  .aurora-layer::after {
+    animation: none;
+    filter: blur(24px);
+  }
+
+  .nebula-layer { opacity: 0.1; }
+  .aurora-layer { opacity: 0.08; }
+
+  .glow-orb {
+    animation: none;
+    filter: blur(16px);
+    mix-blend-mode: normal;
+  }
+
+  .glow-orbs { opacity: 0.25; }
+
+  .cosmic-particle {
+    filter: none;
+  }
+
+  nav {
+    backdrop-filter: blur(10px) saturate(160%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%);
   }
 }
 

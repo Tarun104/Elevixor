@@ -208,12 +208,7 @@
 
         .form-overlay {
             position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            bottom: 0 !important;
-            width: 100vw !important;
-            height: 100vh !important;
+            inset: 0 !important;
             min-height: 100vh !important;
             background: rgba(1, 10, 25, 0.92) !important;
             display: none !important;
@@ -386,36 +381,31 @@
                 padding: 0 18px 40px;
             }
 
+            .hero h1 {
+                font-size: clamp(2rem, 9vw, 3rem);
+                line-height: 1.05;
+                margin-bottom: 8px;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
             .plan-card {
                 padding: 30px 24px;
             }
         }
-        /* QR Payment Modal */
-        .qr-overlay {
-            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-            padding: 24px; background: rgba(1, 11, 31, 0.85); backdrop-filter: blur(14px);
-            z-index: 99999; opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 20px;
+            }
+
+            .form-overlay {
+                padding: 16px !important;
+            }
         }
-        .qr-overlay.open { opacity: 1; pointer-events: auto; }
-        .qr-modal {
-            position: relative; width: min(92vw, 400px); background: rgba(6, 17, 37, 0.97);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 32px 28px;
-            text-align: center; box-shadow: 0 40px 120px rgba(0,0,0,0.5);
-            transform: translateY(24px) scale(0.96); opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        .qr-overlay.open .qr-modal { transform: translateY(0) scale(1); opacity: 1; }
-        .qr-modal h3 { color: #fff; font-size: 20px; margin: 0 0 6px; }
-        .qr-modal .qr-service-name { color: #94a3b8; font-size: 14px; margin: 0 0 4px; }
-        .qr-modal .qr-amount { color: #a855f7; font-size: 28px; font-weight: 800; margin: 0 0 18px; }
-        .qr-modal img { width: 260px; max-width: 100%; border-radius: 14px; border: 2px solid rgba(168,85,247,0.25); }
-        .qr-modal .qr-hint { color: #64748b; font-size: 12px; margin-top: 14px; }
-        .qr-close {
-            position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.06);
-            color: #f8fafc; font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
-        }
-        .qr-close:hover { background: rgba(255,255,255,0.12); }
-    </style>
+        </style>
     <link rel="stylesheet" href="/premium-style.css" />
     <link rel="stylesheet" href="/cosmic-system.css" />
 </head>
@@ -481,15 +471,15 @@
             <form id="careerStarterForm">
                 <div class="form-group">
                     <label for="careerName">Full Name</label>
-                    <input type="text" id="careerName" name="name" placeholder="Your full name" required />
+                    <input type="text" id="careerName" name="name" placeholder="Your full name" required autocomplete="name" />
                 </div>
                 <div class="form-group">
                     <label for="careerEmail">Email Address</label>
-                    <input type="email" id="careerEmail" name="email" placeholder="you@example.com" required />
+                    <input type="email" id="careerEmail" name="email" placeholder="you@example.com" required autocomplete="email" />
                 </div>
                 <div class="form-group">
                     <label for="careerPhone">Phone Number</label>
-                    <input type="tel" id="careerPhone" name="phone" placeholder="+91 99999 99999" required />
+                    <input type="tel" id="careerPhone" name="phone" placeholder="+91 99999 99999" required autocomplete="tel" />
                 </div>
                 <div class="form-group">
                     <label for="careerCurrentStatus">Current Status</label>
@@ -632,20 +622,12 @@
                 // Show success message
                 var successDiv = document.createElement('div');
                 successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
-                successDiv.textContent = '✓ Successfully submitted! Please scan the QR below to pay.';
+                successDiv.textContent = '✓ Successfully submitted! We will contact you shortly.';
                 document.body.appendChild(successDiv);
                 setTimeout(function() { successDiv.remove(); }, 5000);
 
-                // Show QR modal
-                setTimeout(function() {
-                    document.getElementById('qrServiceName').textContent = 'Career Starter Pack';
-                    document.getElementById('qrAmount').textContent = '₹2,999';
-                    document.getElementById('qrModal').classList.add('open');
-                    setTimeout(function() {
-                        careerStarterFormSuccess.classList.add('hidden');
-                        closeForm();
-                    }, 3200);
-                }, 500);
+                careerStarterFormSuccess.classList.add('hidden');
+                closeForm();
             } catch (err) {
                 console.error('Career Starter Pack submit error', err);
                 if (err.name === 'AbortError') {
@@ -660,17 +642,6 @@
             }
         });
     </script>
-    <!-- QR Payment Modal -->
-    <div id="qrModal" class="qr-overlay">
-        <div class="qr-modal">
-            <button class="qr-close" onclick="document.getElementById('qrModal').classList.remove('open')">×</button>
-            <h3>Scan & Pay via PhonePe</h3>
-            <p class="qr-service-name" id="qrServiceName"></p>
-            <p class="qr-amount" id="qrAmount"></p>
-            <img src="business_QR.jpeg" alt="PhonePe QR Code" />
-            <p class="qr-hint">Scan this QR code using PhonePe app to complete payment</p>
-        </div>
-    </div>
 </body>
 
 </html>
