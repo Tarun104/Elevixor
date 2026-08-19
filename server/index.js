@@ -26,7 +26,9 @@ app.use(helmet());
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   'https://elevixor.netlify.app',
-  'https://elevixor.netlify.app/'
+  'https://elevixor.netlify.app/',
+  'https://elevixor-azure.vercel.app',
+  'https://elevixor-azure.vercel.app/'
 ].filter(Boolean);
 app.use((req, res, next) => {
 	const requestOrigin = `${req.protocol}://${req.get('host')}`;
