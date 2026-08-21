@@ -198,7 +198,14 @@ exports.verifyOtp = async (req, res, next) => {
 
     if (!isPasswordReset) await ResetCode.deleteMany({ email });
 
-    if (isPasswordReset) return res.json({ success: true });
+    if (isPasswordReset) {
+      const resetToken = jwt.sign(
+        { purpose: 'password-reset', email, otp },
+        process.env.JWT_SECRET || 'dev-secret',
+        { expiresIn: '10m' }
+      );
+      return res.json({ success: true, resetToken });
+    }
 
     const user = await User.findOne({ email });
     if (user) {
@@ -216,6 +223,7 @@ exports.resetPassword = async (req, res, next) => {
   try {
     const email = (req.body.email || '').trim().toLowerCase();
     const otp = (req.body.otp || '').trim();
+    const resetToken = req.body.resetToken;
     const newPassword = req.body.newPassword;
     const confirmPassword = req.body.confirmPassword;
 
@@ -229,9 +237,20 @@ exports.resetPassword = async (req, res, next) => {
       return res.status(400).json({ error: 'Password must contain uppercase, lowercase, number, and special character.' });
     }
 
-    const record = await ResetCode.findOne({ email, code: otp, expiresAt: { $gt: new Date() } });
-    if (!record) {
-      return res.status(400).json({ error: 'Invalid or expired code.' });
+    if (resetToken) {
+      try {
+        const tokenPayload = jwt.verify(resetToken, process.env.JWT_SECRET || 'dev-secret');
+        if (tokenPayload.purpose !== 'password-reset' || tokenPayload.email !== email || tokenPayload.otp !== otp) {
+          return res.status(400).json({ error: 'Invalid or expired code.' });
+        }
+      } catch (err) {
+        return res.status(400).json({ error: 'Invalid or expired code.' });
+      }
+    } else {
+      const record = await ResetCode.findOne({ email, code: otp, expiresAt: { $gt: new Date() } });
+      if (!record) {
+        return res.status(400).json({ error: 'Invalid or expired code.' });
+      }
     }
 
     const user = await User.findOne({ email }).select('+passwordHash');

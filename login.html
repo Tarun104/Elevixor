@@ -915,6 +915,7 @@
     const forgotOtpPanel = document.getElementById('forgot-otpPanel');
     const forgotPasswordFields = document.getElementById('forgot-passwordFields');
     let forgotCurrentEmail = '';
+    let forgotResetToken = '';
 
     const forgotOtpInputs = createOtpInputs('forgot-otpPanel');
     setupOtpInputs(forgotOtpInputs);
@@ -965,6 +966,7 @@
         document.getElementById('forgot-resendOtpBtn').classList.add('hidden');
         forgotPasswordFields.classList.remove('hidden');
         document.getElementById('forgot-verifySuccess').classList.remove('hidden');
+        forgotResetToken = data.resetToken || '';
         otpError.style.display = 'none';
         document.getElementById('forgot-passError').style.display = 'none';
         document.getElementById('forgot-confirmPassError').style.display = 'none';
@@ -1005,7 +1007,7 @@
         const response = await fetch(apiBase + '/api/auth/reset-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword, confirmPassword })
+          body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword, confirmPassword, resetToken: forgotResetToken })
         });
         const data = await response.json();
 
@@ -1026,6 +1028,7 @@
           document.getElementById('forgot-verifySuccess').classList.add('hidden');
           document.getElementById('forgot-success').classList.add('hidden');
           forgotCurrentEmail = '';
+          forgotResetToken = '';
           switchTab('signin');
         }, 1500);
       } catch (err) {
@@ -1052,6 +1055,7 @@
       document.getElementById('forgot-newPassword').value = '';
       document.getElementById('forgot-confirmPassword').value = '';
       forgotCurrentEmail = '';
+      forgotResetToken = '';
       document.getElementById('forgot-success').classList.add('hidden');
     });
   </script>
