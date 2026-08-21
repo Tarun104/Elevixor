@@ -186,6 +186,7 @@ exports.verifyOtp = async (req, res, next) => {
   try {
     const email = (req.body.email || '').trim().toLowerCase();
     const otp = (req.body.otp || '').trim();
+    const isPasswordReset = req.body.purpose === 'password-reset';
     if (!email || !otp) {
       return res.status(400).json({ error: 'Email and OTP are required.' });
     }
@@ -195,7 +196,9 @@ exports.verifyOtp = async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid or expired code.' });
     }
 
-    await ResetCode.deleteMany({ email });
+    if (!isPasswordReset) await ResetCode.deleteMany({ email });
+
+    if (isPasswordReset) return res.json({ success: true });
 
     const user = await User.findOne({ email });
     if (user) {
@@ -214,9 +217,13 @@ exports.resetPassword = async (req, res, next) => {
     const email = (req.body.email || '').trim().toLowerCase();
     const otp = (req.body.otp || '').trim();
     const newPassword = req.body.newPassword;
+    const confirmPassword = req.body.confirmPassword;
 
-    if (!email || !otp || !newPassword) {
-      return res.status(400).json({ error: 'Email, code, and new password are required.' });
+    if (!email || !otp || !newPassword || !confirmPassword) {
+      return res.status(400).json({ error: 'Email, code, and both password fields are required.' });
+    }
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match.' });
     }
     if (!validatePassword(newPassword)) {
       return res.status(400).json({ error: 'Password must contain uppercase, lowercase, number, and special character.' });
@@ -227,13 +234,25 @@ exports.resetPassword = async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid or expired code.' });
     }
 
-    const user = await User.findOne({ email });
-    if (!user) {
+    const user = await User.findOne({ email }).select('+passwordHash');
+    if (user) {
+      if (await bcrypt.compare(newPassword, user.passwordHash)) {
+        return res.status(400).json({ error: 'New password must be different from your old password.' });
+      }
+      user.passwordHash = await bcrypt.hash(newPassword, 12);
+      await user.save();
+    } else if (process.env.NODE_ENV !== 'production') {
+      const users = await loadUsersFile();
+      const fileUser = users.find(item => item.email && item.email.toLowerCase() === email);
+      if (!fileUser) return res.status(400).json({ error: 'Unable to reset password.' });
+      if (await verifyStoredPassword(newPassword, fileUser.password)) {
+        return res.status(400).json({ error: 'New password must be different from your old password.' });
+      }
+      fileUser.password = await bcrypt.hash(newPassword, 12);
+      await fs.writeFile(USERS_FILE_PATH, JSON.stringify(users, null, 2), 'utf8');
+    } else {
       return res.status(400).json({ error: 'Unable to reset password.' });
     }
-
-    user.passwordHash = await bcrypt.hash(newPassword, 12);
-    await user.save();
     await ResetCode.deleteMany({ email });
 
     res.json({ success: true, message: 'Password reset successful!' });

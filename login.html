@@ -565,10 +565,10 @@
     <!-- Forgot Password Tab -->
     <div id="forgot-tab" class="tab-content hidden">
       <h2>Reset Password</h2>
-      <form id="forgotForm">
+      <form id="forgotForm" autocomplete="off">
         <div class="field">
           <div class="input-wrap">
-            <input id="forgot-email" type="email" placeholder="Email (Gmail)" required />
+            <input id="forgot-email" name="email" type="email" placeholder="Email (Gmail)" autocomplete="email" required />
           </div>
           <div id="forgot-emailError" class="error" style="display:none"></div>
         </div>
@@ -580,17 +580,29 @@
         <p class="muted" id="forgot-otpHint">Enter the 6-digit reset code sent to <strong id="forgot-otpEmail"></strong>
         </p>
         <div class="otp-inputs" id="forgot-otpInputs"></div>
+        <button type="button" id="forgot-verifyOtpBtn" class="btn">Verify Code</button>
+        <div id="forgot-verifySuccess" class="success hidden">Code verified successfully.</div>
 
-        <div class="field">
-          <div class="input-wrap">
-            <input id="forgot-newPassword" type="password" placeholder="New Password" />
-            <button type="button" class="toggle-pass" data-toggle="forgot-newPassword">Show</button>
+        <div id="forgot-passwordFields" class="hidden">
+          <div class="field">
+            <div class="input-wrap">
+              <input id="forgot-newPassword" type="password" placeholder="New Password" />
+              <button type="button" class="toggle-pass" data-toggle="forgot-newPassword">Show</button>
+            </div>
+            <div id="forgot-passError" class="error" style="display:none">Use uppercase, lowercase, number, and special
+              character.</div>
           </div>
-          <div id="forgot-passError" class="error" style="display:none">Use uppercase, lowercase, number, and special
-            character.</div>
-        </div>
 
-        <button type="button" id="forgot-resetBtn" class="btn">Reset Password</button>
+          <div class="field">
+            <div class="input-wrap">
+              <input id="forgot-confirmPassword" type="password" placeholder="Confirm New Password" />
+              <button type="button" class="toggle-pass" data-toggle="forgot-confirmPassword">Show</button>
+            </div>
+            <div id="forgot-confirmPassError" class="error" style="display:none"></div>
+          </div>
+
+          <button type="button" id="forgot-resetBtn" class="btn">Reset Password</button>
+        </div>
         <button type="button" id="forgot-resendOtpBtn" class="btn secondary-btn">Resend Code</button>
         <div id="forgot-otpError" class="error" style="display:none"></div>
         <button type="button" class="small-link" id="forgot-backBtn">Back to form</button>
@@ -901,6 +913,7 @@
     const forgotForm = document.getElementById('forgotForm');
     const forgotEmail = document.getElementById('forgot-email');
     const forgotOtpPanel = document.getElementById('forgot-otpPanel');
+    const forgotPasswordFields = document.getElementById('forgot-passwordFields');
     let forgotCurrentEmail = '';
 
     const forgotOtpInputs = createOtpInputs('forgot-otpPanel');
@@ -927,9 +940,45 @@
       }
     });
 
+    document.getElementById('forgot-verifyOtpBtn').addEventListener('click', async () => {
+      const otp = collectOtp(forgotOtpInputs);
+      const otpError = document.getElementById('forgot-otpError');
+
+      if (!/^\d{6}$/.test(otp)) {
+        otpError.textContent = 'Enter the full 6-digit code';
+        otpError.style.display = 'block';
+        return;
+      }
+
+      try {
+        const response = await fetch(apiBase + '/api/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: forgotCurrentEmail, otp, purpose: 'password-reset' })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data?.error || 'Invalid or expired code.');
+
+        document.getElementById('forgot-verifyOtpBtn').classList.add('hidden');
+        document.getElementById('forgot-otpHint').classList.add('hidden');
+        document.getElementById('forgot-otpInputs').classList.add('hidden');
+        document.getElementById('forgot-resendOtpBtn').classList.add('hidden');
+        forgotPasswordFields.classList.remove('hidden');
+        document.getElementById('forgot-verifySuccess').classList.remove('hidden');
+        otpError.style.display = 'none';
+        document.getElementById('forgot-passError').style.display = 'none';
+        document.getElementById('forgot-confirmPassError').style.display = 'none';
+        document.getElementById('forgot-newPassword').focus();
+      } catch (err) {
+        otpError.textContent = err.message;
+        otpError.style.display = 'block';
+      }
+    });
+
     document.getElementById('forgot-resetBtn').addEventListener('click', async () => {
       const otp = collectOtp(forgotOtpInputs);
       const newPassword = document.getElementById('forgot-newPassword').value;
+      const confirmPassword = document.getElementById('forgot-confirmPassword').value;
 
       if (!/^\d{6}$/.test(otp)) {
         document.getElementById('forgot-otpError').textContent = 'Enter the full 6-digit code';
@@ -942,11 +991,21 @@
         return;
       }
 
+      document.getElementById('forgot-passError').style.display = 'none';
+
+      if (newPassword !== confirmPassword) {
+        document.getElementById('forgot-confirmPassError').textContent = 'Passwords do not match';
+        document.getElementById('forgot-confirmPassError').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('forgot-confirmPassError').style.display = 'none';
+
       try {
         const response = await fetch(apiBase + '/api/auth/reset-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword })
+          body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword, confirmPassword })
         });
         const data = await response.json();
 
@@ -955,7 +1014,20 @@
         document.getElementById('forgot-success').textContent = data.message;
         document.getElementById('forgot-success').classList.remove('hidden');
         showToast('Password reset successful!');
-        setTimeout(() => switchTab('signin'), 2000);
+        setTimeout(() => {
+          forgotForm.reset();
+          forgotForm.style.display = 'block';
+          forgotOtpPanel.classList.add('hidden');
+          forgotPasswordFields.classList.add('hidden');
+          document.getElementById('forgot-verifyOtpBtn').classList.remove('hidden');
+          document.getElementById('forgot-otpHint').classList.remove('hidden');
+          document.getElementById('forgot-otpInputs').classList.remove('hidden');
+          document.getElementById('forgot-resendOtpBtn').classList.remove('hidden');
+          document.getElementById('forgot-verifySuccess').classList.add('hidden');
+          document.getElementById('forgot-success').classList.add('hidden');
+          forgotCurrentEmail = '';
+          switchTab('signin');
+        }, 1500);
       } catch (err) {
         document.getElementById('forgot-otpError').textContent = err.message;
         document.getElementById('forgot-otpError').style.display = 'block';
@@ -970,8 +1042,16 @@
       e.preventDefault();
       forgotForm.style.display = 'block';
       forgotOtpPanel.classList.add('hidden');
+      document.getElementById('forgot-verifyOtpBtn').classList.remove('hidden');
+      document.getElementById('forgot-otpHint').classList.remove('hidden');
+      document.getElementById('forgot-otpInputs').classList.remove('hidden');
+      document.getElementById('forgot-resendOtpBtn').classList.remove('hidden');
+      forgotPasswordFields.classList.add('hidden');
+      document.getElementById('forgot-verifySuccess').classList.add('hidden');
       forgotEmail.value = '';
       document.getElementById('forgot-newPassword').value = '';
+      document.getElementById('forgot-confirmPassword').value = '';
+      forgotCurrentEmail = '';
       document.getElementById('forgot-success').classList.add('hidden');
     });
   </script>
