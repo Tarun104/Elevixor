@@ -1,6 +1,8 @@
 const nodemailer = require('nodemailer');
 
 async function sendMail(opts) {
+  const attachments = Array.isArray(opts.attachments) ? opts.attachments : [];
+
   // Brevo HTTP API (works on Render — SMTP is blocked)
   const apiKey = process.env.BREVO_API_KEY;
   if (apiKey) {
@@ -14,7 +16,13 @@ async function sendMail(opts) {
         to: [{ email: to }],
         subject: opts.subject || 'No subject',
         htmlContent: opts.html || opts.text || '',
-        textContent: opts.text || ''
+        textContent: opts.text || '',
+        ...(attachments.length > 0 ? {
+          attachment: attachments.map(({ filename, content, ...attachment }) => ({
+            name: filename || attachment.name,
+            content: Buffer.isBuffer(content) ? content.toString('base64') : content
+          }))
+        } : {})
       })
     });
     if (!res.ok) {

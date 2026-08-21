@@ -1018,35 +1018,21 @@
                 message: `Selected Template: ${selectedPlan}\n\nRequirements:\n${requirements}`
             };
 
-            // If resume file is attached, convert to base64 and include in payload
-            if (resumeFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    payload.resumeFile = {
-                        name: resumeFile.name,
-                        type: resumeFile.type,
-                        size: resumeFile.size,
-                        data: e.target.result.split(',')[1] // base64 data
-                    };
-                    submitForm(payload, submitButton);
-                };
-                reader.readAsDataURL(resumeFile);
-                return; // Wait for file to load
-            }
-
-            submitForm(payload, submitButton);
+            submitForm(payload, submitButton, resumeFile);
         });
 
-        async function submitForm(payload, submitButton) {
+        async function submitForm(payload, submitButton, resumeFile) {
             try {
                 var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
                 var controller = new AbortController();
                 var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
+                var formData = new FormData();
+                Object.keys(payload).forEach(function(key) { formData.append(key, payload[key]); });
+                if (resumeFile) formData.append('resumeFile', resumeFile, resumeFile.name);
 
                 var res = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
+                    body: formData,
                     signal: controller.signal
                 });
                 clearTimeout(timeoutId);

@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 app.use(morgan('dev'));
-app.use(express.json());
+app.use(express.json({ limit: '8mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Handle malformed JSON payloads from express.json()

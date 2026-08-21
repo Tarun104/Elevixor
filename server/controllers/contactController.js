@@ -12,6 +12,25 @@ exports.submitContact = async (req, res, next) => {
     const phone = req.body.phone;
     const message = req.body.message || (req.body.formData ? JSON.stringify(req.body.formData, null, 2) : '');
     const serviceType = req.body.serviceType || 'General Inquiry';
+    const resumeFile = req.body.resumeFile;
+    const resumeContent = typeof resumeFile?.data === 'string'
+      ? resumeFile.data.replace(/^data:[^;]+;base64,/, '')
+      : '';
+
+    const attachments = req.file
+      ? [{
+          filename: req.file.originalname,
+          content: req.file.buffer,
+          contentType: req.file.mimetype
+        }]
+      : resumeFile && resumeFile.name && resumeContent
+        ? [{
+            filename: resumeFile.name,
+            content: resumeContent,
+            encoding: 'base64',
+            contentType: resumeFile.type || 'application/octet-stream'
+          }]
+        : [];
 
     console.info('Contact submission:', { route: req.originalUrl, name, email, phone, serviceType });
 
@@ -32,7 +51,8 @@ exports.submitContact = async (req, res, next) => {
              <p><strong>Phone:</strong> ${phone}</p>
              <p><strong>Service:</strong> ${serviceType}</p>
              <pre>${message}</pre>`,
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${serviceType}\n\n${message}`
+      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nService: ${serviceType}\n\n${message}`,
+      attachments
     }).then(() => {
       console.info('Contact email sent successfully to elevixor1042@gmail.com');
     }).catch(mailErr => {

@@ -571,75 +571,21 @@
                 message: `Selected Plan: ${selectedPlan}\n\nRequirements:\n${requirements}`
             };
 
-            // If resume file is attached, convert to base64 and include in payload
-            if (resumeFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    payload.resumeFile = {
-                        name: resumeFile.name,
-                        type: resumeFile.type,
-                        size: resumeFile.size,
-                        data: e.target.result.split(',')[1] // base64 data
-                    };
-                    submitForm(payload, submitButton);
-                };
-                reader.readAsDataURL(resumeFile);
-                return; // Wait for file to load
-            }
-
-            submitForm(payload, submitButton);
-
-            try {
-                var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
-                var controller = new AbortController();
-                var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
-
-                var res = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-
-                if (!res.ok) {
-                    var err = await res.json().catch(function() { return {}; });
-                    throw new Error(err.message || err.errors?.[0]?.msg || 'Failed to send details');
-                }
-
-                // success — show green confirmation message
-                detailsForm.reset();
-                closeForm();
-
-                // Show success message on page
-                var successDiv = document.createElement('div');
-                successDiv.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#065f46;color:#34d399;padding:16px 28px;border-radius:14px;font-weight:700;font-size:16px;z-index:999999;box-shadow:0 8px 30px rgba(6,95,70,0.4);text-align:center;';
-                successDiv.textContent = '✓ Successfully submitted! We will contact you shortly.';
-                document.body.appendChild(successDiv);
-                setTimeout(function() { successDiv.remove(); }, 5000);
-            } catch (err) {
-                console.error('Submit error', err);
-                if (err.name === 'AbortError') {
-                    alert('Request timed out. The server may be waking up — please try again in a minute.');
-                } else {
-                    alert('Error: ' + (err.message || 'Unable to send details. Please try again.'));
-                }
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Submit Details';
-            }
+            submitForm(payload, submitButton, resumeFile);
         });
 
-        async function submitForm(payload, submitButton) {
+        async function submitForm(payload, submitButton, resumeFile) {
             try {
                 var apiUrl = window.API_BASE ? window.API_BASE + '/api/contact' : '/api/contact';
                 var controller = new AbortController();
                 var timeoutId = setTimeout(function() { controller.abort(); }, 90000);
+                var formData = new FormData();
+                Object.keys(payload).forEach(function(key) { formData.append(key, payload[key]); });
+                if (resumeFile) formData.append('resumeFile', resumeFile, resumeFile.name);
 
                 var res = await fetch(apiUrl, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
+                    body: formData,
                     signal: controller.signal
                 });
                 clearTimeout(timeoutId);
