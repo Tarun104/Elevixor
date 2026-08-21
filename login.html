@@ -360,6 +360,11 @@
       display: none
     }
 
+    #forgot-verifyOtpBtn.hidden,
+    #forgot-resendOtpBtn.hidden {
+      display: none !important
+    }
+
     .page-wrap {
       display: flex;
       flex-direction: column;
@@ -961,9 +966,11 @@
         if (!response.ok) throw new Error(data?.error || 'Invalid or expired code.');
 
         document.getElementById('forgot-verifyOtpBtn').classList.add('hidden');
+        document.getElementById('forgot-verifyOtpBtn').style.display = 'none';
         document.getElementById('forgot-otpHint').classList.add('hidden');
         document.getElementById('forgot-otpInputs').classList.add('hidden');
         document.getElementById('forgot-resendOtpBtn').classList.add('hidden');
+        document.getElementById('forgot-resendOtpBtn').style.display = 'none';
         forgotPasswordFields.classList.remove('hidden');
         document.getElementById('forgot-verifySuccess').classList.remove('hidden');
         forgotResetToken = data.resetToken || '';
@@ -978,15 +985,8 @@
     });
 
     document.getElementById('forgot-resetBtn').addEventListener('click', async () => {
-      const otp = collectOtp(forgotOtpInputs);
       const newPassword = document.getElementById('forgot-newPassword').value;
       const confirmPassword = document.getElementById('forgot-confirmPassword').value;
-
-      if (!/^\d{6}$/.test(otp)) {
-        document.getElementById('forgot-otpError').textContent = 'Enter the full 6-digit code';
-        document.getElementById('forgot-otpError').style.display = 'block';
-        return;
-      }
 
       if (!passRegex.test(newPassword)) {
         document.getElementById('forgot-passError').style.display = 'block';
@@ -1007,7 +1007,7 @@
         const response = await fetch(apiBase + '/api/auth/reset-password', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: forgotCurrentEmail, otp, newPassword, confirmPassword, resetToken: forgotResetToken })
+          body: JSON.stringify({ email: forgotCurrentEmail, newPassword, confirmPassword, resetToken: forgotResetToken })
         });
         const data = await response.json();
 
@@ -1022,9 +1022,11 @@
           forgotOtpPanel.classList.add('hidden');
           forgotPasswordFields.classList.add('hidden');
           document.getElementById('forgot-verifyOtpBtn').classList.remove('hidden');
+          document.getElementById('forgot-verifyOtpBtn').style.display = '';
           document.getElementById('forgot-otpHint').classList.remove('hidden');
           document.getElementById('forgot-otpInputs').classList.remove('hidden');
           document.getElementById('forgot-resendOtpBtn').classList.remove('hidden');
+          document.getElementById('forgot-resendOtpBtn').style.display = '';
           document.getElementById('forgot-verifySuccess').classList.add('hidden');
           document.getElementById('forgot-success').classList.add('hidden');
           forgotCurrentEmail = '';
@@ -1032,8 +1034,8 @@
           switchTab('signin');
         }, 1500);
       } catch (err) {
-        document.getElementById('forgot-otpError').textContent = err.message;
-        document.getElementById('forgot-otpError').style.display = 'block';
+        document.getElementById('forgot-confirmPassError').textContent = err.message;
+        document.getElementById('forgot-confirmPassError').style.display = 'block';
       }
     });
 
@@ -1046,9 +1048,11 @@
       forgotForm.style.display = 'block';
       forgotOtpPanel.classList.add('hidden');
       document.getElementById('forgot-verifyOtpBtn').classList.remove('hidden');
+      document.getElementById('forgot-verifyOtpBtn').style.display = '';
       document.getElementById('forgot-otpHint').classList.remove('hidden');
       document.getElementById('forgot-otpInputs').classList.remove('hidden');
       document.getElementById('forgot-resendOtpBtn').classList.remove('hidden');
+      document.getElementById('forgot-resendOtpBtn').style.display = '';
       forgotPasswordFields.classList.add('hidden');
       document.getElementById('forgot-verifySuccess').classList.add('hidden');
       forgotEmail.value = '';

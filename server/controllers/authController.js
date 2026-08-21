@@ -204,6 +204,7 @@ exports.verifyOtp = async (req, res, next) => {
         process.env.JWT_SECRET || 'dev-secret',
         { expiresIn: '10m' }
       );
+      await ResetCode.deleteMany({ email });
       return res.json({ success: true, resetToken });
     }
 
@@ -221,14 +222,13 @@ exports.verifyOtp = async (req, res, next) => {
 
 exports.resetPassword = async (req, res, next) => {
   try {
-    const email = (req.body.email || '').trim().toLowerCase();
-    const otp = (req.body.otp || '').trim();
+    const requestedEmail = (req.body.email || '').trim().toLowerCase();
     const resetToken = req.body.resetToken;
     const newPassword = req.body.newPassword;
     const confirmPassword = req.body.confirmPassword;
 
-    if (!email || !otp || !newPassword || !confirmPassword) {
-      return res.status(400).json({ error: 'Email, code, and both password fields are required.' });
+    if (!resetToken || !newPassword || !confirmPassword) {
+      return res.status(400).json({ error: 'Verified reset session and both password fields are required.' });
     }
     if (newPassword !== confirmPassword) {
       return res.status(400).json({ error: 'Passwords do not match.' });
@@ -237,23 +237,23 @@ exports.resetPassword = async (req, res, next) => {
       return res.status(400).json({ error: 'Password must contain uppercase, lowercase, number, and special character.' });
     }
 
-    if (resetToken) {
-      try {
-        const tokenPayload = jwt.verify(resetToken, process.env.JWT_SECRET || 'dev-secret');
-        if (tokenPayload.purpose !== 'password-reset' || tokenPayload.email !== email || tokenPayload.otp !== otp) {
-          return res.status(400).json({ error: 'Invalid or expired code.' });
-        }
-      } catch (err) {
-        return res.status(400).json({ error: 'Invalid or expired code.' });
+    let email;
+    try {
+      const tokenPayload = jwt.verify(resetToken, process.env.JWT_SECRET || 'dev-secret');
+      if (tokenPayload.purpose !== 'password-reset' || !tokenPayload.email) {
+        return res.status(400).json({ error: 'Invalid or expired reset session.' });
       }
-    } else {
-      const record = await ResetCode.findOne({ email, code: otp, expiresAt: { $gt: new Date() } });
-      if (!record) {
-        return res.status(400).json({ error: 'Invalid or expired code.' });
+      email = tokenPayload.email;
+      if (requestedEmail && requestedEmail !== email) {
+        return res.status(400).json({ error: 'Reset email does not match the verified email.' });
       }
+    } catch (err) {
+      return res.status(400).json({ error: 'Reset session expired. Please request a new code.' });
     }
 
-    const user = await User.findOne({ email }).select('+passwordHash');
+    const user = await User.findOne({
+      email: { $regex: new RegExp(`^${email.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i') }
+    }).select('+passwordHash');
     if (user) {
       if (await bcrypt.compare(newPassword, user.passwordHash)) {
         return res.status(400).json({ error: 'New password must be different from your old password.' });
@@ -263,14 +263,14 @@ exports.resetPassword = async (req, res, next) => {
     } else if (process.env.NODE_ENV !== 'production') {
       const users = await loadUsersFile();
       const fileUser = users.find(item => item.email && item.email.toLowerCase() === email);
-      if (!fileUser) return res.status(400).json({ error: 'Unable to reset password.' });
+      if (!fileUser) return res.status(400).json({ error: 'No account was found for the verified email.' });
       if (await verifyStoredPassword(newPassword, fileUser.password)) {
         return res.status(400).json({ error: 'New password must be different from your old password.' });
       }
       fileUser.password = await bcrypt.hash(newPassword, 12);
       await fs.writeFile(USERS_FILE_PATH, JSON.stringify(users, null, 2), 'utf8');
     } else {
-      return res.status(400).json({ error: 'Unable to reset password.' });
+      return res.status(400).json({ error: 'No account was found for the verified email.' });
     }
     await ResetCode.deleteMany({ email });
 
