@@ -2854,6 +2854,9 @@
 
             .logo {
                 font-size: 22px;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
             }
 
             .nav-toggle {
@@ -2903,13 +2906,15 @@
             #profileToggle {
                 left: auto;
                 right: 14px;
+                top: 12px;
             }
 
             .hero {
+                min-height: auto;
                 flex-direction: column;
                 text-align: left;
-                padding: 100px 5% 40px;
-                gap: 30px;
+                padding: 88px 5% 28px;
+                gap: 18px;
             }
 
             .hero-text h1 {
@@ -2932,11 +2937,14 @@
             /* The saturn-ring art is 600–680px wide inside a 300px holder — scale it
                down on phones so it stops getting clipped by .hero's overflow */
             .hero-image {
-                min-height: 240px;
+                min-height: 190px;
+                height: 190px;
             }
 
             .planet-holder {
-                transform: scale(0.6);
+                width: 220px;
+                height: 220px;
+                transform: scale(0.48);
             }
 
             section {
@@ -3065,6 +3073,52 @@
 
             .business-page {
                 padding: 60px 5%;
+            }
+
+            .switcher-section {
+                padding-top: 40px;
+                padding-bottom: 28px;
+            }
+
+            .business-page .section-title {
+                margin-bottom: 28px;
+            }
+
+            .business-page .section-title h2 {
+                font-size: 28px;
+                line-height: 1.2;
+            }
+
+            .business-page .section-title p {
+                font-size: 15px;
+                line-height: 1.6;
+            }
+
+            .business-pricing-marquee {
+                margin-top: 24px;
+            }
+
+            .business-services-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 16px;
+                margin-top: 28px;
+            }
+
+            .business-service-card {
+                width: 100%;
+                min-width: 0;
+                padding: 20px;
+                overflow: hidden;
+            }
+
+            .business-service-card h3,
+            .service-price {
+                overflow-wrap: anywhere;
+            }
+
+            .business-service-card .learn-more-btn {
+                width: 100%;
+                white-space: normal;
             }
         }
         .portfolio-payment-overlay {
