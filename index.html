@@ -3250,10 +3250,10 @@
             <img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo" />
         </div>
         <ul>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#features">Why Us</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#services" data-student-target="#services" data-business-target="#businessServices">Services</a></li>
+            <li><a href="#features" data-student-target="#features" data-business-target="#businessPage">Why Us</a></li>
+            <li><a href="#pricing" data-student-target="#pricing" data-business-target="#businessPricing">Pricing</a></li>
+            <li><a href="#contact" data-student-target="#contact" data-business-target="#businessContact">Contact</a></li>
             <li id="authLink"><a href="login.html">Sign In</a><!-- injected by script will replace this when JS runs --></li>
         </ul>
     </nav>
@@ -3367,7 +3367,7 @@
                 digital transformation.</p>
         </div>
 
-        <div class="business-pricing-marquee" aria-label="Custom pricing information">
+        <div id="businessPricing" class="business-pricing-marquee" aria-label="Custom pricing information">
             <div class="business-pricing-track">
                 <span class="business-pricing-message">Your goals are unique, so every business solution receives a custom quote. Share your requirements by email and let us design the right investment for your growth.</span>
                 <span class="business-pricing-message" aria-hidden="true">Your goals are unique, so every business solution receives a custom quote. Share your requirements by email and let us design the right investment for your growth.</span>
@@ -3375,7 +3375,7 @@
         </div>
 
         <!-- Business Services Grid -->
-        <div class="business-services-grid">
+        <div id="businessServices" class="business-services-grid">
             <!-- Website Development -->
             <div class="business-service-card">
                 <div class="service-card-header">
@@ -3573,7 +3573,7 @@
         </section>
 
         <!-- CTA Section -->
-        <section class="business-cta">
+        <section id="businessContact" class="business-cta">
             <h2>Ready to Transform Your Business?</h2>
             <p>From websites and software systems to AI solutions and analytics platforms, Elevixor helps businesses
                 build smarter digital solutions for long-term growth.</p>
@@ -4295,9 +4295,20 @@
             const sectionCards = document.querySelectorAll('.section-card');
             const studentPages = document.querySelectorAll('.student-page');
             const businessPage = document.getElementById('businessPage');
+            const sectionLinks = document.querySelectorAll('nav a[data-student-target]');
+
+            function updateSectionLinks(tabId) {
+                sectionLinks.forEach(link => {
+                    const target = tabId === 'business'
+                        ? link.dataset.businessTarget
+                        : link.dataset.studentTarget;
+                    if (target) link.setAttribute('href', target);
+                });
+            }
 
             function activateTab(tabId) {
                 sectionCards.forEach(card => card.classList.toggle('active', card.dataset.tab === tabId));
+                updateSectionLinks(tabId);
 
                 if (tabId === 'student') {
                     studentPages.forEach(section => section.classList.remove('hidden'));
