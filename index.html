@@ -2848,6 +2848,20 @@
         }
 
         @media(max-width: 768px) {
+            html,
+            body {
+                width: 100%;
+                min-width: 0;
+                overflow-x: hidden;
+            }
+
+            .hero,
+            .hero::after,
+            .page-ambient::before,
+            .page-ambient::after {
+                animation: none !important;
+            }
+
             .cosmic-particle {
                 animation: none !important;
                 opacity: 0.18 !important;
