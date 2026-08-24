@@ -594,6 +594,13 @@
         }
 
         @media (max-width: 720px) {
+            html,
+            body {
+                width: 100%;
+                min-width: 0;
+                overflow-x: hidden;
+            }
+
             nav {
                 padding: 12px 16px;
             }
@@ -634,6 +641,45 @@
             .button-primary,
             .button-secondary {
                 width: 100%;
+            }
+
+            .page-wrap {
+                width: 100%;
+                max-width: none;
+                padding: 72px 16px 40px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+                line-height: 1.15;
+            }
+
+            .form-panel,
+            .result-card,
+            .trust-card {
+                width: 100%;
+                min-width: 0;
+                padding: 20px !important;
+                backdrop-filter: none;
+                transition: none;
+            }
+
+            .form-panel:hover,
+            .button-primary:hover,
+            .button-secondary:hover {
+                transform: none;
+            }
+
+            .form-grid,
+            .form-actions {
+                min-width: 0;
+            }
+
+            .form-grid input,
+            .form-grid select,
+            .form-grid textarea {
+                width: 100%;
+                max-width: 100%;
             }
         }
 

@@ -579,12 +579,59 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                width: 100%;
+                min-width: 0;
+                overflow-x: hidden;
+            }
+
+            .container {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 28px 14px 40px;
+            }
+
+            .hero {
+                padding-top: 40px;
+                padding-bottom: 20px;
+            }
+
+            .hero h1 {
+                font-size: 2.1rem;
+                letter-spacing: 0;
+                line-height: 1.15;
+            }
+
+            .plan-card {
+                min-width: 0;
+                padding: 20px 16px;
+                border-radius: 16px;
+                backdrop-filter: none;
+                transition: none;
+            }
+
+            .plan-card:hover,
+            .btn:hover,
+            .cta-btn:hover {
+                transform: none;
+            }
+
             .form-card {
-                padding: 20px;
+                width: 100%;
+                max-width: none;
+                padding: 18px;
             }
 
             .form-overlay {
-                padding: 16px;
+                padding: 10px;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select,
+            .form-submit {
+                width: 100%;
+                max-width: 100%;
             }
         }
         </style>
