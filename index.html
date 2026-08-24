@@ -807,8 +807,8 @@
         .stat-box,
         .faq-item,
         .step {
-            opacity: 0;
-            transform: translateY(24px);
+            opacity: 1;
+            transform: none;
         }
 
         .animate-in {
@@ -2848,6 +2848,28 @@
         }
 
         @media(max-width: 768px) {
+            .cosmic-particle {
+                animation: none !important;
+                opacity: 0.18 !important;
+            }
+
+            .particle-container {
+                display: none;
+            }
+
+            nav,
+            nav ul,
+            .service-card,
+            .business-service-card,
+            .feature-box,
+            .testimonial-card,
+            .why-choose-card,
+            .business-pricing-marquee,
+            #profileSidebar {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
             nav {
                 padding: 12px 5%;
             }
@@ -2915,6 +2937,33 @@
                 text-align: left;
                 padding: 88px 5% 28px;
                 gap: 18px;
+            }
+
+            .hero-text,
+            .hero-image,
+            .hero-image img,
+            .hero-image .space-haze,
+            .hero-image .saturn-ring,
+            .hero-image .orbit-point,
+            .hero-buttons .primary-btn {
+                animation: none !important;
+            }
+
+            .service-card,
+            .business-service-card,
+            .why-choose-card,
+            .testimonial-card,
+            .feature-box,
+            .stat-box,
+            .faq-item,
+            .step {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .hero-image:hover img {
+                transform: none;
             }
 
             .hero-text h1 {
