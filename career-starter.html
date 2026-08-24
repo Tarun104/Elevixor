@@ -55,7 +55,7 @@
         }
 
         .badge {
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 8px;
             padding: 10px 16px;
@@ -356,6 +356,170 @@
             display: none;
         }
 
+        .payment-overlay {
+            position: fixed !important;
+            inset: 0 !important;
+            min-height: 100vh !important;
+            background: rgba(1, 10, 25, 0.8) !important;
+            display: none !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 16px !important;
+            z-index: 9999 !important;
+            overflow-y: auto !important;
+        }
+
+        .payment-overlay.active {
+            display: flex !important;
+        }
+
+        .payment-card {
+            position: relative !important;
+            width: min(430px, 100%);
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.98);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 18px;
+            padding: 22px 26px 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35), 0 0 30px rgba(96, 165, 250, 0.15);
+            text-align: center;
+            margin: auto !important;
+            transform: none !important;
+        }
+
+        .payment-card h2 {
+            margin: 0 0 6px;
+            font-size: 1.55rem;
+            color: #ffffff;
+        }
+
+        .payment-card p,
+        .payment-instructions,
+        .payment-upi,
+        .plan-select-label {
+            color: #cbd5e1;
+        }
+
+        .payment-card p {
+            font-size: 0.9rem;
+            margin: 0 auto 10px;
+            line-height: 1.6;
+        }
+
+        .qr-container {
+            margin: 0 auto 12px;
+            display: flex;
+            justify-content: center;
+            padding: 8px;
+            background: #ffffff;
+            border: 1px solid #e3e8ef;
+            border-radius: 10px;
+            width: fit-content;
+        }
+
+        .qr-container img {
+            width: 175px;
+            height: 175px;
+            border-radius: 4px;
+        }
+
+        .payment-instructions {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin: 0 0 8px;
+        }
+
+        .payment-upi {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin: 0 0 10px;
+        }
+
+        .plan-select-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0 0 7px;
+            text-align: center;
+        }
+
+        .fixed-plan-price {
+            color: #ffffff;
+            background: rgba(96, 165, 250, 0.14);
+            border: 1px solid rgba(96, 165, 250, 0.35);
+            border-radius: 8px;
+            padding: 12px 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .confirm-payment-btn {
+            width: auto;
+            min-width: 190px;
+            padding: 11px 20px;
+            border-radius: 8px;
+            background: #22c55e;
+            color: #ffffff;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-size: 0.82rem;
+            margin-top: 12px;
+        }
+
+        .payment-close-btn {
+            position: absolute !important;
+            top: 4px !important;
+            right: 4px !important;
+            bottom: auto !important;
+            left: auto !important;
+            width: 44px !important;
+            height: 44px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            color: #ffffff !important;
+            font-size: 1.5rem !important;
+            line-height: 1 !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            overflow: visible !important;
+            transform: none !important;
+            transition: none !important;
+            z-index: 100 !important;
+            pointer-events: auto !important;
+        }
+
+        .payment-btn-centered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: auto;
+            min-width: 210px;
+            max-width: 240px;
+            margin-top: 14px;
+            margin-left: auto;
+            margin-right: auto;
+            align-self: center;
+            padding: 14px 24px;
+            border-radius: 999px;
+            background: #ffffff;
+            color: #000000;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            font-size: 0.96rem;
+        }
+
         footer {
             margin-top: 52px;
             padding-top: 28px;
@@ -431,6 +595,7 @@
                     <li><i class="fas fa-check-circle"></i> Priority Support</li>
                 </ul>
                 <button class="btn" id="openCareerStarterForm">Choose Pack</button>
+                <button class="payment-btn-centered" id="makePaymentButtonCentered">Make Payment</button>
             </div>
 
             <div class="section-block">
@@ -505,6 +670,24 @@
                 <strong>Submission failed.</strong>
                 <p>There was an issue sending your request. Please try again in a moment.</p>
             </div>
+        </div>
+    </div>
+
+    <div class="payment-overlay" id="paymentOverlay" aria-hidden="true">
+        <div class="payment-card" role="dialog" aria-modal="true" aria-labelledby="paymentTitle">
+            <button type="button" class="payment-close-btn" id="closePaymentButton" aria-label="Close payment form">&times;</button>
+            <h2 id="paymentTitle">Payment</h2>
+            <p>Scan the QR code to pay for your Career Starter Pack.</p>
+            <div class="qr-container">
+                <img id="paymentQR" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==" alt="PhonePe QR Code" />
+            </div>
+            <div class="payment-instructions">Open any UPI app, scan this code, and pay the amount shown below.</div>
+            <div class="payment-upi">UPI ID: tarunchakole@axl<br />Banker: Tarun Anil Chakole</div>
+            <div class="carousel">
+                <label class="plan-select-label">Plan Price</label>
+                <div class="fixed-plan-price">Complete Launch Bundle - Rs. 2,999</div>
+            </div>
+            <button class="confirm-payment-btn" id="confirmPaymentBtn">I've Made Payment</button>
         </div>
     </div>
 
@@ -639,6 +822,41 @@
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalText;
+            }
+        });
+
+        const makePaymentButtonCentered = document.getElementById('makePaymentButtonCentered');
+        const paymentOverlay = document.getElementById('paymentOverlay');
+        const closePaymentButton = document.getElementById('closePaymentButton');
+        const confirmPaymentBtn = document.getElementById('confirmPaymentBtn');
+        const paymentQR = document.getElementById('paymentQR');
+        const careerStarterPrice = 2999;
+
+        function updatePaymentQRCode() {
+            const upiString = `upi://pay?pa=tarunchakole@axl&pn=Elevixor&am=${careerStarterPrice}&tn=Career%20Starter%20Pack&tr=CareerStarterPack${Date.now()}`;
+            paymentQR.src = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(upiString)}`;
+        }
+
+        function openPaymentForm() {
+            paymentOverlay.classList.add('active');
+            paymentOverlay.setAttribute('aria-hidden', 'false');
+            updatePaymentQRCode();
+        }
+
+        function closePaymentForm() {
+            paymentOverlay.classList.remove('active');
+            paymentOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        makePaymentButtonCentered.addEventListener('click', openPaymentForm);
+        closePaymentButton.addEventListener('click', closePaymentForm);
+        confirmPaymentBtn.addEventListener('click', () => {
+            alert(`Payment of Rs. ${careerStarterPrice} for "Complete Launch Bundle" initiated.\n\nWe will verify your transaction shortly. Please check your PhonePe app.`);
+            closePaymentForm();
+        });
+        paymentOverlay.addEventListener('click', (event) => {
+            if (event.target === paymentOverlay) {
+                closePaymentForm();
             }
         });
     </script>

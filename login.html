@@ -535,6 +535,20 @@
       <form id="signupForm">
         <div class="field">
           <div class="input-wrap">
+            <input id="signup-firstName" type="text" placeholder="First Name" autocomplete="given-name" required />
+          </div>
+          <div id="signup-firstNameError" class="error" style="display:none"></div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
+            <input id="signup-lastName" type="text" placeholder="Last Name" autocomplete="family-name" required />
+          </div>
+          <div id="signup-lastNameError" class="error" style="display:none"></div>
+        </div>
+
+        <div class="field">
+          <div class="input-wrap">
             <input id="signup-email" type="email" placeholder="Email (Gmail)" required />
           </div>
           <div id="signup-emailError" class="error" style="display:none"></div>
@@ -795,6 +809,10 @@
         }
 
         try {
+          const previousEmail = localStorage.getItem('userEmail');
+          if (previousEmail && previousEmail.toLowerCase() !== email) {
+            localStorage.removeItem('userAvatarData');
+          }
           // persist auth state and token so deployed frontend can call protected APIs
           localStorage.setItem('loggedIn', 'true');
           localStorage.setItem('userEmail', email);
@@ -809,6 +827,9 @@
             const parts = String(data.user.name).split(' ');
             localStorage.setItem('userFirstName', parts[0] || 'User');
             localStorage.setItem('userLastName', parts.slice(1).join(' ') || '');
+          }
+          if (data && data.user && data.user.avatarUrl) {
+            localStorage.setItem('userAvatarData', data.user.avatarUrl);
           }
         } catch (e) { }
 
@@ -863,6 +884,8 @@
 
     // ===== SIGN UP FLOW =====
     const signupForm = document.getElementById('signupForm');
+    const signupFirstName = document.getElementById('signup-firstName');
+    const signupLastName = document.getElementById('signup-lastName');
     const signupEmail = document.getElementById('signup-email');
     const signupPass = document.getElementById('signup-password');
     const signupConfirm = document.getElementById('signup-confirmPassword');
@@ -871,12 +894,19 @@
       e.preventDefault();
 
       const email = signupEmail.value.trim().toLowerCase();
+      const firstName = signupFirstName.value.trim();
+      const lastName = signupLastName.value.trim();
       const password = signupPass.value;
       const confirm = signupConfirm.value;
 
       if (!emailRegex.test(email)) {
         document.getElementById('signup-emailError').textContent = 'Please use a Gmail address';
         document.getElementById('signup-emailError').style.display = 'block';
+        return;
+      }
+
+      if (!firstName || !lastName) {
+        showToast('First and last name are required.', true);
         return;
       }
 
@@ -895,7 +925,7 @@
         const response = await fetch(apiBase + '/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email, firstName, lastName, password })
         });
         const data = await response.json();
 
