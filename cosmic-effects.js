@@ -9,6 +9,8 @@ class CosmicEffects {
   }
 
   init() {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+
     this.createCosmicBackground();
     this.initializeStarField();
     this.initializeParticles();

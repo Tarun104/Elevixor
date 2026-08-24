@@ -3072,6 +3072,18 @@
                 gap: 8px;
             }
 
+            .selection-box {
+                width: 100%;
+                max-width: none;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .section-box,
+            .section-card-row {
+                min-width: 0;
+            }
+
             .section-card {
                 flex: 1 1 auto;
                 padding: 12px 8px;
@@ -3110,7 +3122,17 @@
             .testimonial-card,
             .business-service-card,
             .why-choose-card {
+                width: 100%;
+                min-width: 0;
                 padding: 25px;
+            }
+
+            .service-card > *,
+            .feature-box > *,
+            .testimonial-card > *,
+            .business-service-card > *,
+            .why-choose-card > * {
+                max-width: 100%;
             }
 
             .cta h2 {
@@ -3140,6 +3162,8 @@
             .switcher-section {
                 padding-top: 40px;
                 padding-bottom: 28px;
+                padding-left: 5%;
+                padding-right: 5%;
             }
 
             .business-page .section-title {
