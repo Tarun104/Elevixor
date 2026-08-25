@@ -4221,23 +4221,21 @@
                 const apiBase = window.API_BASE || '';
 
                 if (logged) {
-                    const avatarData = localStorage.getItem('userAvatarData');
                     const firstName = localStorage.getItem('userFirstName') || 'User';
                     const lastName = localStorage.getItem('userLastName') || '';
                     const initials = (firstName.charAt(0) || 'U').toUpperCase() + (lastName.charAt(0) ? lastName.charAt(0).toUpperCase() : '');
+                    const avatarData = localStorage.getItem('userAvatarData');
                     const avatarHtml = avatarData ? '<img src="' + avatarData + '" alt="avatar"/>' : '<span>' + initials + '</span>';
-                    authLink.innerHTML = '<a href="#" id="signOutBtn">Sign Out</a><a href="user-profile.html" target="_blank" rel="noopener" class="profile-avatar" title="View Profile">' + avatarHtml + '</a>';
-                    const btn = document.getElementById('signOutBtn');
-                    btn && btn.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        try {
-                            sessionStorage.removeItem('loggedIn');
-                            localStorage.removeItem('loggedIn');
-                            sessionStorage.removeItem('userEmail');
-                            localStorage.removeItem('userEmail');
-                        } catch (e) { }
-                        window.location = 'index.html';
-                    });
+                    renderAuth(avatarHtml);
+
+                    // Load the server-backed avatar so it is available across devices.
+                    window.authFetch('/api/dashboard/profile').then(response => response.ok ? response.json() : null).then(data => {
+                        const serverAvatar = data && data.user && data.user.avatarUrl;
+                        if (!serverAvatar) return;
+                        const avatarUrl = serverAvatar.startsWith('http') ? serverAvatar : apiBase + serverAvatar;
+                        localStorage.setItem('userAvatarData', avatarUrl);
+                        renderAuth('<img src="' + avatarUrl + '" alt="avatar"/>');
+                    }).catch(() => { });
                 } else {
                     authLink.innerHTML = '<a href="login.html">Sign In</a>';
                 }
