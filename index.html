@@ -2616,6 +2616,298 @@
         }
 
         /* ============================================
+           ADD REVIEW SECTION
+           ============================================ */
+
+        .add-review-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .add-review-btn {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.3);
+        }
+
+        .add-review-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(96, 165, 250, 0.5);
+        }
+
+        .add-review-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .review-modal-overlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(1, 11, 31, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .review-modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .review-modal-card {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .review-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: #f8fafc;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+
+        .review-modal-close:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: rotate(90deg);
+        }
+
+        .review-modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .review-modal-header h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .review-modal-header p {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .review-form {
+            display: grid;
+            gap: 24px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 8px;
+        }
+
+        .form-group-label {
+            color: #e2e8f0;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .star-rating-container {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            padding: 16px 0;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .star {
+            width: 48px;
+            height: 48px;
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            background: rgba(251, 191, 36, 0.08);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fbbf24;
+            transition: all 0.2s ease;
+        }
+
+        .star:hover {
+            background: rgba(251, 191, 36, 0.2);
+            border-color: rgba(251, 191, 36, 0.6);
+            transform: scale(1.1);
+        }
+
+        .star.active {
+            background: rgba(251, 191, 36, 0.3);
+            border-color: #fbbf24;
+        }
+
+        .review-textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 14px 16px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 12px;
+            background: rgba(30, 41, 59, 0.4);
+            color: #e2e8f0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .review-textarea:focus {
+            border-color: #60a5fa;
+            background: rgba(30, 41, 59, 0.6);
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+        }
+
+        .review-textarea::placeholder {
+            color: #64748b;
+        }
+
+        .user-name-input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 10px;
+            background: rgba(30, 41, 59, 0.4);
+            color: #e2e8f0;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .user-name-input:focus {
+            border-color: #60a5fa;
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .user-name-input::placeholder {
+            color: #64748b;
+        }
+
+        .review-submit-btn {
+            width: 100%;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(96, 165, 250, 0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .review-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(96, 165, 250, 0.4);
+        }
+
+        .review-submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .review-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .review-success-message {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            color: #86efac;
+        }
+
+        .review-success-message.show {
+            display: block;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        .review-error-message {
+            display: none;
+            padding: 12px 14px;
+            text-align: center;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
+            color: #fca5a5;
+            font-size: 13px;
+        }
+
+        .review-error-message.show {
+            display: block;
+            animation: shake 0.3s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* ============================================
            FAQ SECTION
            ============================================ */
 
@@ -3934,6 +4226,74 @@
                 </div>
             </div>
         </div>
+
+        <!-- Add Your Experience Button -->
+        <div class="add-review-button-container">
+            <button class="add-review-btn" id="addReviewBtn" aria-label="Add your experience and review">
+                <i class="fas fa-plus" style="margin-right: 8px;"></i> Add Your Experience
+            </button>
+        </div>
+
+        <!-- Review Submission Modal -->
+        <div class="review-modal-overlay" id="reviewModal">
+            <div class="review-modal-card">
+                <button class="review-modal-close" id="reviewModalClose" aria-label="Close review modal">&times;</button>
+                
+                <div class="review-modal-header">
+                    <h2>Share Your Experience</h2>
+                    <p>Tell us about your journey with Elevixor</p>
+                </div>
+
+                <div class="review-success-message" id="reviewSuccessMsg">
+                    <h3 style="margin: 0 0 6px; color: #86efac;">Thank You! 🎉</h3>
+                    <p style="margin: 0; font-size: 13px;">Your review has been posted and is now visible to others.</p>
+                </div>
+
+                <form class="review-form" id="reviewForm" novalidate>
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label class="form-group-label">Your Name <span style="color: #f87171;">*</span></label>
+                        <input type="text" id="reviewerName" class="user-name-input" placeholder="Enter your name" required maxlength="50">
+                    </div>
+
+                    <!-- Professional Title -->
+                    <div class="form-group">
+                        <label class="form-group-label">Title / Role</label>
+                        <input type="text" id="reviewerTitle" class="user-name-input" placeholder="e.g., Fresher, 2 yrs exp, UI/UX Designer" maxlength="50">
+                    </div>
+
+                    <!-- Star Rating -->
+                    <div class="form-group">
+                        <label class="form-group-label">Your Rating <span style="color: #f87171;">*</span></label>
+                        <div class="star-rating-container">
+                            <div class="star-rating" id="starRating">
+                                <button type="button" class="star" data-star="1" title="1 star">★</button>
+                                <button type="button" class="star" data-star="2" title="2 stars">★</button>
+                                <button type="button" class="star" data-star="3" title="3 stars">★</button>
+                                <button type="button" class="star" data-star="4" title="4 stars">★</button>
+                                <button type="button" class="star" data-star="5" title="5 stars">★</button>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedRating" value="0" required>
+                    </div>
+
+                    <!-- Review Text -->
+                    <div class="form-group">
+                        <label class="form-group-label">Your Review <span style="color: #f87171;">*</span></label>
+                        <textarea id="reviewText" class="review-textarea" placeholder="Share your experience with Elevixor. What worked well for you?" required maxlength="500"></textarea>
+                        <div style="text-align: right; color: #64748b; font-size: 12px; margin-top: 4px;">
+                            <span id="charCount">0</span>/500
+                        </div>
+                    </div>
+
+                    <!-- Error Message -->
+                    <div class="review-error-message" id="reviewErrorMsg"></div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="review-submit-btn" id="submitReviewBtn">Submit Review</button>
+                </form>
+            </div>
+        </div>
     </section>
 
     <!-- FAQ SECTION -->
@@ -4193,6 +4553,7 @@
     </footer>
 
     <script src="/api-config.js"></script>
+    <script src="/review-system.js"></script>
     <script>
         // Auth and navigation functionality
         (function () {
