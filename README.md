@@ -13,6 +13,12 @@ Elevixor is an AI-powered career growth platform designed to help students, fres
 - Software Development Solutions
 - AI-Powered Career Assistance
 
+## Internship certificate
+
+- Open [internship-certificate.html](./internship-certificate.html) and use **Print certificate** to print or save a PDF.
+- The QR code opens [internship-verification.html](./internship-verification.html), which publicly displays the internship record for verification.
+- Deploy both pages and the `assets/` files to Elevixor's Vercel site before printing or sharing the certificate; the QR destination is `https://elevixor-azure.vercel.app/internship-verification.html`.
+
 ## Tech Stack
 
 Frontend:

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Internship completion certificate issued by Elevixor.">
+    <title>Internship Certificate - Elevixor</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --navy: #11294a;
+            --blue: #1763a6;
+            --gold: #bd9852;
+            --ink: #1b2940;
+            --muted: #526176;
+            --line: #d7dee8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 28px;
+            background: #e8edf3;
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .print-button {
+            display: block;
+            margin: 0 auto 18px;
+            padding: 10px 18px;
+            border: 0;
+            border-radius: 6px;
+            background: var(--navy);
+            color: #fff;
+            cursor: pointer;
+            font: 600 15px Arial, sans-serif;
+        }
+
+        .certificate {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: min(1122px, 100%);
+            min-height: 794px;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #c9d1dc;
+            background:
+                radial-gradient(ellipse at 50% 46%, rgba(232, 240, 250, .85), transparent 49%),
+                #fff;
+            box-shadow: 0 18px 48px rgba(17, 41, 74, .16);
+            text-align: center;
+        }
+
+        .certificate::before {
+            position: absolute;
+            z-index: 0;
+            inset: 9px;
+            border: 1px solid rgba(189, 152, 82, .72);
+            content: "";
+            pointer-events: none;
+        }
+
+        .certificate > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .masthead {
+            position: relative;
+            display: flex;
+            min-height: 142px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 18px 54px 24px;
+            border-bottom: 4px solid var(--gold);
+            background:
+                radial-gradient(ellipse at 73% 112%, rgba(40, 119, 213, .6), transparent 30%),
+                radial-gradient(ellipse at 72% 112%, transparent 0 34%, rgba(62, 143, 226, .42) 34.2% 34.7%, transparent 35%),
+                radial-gradient(ellipse at 72% 112%, transparent 0 41%, rgba(33, 100, 177, .4) 41.2% 41.6%, transparent 42%),
+                linear-gradient(112deg, #07162f, #102d54 68%, #07172f);
+            color: #fff;
+            text-align: left;
+        }
+
+        .masthead::before {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 8% 22%, rgba(255,255,255,.7) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 19% 73%, rgba(129,186,255,.8) 0 1px, transparent 1.6px),
+                radial-gradient(circle at 38% 30%, rgba(255,255,255,.6) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 55% 61%, rgba(170,207,255,.65) 0 1px, transparent 1.5px),
+                radial-gradient(circle at 88% 22%, rgba(255,255,255,.6) 0 1px, transparent 1.5px);
+            content: "";
+            pointer-events: none;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand img {
+            width: 62px;
+            height: 62px;
+            padding-right: 12px;
+            border-right: 1px solid rgba(255,255,255,.75);
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font: 700 31px Arial, sans-serif;
+            letter-spacing: .13em;
+        }
+
+        .brand-tagline {
+            margin-top: 5px;
+            color: #dce5ef;
+            font: italic 13px Arial, sans-serif;
+        }
+
+        .company-contact {
+            position: relative;
+            z-index: 1;
+            margin-right: 145px;
+            color: #e0e7f0;
+            font: 12px/1.7 Arial, sans-serif;
+            text-align: right;
+        }
+
+        .certificate-seal {
+            position: absolute;
+            z-index: 2;
+            top: 12px;
+            right: 24px;
+            display: grid;
+            width: 126px;
+            height: 126px;
+            place-items: center;
+            border: 5px solid #d5b875;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle, #153761 0 53%, #0c2343 54% 100%);
+            box-shadow: 0 3px 8px rgba(17, 41, 74, .25), inset 0 0 0 2px #f4e3b1;
+            color: #f7e4b2;
+            text-align: center;
+            transform: rotate(7deg);
+        }
+
+        .certificate-seal::before,
+        .certificate-seal::after {
+            position: absolute;
+            z-index: -1;
+            top: 86px;
+            width: 25px;
+            height: 45px;
+            background: linear-gradient(90deg, #12355f, #1a4777 50%, #12355f);
+            content: "";
+        }
+
+        .certificate-seal::before {
+            left: 28px;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+        }
+
+        .certificate-seal::after {
+            right: 28px;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+        }
+
+        .seal-inner {
+            display: grid;
+            width: 98px;
+            height: 98px;
+            align-content: center;
+            border: 1px solid rgba(247, 228, 178, .8);
+            border-radius: 50%;
+            font: 700 10px/1.45 Arial, sans-serif;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .seal-mark {
+            margin-bottom: 2px;
+            font: 700 25px Georgia, serif;
+        }
+
+        .content {
+            position: relative;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            align-items: center;
+            padding: 35px 64px 10px;
+            isolation: isolate;
+        }
+
+        .content::before {
+            position: absolute;
+            z-index: -1;
+            top: -25px;
+            left: -8%;
+            width: 116%;
+            height: 82px;
+            border-radius: 50%;
+            background: linear-gradient(180deg, #f8fbff, rgba(235, 242, 251, .52));
+            content: "";
+        }
+
+        .eyebrow {
+            display: none;
+        }
+
+        h1 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: .055em;
+            line-height: 1.18;
+            text-transform: uppercase;
+        }
+
+        .title-rule {
+            display: flex;
+            width: min(360px, 80%);
+            align-items: center;
+            gap: 12px;
+            margin: 12px auto 15px;
+            color: var(--gold);
+            font-size: 23px;
+        }
+
+        .title-rule::before,
+        .title-rule::after {
+            height: 1px;
+            flex: 1;
+            background: var(--gold);
+            content: "";
+        }
+
+        .intro {
+            margin: 0 0 9px;
+            color: var(--muted);
+            font: 600 13px Arial, sans-serif;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        .recipient {
+            max-width: min(860px, 100%);
+            margin: 0 0 12px;
+            padding: 0 12px 9px;
+            border-bottom: 1px solid var(--gold);
+            color: var(--navy);
+            font-size: 45px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .statement {
+            max-width: 860px;
+            margin: 10px auto 4px;
+            color: #263b58;
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        .program-card {
+            display: flex;
+            width: min(790px, calc(100% - 150px));
+            align-items: center;
+            gap: 14px;
+            margin: 2px 0 5px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+        }
+
+        .program-label {
+            display: none;
+        }
+
+        .program-card::before,
+        .program-card::after {
+            height: 1px;
+            flex: 1;
+            background: #8d9db3;
+            content: "";
+        }
+
+        .program {
+            min-width: 360px;
+            margin: 0;
+            padding: 10px 28px;
+            border-radius: 28px;
+            background: linear-gradient(100deg, #174c85, #1763a6 52%, #174c85);
+            color: #fff;
+            font: 700 24px Arial, sans-serif;
+        }
+
+        .period {
+            margin: 5px 0 0;
+            color: #263b58;
+            font: 17px Arial, sans-serif;
+        }
+
+        .period span {
+            padding: 0 7px;
+            color: var(--gold);
+        }
+
+        .completion-note {
+            max-width: 850px;
+            margin: 10px auto 0;
+            color: #35465d;
+            font-size: 16px;
+            line-height: 1.55;
+        }
+
+        .bottom {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 150px 135px;
+            align-items: end;
+            gap: 24px;
+            margin: auto 54px 0;
+            padding: 15px 0 20px;
+        }
+
+        .signature-block,
+        .issue-block,
+        .verification {
+            min-width: 0;
+            color: var(--navy);
+            font: 12px/1.5 Arial, sans-serif;
+        }
+
+        .signature-block {
+            text-align: center;
+        }
+
+        .signature {
+            display: block;
+            width: 205px;
+            height: 60px;
+            margin: 0 auto 2px;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .signature-name,
+        .issue-value {
+            font-weight: 700;
+        }
+
+        .issue-block {
+            align-self: center;
+            text-align: center;
+        }
+
+        .issue-label {
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .issue-value {
+            margin-top: 5px;
+        }
+
+        .verification {
+            text-align: center;
+        }
+
+        .verification img {
+            display: block;
+            width: 82px;
+            height: 82px;
+            margin: 0 auto 5px;
+        }
+
+        .verification a {
+            color: var(--blue);
+            font-size: 11px;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 12px;
+            }
+
+            .masthead {
+                min-height: 88px;
+                gap: 10px;
+                padding: 16px 26px;
+            }
+
+            .brand {
+                gap: 8px;
+            }
+
+            .brand img {
+                width: 44px;
+                height: 44px;
+            }
+
+            .brand-name {
+                font-size: 18px;
+            }
+
+            .brand-tagline,
+            .company-contact {
+                font-size: 10px;
+            }
+
+            .company-contact {
+                margin-right: 78px;
+            }
+
+            .content {
+                padding: 30px 28px 22px;
+            }
+
+            h1 {
+                max-width: calc(100% - 70px);
+                font-size: 30px;
+            }
+
+            .recipient {
+                font-size: clamp(26px, 7vw, 36px);
+            }
+
+            .certificate-seal {
+                top: 8px;
+                right: 11px;
+                width: 78px;
+                height: 78px;
+                border-width: 3px;
+            }
+
+            .seal-inner {
+                width: 60px;
+                height: 60px;
+                font-size: 6px;
+            }
+
+            .seal-mark {
+                font-size: 16px;
+            }
+
+            .program-card {
+                width: 100%;
+                gap: 8px;
+            }
+
+            .program {
+                min-width: 0;
+                padding: 10px 20px;
+                font-size: 18px;
+            }
+
+            .bottom {
+                grid-template-columns: 1fr auto;
+                gap: 14px;
+                margin: 0 28px;
+                padding-bottom: 24px;
+            }
+
+            .issue-block {
+                grid-column: 1;
+                grid-row: 2;
+                text-align: left;
+            }
+
+            .verification {
+                grid-column: 2;
+                grid-row: 1 / span 2;
+            }
+        }
+
+        @media print {
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            body {
+                padding: 0;
+                background: #fff;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            .print-button {
+                display: none;
+            }
+
+            .certificate {
+                width: 297mm;
+                height: 210mm;
+                min-height: 0;
+                box-shadow: none;
+            }
+
+            .masthead {
+                min-height: 39mm;
+                padding-right: 15mm;
+                padding-left: 15mm;
+            }
+
+            .content {
+                padding: 9mm 15mm 2mm;
+            }
+
+            h1 {
+                font-size: 39px;
+            }
+
+            .certificate-seal {
+                top: 3mm;
+                right: 8mm;
+            }
+
+            .bottom {
+                margin-right: 15mm;
+                margin-left: 15mm;
+                padding-bottom: 5mm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="print-button" type="button" onclick="window.print()">Print certificate</button>
+    <main class="certificate">
+        <header class="masthead">
+            <div class="brand">
+                <img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo">
+                <div>
+                    <div class="brand-name">ELEVIXOR</div>
+                    <div class="brand-tagline">Built for the Future.</div>
+                </div>
+            </div>
+            <div class="company-contact">
+                elevixor-azure.vercel.app<br>
+                elevixor1042@gmail.com<br>
+                Nagpur, India
+            </div>
+        </header>
+
+        <div class="certificate-seal" aria-label="Elevixor internship completion emblem">
+            <div class="seal-inner">
+                <span class="seal-mark" aria-hidden="true">E</span>
+                <span>Elevixor</span>
+                <span>Internship</span>
+                <span>Completion</span>
+            </div>
+        </div>
+
+        <section class="content" aria-labelledby="certificate-title">
+            <p class="eyebrow">Recognition of professional development</p>
+            <h1 id="certificate-title">Internship Certificate</h1>
+            <div class="title-rule" aria-hidden="true">✦</div>
+            <p class="intro">This is to certify that</p>
+            <h2 class="recipient">Shravani Anil Chakole</h2>
+            <p class="statement">has successfully completed a <strong>one-month internship</strong> in the field of</p>
+
+            <div class="program-card">
+                <div class="program-label">Internship program</div>
+                <div class="program">Data Analytics</div>
+            </div>
+            <p class="period">at Elevixor, from <strong>28 September 2026</strong> to <strong>28 October 2026</strong>.</p>
+            <p class="completion-note">This certificate recognizes the successful completion of the internship program.</p>
+        </section>
+
+        <footer class="bottom">
+            <div class="signature-block">
+                <img class="signature" src="assets/tarun-chakole-signature.png" alt="Signature of Tarun Chakole">
+                <div class="signature-name">Tarun Chakole</div>
+                <div>Founder, Elevixor</div>
+            </div>
+            <div class="issue-block">
+                <div class="issue-label">Date of issue</div>
+                <div class="issue-value"><time datetime="2026-11-02">2 November 2026</time></div>
+            </div>
+            <div class="verification">
+                <img src="assets/internship-verification-qr.png" alt="QR code linking to Elevixor's internship verification page">
+                <div>Scan to verify</div>
+                <a href="https://elevixor-azure.vercel.app/internship-verification.html">Verify online</a>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>

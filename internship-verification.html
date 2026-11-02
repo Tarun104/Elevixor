@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Official Elevixor verification page for an internship completion record.">
+    <link rel="canonical" href="https://elevixor-azure.vercel.app/internship-verification.html">
+    <title>Internship Record Verification - Elevixor</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --navy: #11294a;
+            --blue: #1763a6;
+            --gold: #bd9852;
+            --ink: #1b2940;
+            --muted: #526176;
+            --green: #176b4a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: grid;
+            min-height: 100vh;
+            margin: 0;
+            padding: 28px;
+            place-items: center;
+            background: #edf2f7;
+            color: var(--ink);
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            width: min(680px, 100%);
+            padding: clamp(24px, 5vw, 48px);
+            border: 1px solid #d6dfeb;
+            border-top: 5px solid var(--gold);
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 18px 48px rgba(17, 41, 74, .12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e3e8ef;
+        }
+
+        .brand img {
+            width: 54px;
+            height: 54px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            color: var(--navy);
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: .12em;
+        }
+
+        .brand-tagline {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 28px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: #eaf5ef;
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status::before {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            content: "";
+        }
+
+        h1 {
+            margin: 16px 0 10px;
+            color: var(--navy);
+            font-size: clamp(27px, 5vw, 36px);
+        }
+
+        .intro {
+            margin: 0 0 24px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        dl {
+            display: grid;
+            grid-template-columns: minmax(110px, .75fr) 1.5fr;
+            margin: 0;
+            border-top: 1px solid #e3e8ef;
+        }
+
+        dt,
+        dd {
+            margin: 0;
+            padding: 14px 0;
+            border-bottom: 1px solid #e3e8ef;
+            line-height: 1.5;
+        }
+
+        dt {
+            color: var(--muted);
+        }
+
+        dd {
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .notice {
+            margin: 22px 0 0;
+            padding: 14px 16px;
+            border-left: 3px solid var(--gold);
+            background: #faf8f3;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .contact {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 24px;
+            font-size: 14px;
+        }
+
+        a {
+            color: var(--blue);
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 14px;
+            }
+
+            dl {
+                grid-template-columns: 1fr;
+            }
+
+            dt {
+                padding-bottom: 4px;
+                border-bottom: 0;
+            }
+
+            dd {
+                padding-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <header class="brand">
+            <img src="elevixor_logo-removebg-preview.png" alt="Elevixor logo">
+            <div>
+                <div class="brand-name">ELEVIXOR</div>
+                <div class="brand-tagline">Built for the Future.</div>
+            </div>
+        </header>
+
+        <div class="status">Confirmed by Elevixor</div>
+        <h1>Internship record verified</h1>
+        <p class="intro">Elevixor confirms the following internship completion record:</p>
+
+        <dl>
+            <dt>Intern</dt>
+            <dd>Shravani Anil Chakole</dd>
+            <dt>Program</dt>
+            <dd>Data Analytics internship</dd>
+            <dt>Duration</dt>
+            <dd>One month</dd>
+            <dt>Dates</dt>
+            <dd>28 September 2026 - 28 October 2026</dd>
+            <dt>Status</dt>
+            <dd>Successfully completed</dd>
+            <dt>Issued by</dt>
+            <dd>Tarun Chakole, Founder, Elevixor</dd>
+        </dl>
+
+        <p class="notice">This page is Elevixor's online verification for the matching printed certificate. Compare the intern name, program, duration, and dates with the document. For questions, contact Elevixor using the address below.</p>
+
+        <footer class="contact">
+            <a href="mailto:elevixor1042@gmail.com">elevixor1042@gmail.com</a>
+            <a href="https://elevixor-azure.vercel.app/">Visit Elevixor</a>
+        </footer>
+    </main>
+</body>
+</html>
